@@ -1,4 +1,6 @@
-import 'intersection-observer';
+if (typeof window !== 'undefined') {
+  import 'intersection-observer';
+}
 
 import React, { PureComponent, PropTypes, cloneElement } from 'react';
 
