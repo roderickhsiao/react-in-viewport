@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import InViewport from '../index';
+import handleViewport from '../index';
 import AspectRatio from 'react-aspect-ratio';
 import 'react-aspect-ratio/aspect-ratio.css';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
-const ViewportBlock = (props) => {
+const Block = (props) => {
   const { inViewport } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
@@ -17,7 +17,9 @@ const ViewportBlock = (props) => {
     </div>
   );
 };
-class LazyImage extends Component {
+const ViewportBlock = handleViewport(Block);
+
+class Image extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,17 +54,16 @@ class LazyImage extends Component {
       </AspectRatio>
     );
   }
-
 }
+
+const LazyImage = handleViewport(Image);
 storiesOf('Viewport detection', module)
   .add('Callback when in viewport', () => (
     <div>
       <div style={{ height: '100vh' }}>
         <h2>Scroll down to make component in viewport</h2>
       </div>
-      <InViewport>
-        <ViewportBlock />
-      </InViewport>
+      <ViewportBlock />
     </div>
   ))
   .add('Lazyload Image', () => {
@@ -84,11 +85,7 @@ storiesOf('Viewport detection', module)
       <div>
         <h2>Lazyload Image</h2>
         {
-          imageArray.map(image => (
-            <InViewport key={image.src}>
-              <LazyImage src={image.src} ratio={image.ratio} />
-            </InViewport>
-          ))
+          imageArray.map(image => <LazyImage key={image.src} src={image.src} ratio={image.ratio} />)
         }
       </div>
     );

@@ -1,6 +1,6 @@
 {
   "name": "react-in-viewport",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Track React component in viewport",
   "author": "Roderick Hsiao <roderickhsiao@gmail.com>",
   "repository": {
