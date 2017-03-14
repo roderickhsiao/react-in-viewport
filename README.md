@@ -8,8 +8,11 @@ Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/in
 
 ## Usages
 
-```console
+```javascript
+import InViewport from 'react-in-viewport';
+
 const ViewportBlock = (props) => {
+  // inViewport will be passed as a props
   const { inViewport } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport'
@@ -20,4 +23,15 @@ const ViewportBlock = (props) => {
     </div>
   );
 };
+
+const Component = (props) => (
+  <div>
+    <div style={{ height: '100vh' }}>
+      <h2>Scroll down to make component in viewport</h2>
+    </div>
+    <InViewport>
+      <ViewportBlock />
+    </InViewport>
+  </div>
+))
 ```

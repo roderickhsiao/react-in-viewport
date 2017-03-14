@@ -37,7 +37,7 @@ class InViewport extends PureComponent {
     }
   }
 
-  handleIntersection(entries) = {
+  handleIntersection(entries) {
     const entry = entries[0] || {};
     const { intersectionRatio } = entry;
     if (intersectionRatio <= 0) {
