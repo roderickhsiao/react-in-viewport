@@ -1,5 +1,5 @@
 if (typeof window !== 'undefined') {
-  import 'intersection-observer';
+  require('intersection-observer');
 }
 
 import React, { PureComponent, PropTypes, cloneElement } from 'react';
