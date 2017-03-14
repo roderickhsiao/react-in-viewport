@@ -7,11 +7,11 @@ import 'react-aspect-ratio/aspect-ratio.css';
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
 const Block = (props) => {
-  const { inViewport } = props;
+  const { inViewport, innerRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
   return (
-    <div className="viewport-block">
+    <div className="viewport-block" ref={innerRef}>
       <h3>{ text }</h3>
       <div style={{ width: '400px', height: '300px', background: color }} />
     </div>
@@ -49,7 +49,7 @@ class Image extends Component {
 
   render() {
     return (
-      <AspectRatio ratio={this.props.ratio} style={{ maxWidth: '400px', marginBottom: '20px' }}>
+      <AspectRatio ratio={this.props.ratio} style={{ maxWidth: '400px', marginBottom: '20px' }} ref={this.props.innerRef}>
         <img src={this.state.src} />
       </AspectRatio>
     );

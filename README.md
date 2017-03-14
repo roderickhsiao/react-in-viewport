@@ -8,18 +8,19 @@ Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/in
 
 ## Usages
 
+*NOTE*: Stateless: Need to add `ref={this.props.innerRef}` on your component
+
 ```javascript
 import handleViewport from 'react-in-viewport';
 
 const Block = (props) => {
-  // inViewport will be passed as a props
-  const { inViewport } = props;
+  const { inViewport, innerRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
-  const text = inViewport ? 'In viewport' : 'Not in viewport'
+  const text = inViewport ? 'In viewport' : 'Not in viewport';
   return (
-    <div className="viewport-block">
+    <div className="viewport-block" ref={innerRef}>
       <h3>{ text }</h3>
-      <div style={{ width: '400px', height: '300px', background: color}}></div>
+      <div style={{ width: '400px', height: '300px', background: color }} />
     </div>
   );
 };

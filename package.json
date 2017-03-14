@@ -1,6 +1,6 @@
 {
   "name": "react-in-viewport",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Track React component in viewport",
   "author": "Roderick Hsiao <roderickhsiao@gmail.com>",
   "repository": {
@@ -52,6 +52,7 @@
     "react": "^0.14.7 || ^15.0.0"
   },
   "dependencies": {
+    "hoist-non-react-statics": "^1.2.0",
     "intersection-observer": "^0.2.1"
   },
   "main": "dist/index.js",
