@@ -10,6 +10,8 @@ const Block = (props) => {
   const { inViewport, innerRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
+  action('Is in viewport')(inViewport);
+
   return (
     <div className="viewport-block" ref={innerRef}>
       <h3>{ text }</h3>
@@ -40,7 +42,7 @@ class Image extends Component {
       // prefetch image
       const image = new Image();
       image.src = nextProps.src;
-
+      action('Load image')(nextProps.src);
       this.setState({
         src: nextProps.src,
       });
