@@ -1,8 +1,9 @@
 if (typeof window !== 'undefined') {
+  // Polyfills for intersection-observer
   require('intersection-observer');
 }
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
