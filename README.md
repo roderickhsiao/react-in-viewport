@@ -1,4 +1,5 @@
 # React In Viewport Component
+[![npm version](https://badge.fury.io/js/react-aspect-ratio.svg)](http://badge.fury.io/js/react-in-viewport)
 
 Wrapper component to detect if the component is in viewport.
 Use [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
