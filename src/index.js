@@ -28,7 +28,10 @@ function handleViewport(Component, options) {
 
     initIntersectionObserver() {
       if (!this.observer) {
-        this.observer = new IntersectionObserver(this.handleIntersection, options);
+        this.observer = new IntersectionObserver(
+          this.handleIntersection,
+          options
+        );
       }
     }
 
@@ -66,12 +69,14 @@ function handleViewport(Component, options) {
         <Component
           {...this.props}
           inViewport={this.state.inViewport}
-          ref={node => { this.node = ReactDOM.findDOMNode(node); }}
+          ref={node => {
+            this.node = ReactDOM.findDOMNode(node);
+          }}
           innerRef={node => {
             if (node && !this.node) {
               // handle stateless
               this.initIntersectionObserver();
-              this.startObserver(ReactDOM.findDOMNode(node), this.observer)
+              this.startObserver(ReactDOM.findDOMNode(node), this.observer);
             }
           }}
         />
