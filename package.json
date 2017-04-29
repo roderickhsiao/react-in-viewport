@@ -1,12 +1,20 @@
 {
   "name": "react-in-viewport",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Track React component in viewport",
   "author": "Roderick Hsiao <roderickhsiao@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/roderickhsiao/react-in-viewport.git"
   },
+  "keywords": [
+    "react-in-viewport",
+    "viewport detect",
+    "observer",
+    "intersection observer",
+    "react viewport",
+    "lazyload"
+  ],
   "license": "MIT",
   "scripts": {
     "prepublish": ". ./.scripts/prepublish.sh",
