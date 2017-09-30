@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { storiesOf, action } from '@kadira/storybook';
+import { storiesOf, action } from '@storybook/react';
 import handleViewport from '../index';
 
 import AspectRatio from 'react-aspect-ratio';
