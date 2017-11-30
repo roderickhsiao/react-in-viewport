@@ -57,11 +57,14 @@ function handleViewport(Component, options) {
       const entry = entries[0] || {};
       const { intersectionRatio } = entry;
       if (intersectionRatio <= 0) {
-        return;
+        this.setState({
+          inViewport: false
+        });
+      } else {
+        this.setState({
+          inViewport: true
+        });
       }
-      this.setState({
-        inViewport: true
-      });
     }
 
     render() {
