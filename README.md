@@ -9,12 +9,17 @@ Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/in
 
 ## Usages
 
+Wrap your component with handleViewport HOC, you will receive `inViewport` props indicating the component is in viewport or not.
+
+`handleViewport` HOC accepts two params, the first one is your component and the second param is the option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+
+
 *NOTE*: Stateless: Need to add `ref={this.props.innerRef}` on your component
 
 ```javascript
 import handleViewport from 'react-in-viewport';
 
-const Block = (props) => {
+const Block = (props: { inViewport: boolean }) => {
   const { inViewport, innerRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
@@ -25,7 +30,7 @@ const Block = (props) => {
     </div>
   );
 };
-const ViewportBlock = handleViewport(Block);
+const ViewportBlock = handleViewport(Block, /** options: {} **/);
 
 const Component = (props) => (
   <div>
