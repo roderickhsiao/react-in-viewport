@@ -91,7 +91,7 @@ class Iframe extends PureComponent {
   }
 }
 
-const LazyIframe = handleViewport(Iframe, {}, { disconnectOnLeave: false });
+const LazyIframe = handleViewport(Iframe, {}, { disconnectOnLeave: true });
 class ImageObject extends PureComponent {
   constructor(props) {
     super(props);
@@ -139,7 +139,7 @@ class ImageObject extends PureComponent {
   }
 }
 
-const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: false });
+const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
 storiesOf('Viewport detection', module)
   .add('Callback when in viewport', () => (
     <div>
