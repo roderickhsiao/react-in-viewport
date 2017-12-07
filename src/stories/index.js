@@ -47,7 +47,7 @@ const Block = props => {
       titleText={text}
       innerRef={innerRef}
       contentNode={
-        <div style={{ width: '400px', height: '300px', background: color }} />
+        <div style={{ width: '400px', height: '300px', background: color, transitionDuration: '1s' }} />
       }
     />
   );
