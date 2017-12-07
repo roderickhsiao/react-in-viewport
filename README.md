@@ -8,13 +8,14 @@ Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/in
 
 ## Usages
 
-Wrap your component with handleViewport HOC, you will receive
-1. `inViewport` props indicating the component is in viewport or not.
+Wrap your component with handleViewport HOC, you will receive `inViewport` props indicating the component is in viewport or not.
 
-`handleViewport` HOC accepts three params, the first one is your component and the second param is the option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+`handleViewport` HOC accepts three params
 
-The third `config` param
-1. `config.disconnectOnLeave { Boolean }` disconnect intersection observer after leave
+1. Component
+1. Options: second param is the option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+1. Config object:
+ - `disconnectOnLeave { Boolean }` disconnect intersection observer after leave
 
 The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
 
@@ -34,6 +35,7 @@ const Block = (props: { inViewport: boolean }) => {
     </div>
   );
 };
+
 const ViewportBlock = handleViewport(Block, /** options: {}, config: {} **/);
 
 const Component = (props) => (
