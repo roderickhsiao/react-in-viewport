@@ -52,53 +52,78 @@ const Block = props => {
     />
   );
 };
-const ViewportBlock = handleViewport(Block);
+const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: true });
 
-const Iframe = ({ innerRef, src, ratio, inViewport }) => {
-  const Component = inViewport ? 'iframe' : 'div';
-  const props = inViewport
-    ? {
-        src,
-        frameBorder: 0
-      }
-    : {};
-  return (
-    <AspectRatio
-      ref={innerRef}
-      ratio={ratio}
-      style={{ marginBottom: '20px', backgroundColor: 'rgba(0,0,0,.12)' }}
-    >
-      <Component {...props} />
-    </AspectRatio>
-  );
-};
-const LazyIframe = handleViewport(Iframe);
-class Image extends PureComponent {
+class Iframe extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      src: DUMMY_IMAGE_SRC
+      loaded: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inViewport && !this.loaded) {
+      this.setState({
+        loaded: true
+      });
+    }
+  }
+
+  render() {
+    const { src, ratio } = this.props;
+    const Component = this.state.loaded ? 'iframe' : 'div';
+    const props = this.state.loaded
+      ? {
+        src,
+        frameBorder: 0,
+      }
+      : {};
+
+    return (
+      <AspectRatio
+        ratio={ratio}
+        style={{ marginBottom: '20px', backgroundColor: 'rgba(0,0,0,.12)' }}
+      >
+        <Component {...props} />
+      </AspectRatio>
+    );
+  }
+}
+
+const LazyIframe = handleViewport(Iframe, {});
+class ImageObject extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      src: DUMMY_IMAGE_SRC,
+      loaded: false
     };
   }
 
   componentDidMount() {
     if (this.props.inViewport) {
-      this.setState({
-        src: this.props.src
-      });
+      this.loadImage(this.props.src);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inViewport) {
-      // prefetch image
-      const image = new Image();
-      image.src = nextProps.src;
-      action('Load image')(nextProps.src);
+    if (nextProps.inViewport && !this.state.loaded) {
+      this.loadImage(nextProps.src);
+    }
+  }
+
+  loadImage = (src) => {
+    const img = new Image();
+    img.onload = () => {
+      action('Image loaded')(src);
       this.setState({
-        src: nextProps.src
+        src,
+        loaded: true
       });
     }
+    img.src = src;
+    action('Load image')(src);
   }
 
   render() {
@@ -114,7 +139,7 @@ class Image extends PureComponent {
   }
 }
 
-const LazyImage = handleViewport(Image);
+const LazyImage = handleViewport(ImageObject);
 storiesOf('Viewport detection', module)
   .add('Callback when in viewport', () => (
     <div>
@@ -122,7 +147,7 @@ storiesOf('Viewport detection', module)
       <div style={{ height: '100vh', padding: '20px' }}>
         <p>Scroll down to make component in viewport 👇 </p>
       </div>
-      <ViewportBlock className='card' />
+      <ViewportBlock className='card' onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
     </div>
   ))
   .add('Lazyload Image', () => {
