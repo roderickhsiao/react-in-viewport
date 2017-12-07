@@ -52,7 +52,7 @@ const Block = props => {
     />
   );
 };
-const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: true });
+const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
 
 class Iframe extends PureComponent {
   constructor(props) {
@@ -91,7 +91,7 @@ class Iframe extends PureComponent {
   }
 }
 
-const LazyIframe = handleViewport(Iframe, {});
+const LazyIframe = handleViewport(Iframe, {}, { disconnectOnLeave: false });
 class ImageObject extends PureComponent {
   constructor(props) {
     super(props);
@@ -139,7 +139,7 @@ class ImageObject extends PureComponent {
   }
 }
 
-const LazyImage = handleViewport(ImageObject);
+const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: false });
 storiesOf('Viewport detection', module)
   .add('Callback when in viewport', () => (
     <div>
