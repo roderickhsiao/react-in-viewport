@@ -47,12 +47,12 @@ const Block = props => {
       titleText={text}
       innerRef={innerRef}
       contentNode={
-        <div style={{ width: '400px', height: '300px', background: color }} />
+        <div style={{ width: '400px', height: '300px', background: color, transitionDuration: '1s' }} />
       }
     />
   );
 };
-const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: true });
+const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
 
 class Iframe extends PureComponent {
   constructor(props) {
@@ -91,7 +91,7 @@ class Iframe extends PureComponent {
   }
 }
 
-const LazyIframe = handleViewport(Iframe, {});
+const LazyIframe = handleViewport(Iframe, {}, { disconnectOnLeave: true });
 class ImageObject extends PureComponent {
   constructor(props) {
     super(props);
@@ -139,7 +139,7 @@ class ImageObject extends PureComponent {
   }
 }
 
-const LazyImage = handleViewport(ImageObject);
+const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
 storiesOf('Viewport detection', module)
   .add('Callback when in viewport', () => (
     <div>

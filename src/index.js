@@ -27,12 +27,14 @@ function handleViewport(Component, options, config = { disconnectOnLeave: false 
       this.startObserver(this.node, this.observer);
     }
 
-    componentDidUpdate() {
-      // reset observer on update, to fix race condition that when observer init, the element is not in viewport
-      // such as in animation
-      if (!config.disconnectOnLeave && !this.intersected) {
-        this.stopObserver(this.node, this.observer);
-        this.startObserver(this.node, this.observer);
+    componentDidUpdate(prevProps, prevState) {
+      // reset observer on update, to fix race condition that when observer init,
+      // the element is not in viewport, such as in animation
+      if (!this.intersected && !prevState.inViewport) {
+        if (this.observer && this.node) {
+          this.observer.unobserve(this.node);
+          this.observer.observe(this.node);
+        }
       }
     }
 
@@ -59,7 +61,7 @@ function handleViewport(Component, options, config = { disconnectOnLeave: false 
       if (node && observer) {
         observer.unobserve(node);
         observer.disconnect();
-        observer = null;
+        this.observer = null;
       }
     }
 
@@ -73,24 +75,24 @@ function handleViewport(Component, options, config = { disconnectOnLeave: false 
       if (!this.intersected && inViewport) {
         this.intersected = true;
         onEnterViewport && onEnterViewport();
+        this.setState({
+          inViewport
+        });
+        return;
       }
 
       // leave
       if (this.intersected && !inViewport) {
+        this.intersected = false;
         onLeaveViewport && onLeaveViewport();
         if (config.disconnectOnLeave) {
           // disconnect obsever on leave
           this.observer && this.observer.disconnect();
-        } else {
-          // only reset flag if config.disconnectOnLeave is true,
-          // so that onEnterViewport and onLeaveViewport will only be called once
-          this.intersected = false;
         }
+        this.setState({
+          inViewport
+        });
       }
-
-      this.setState({
-        inViewport
-      });
     }
 
     render() {
