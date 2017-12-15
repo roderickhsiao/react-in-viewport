@@ -1,8 +1,9 @@
-src
 .babelrc
-.scripts
-.storybook
 .eslintrc
 .gitignore
 .npmignore
+.scripts
+.storybook
+src/stories/*
+src/tests/*
 yarn.lock
