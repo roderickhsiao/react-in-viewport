@@ -55,7 +55,8 @@
     "react": "^16.0.0",
     "react-aspect-ratio": "^1.0.3",
     "react-dom": "^16.0.0",
-    "sinon": "^2.0.0"
+    "sinon": "^2.0.0",
+    "storybook-addon-jsx": "^5.1.0"
   },
   "peerDependencies": {
     "react": "^0.14.7 || ^15.0.0 || ^16.0.0"

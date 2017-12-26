@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
-import { storiesOf, action } from '@storybook/react';
+import 'react-aspect-ratio/aspect-ratio.css';
+import { storiesOf, action, setAddon } from '@storybook/react';
+import AspectRatio from 'react-aspect-ratio';
+import JSXAddon from 'storybook-addon-jsx';
+
+import '../../theme.css';
 import handleViewport from '../index';
 
-import AspectRatio from 'react-aspect-ratio';
-import 'react-aspect-ratio/aspect-ratio.css';
-import '../../theme.css';
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
+
+setAddon(JSXAddon);
 
 const PageTitle = () => (
   <div className="page__title">
@@ -150,7 +154,7 @@ class ImageObject extends PureComponent {
 
 const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
 storiesOf('Viewport detection', module)
-  .add('Callback when in viewport', () => (
+  .addWithJSX('Callback when in viewport', () => (
     <div>
       <PageTitle />
       <div style={{ height: '100vh', padding: '20px' }}>
@@ -163,7 +167,7 @@ storiesOf('Viewport detection', module)
       />
     </div>
   ))
-  .add('Lazyload Image', () => {
+  .addWithJSX('Lazyload Image', () => {
     const imageArray = [
       {
         src:
@@ -193,7 +197,7 @@ storiesOf('Viewport detection', module)
       </div>
     );
   })
-  .add('Lazyload Iframe', () => {
+  .addWithJSX('Lazyload Iframe', () => {
     const iframeArray = [
       {
         src: 'https://www.youtube.com/embed/hTcBnxxuAls',
