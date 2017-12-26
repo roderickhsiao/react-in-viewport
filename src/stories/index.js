@@ -8,30 +8,28 @@ import '../../theme.css';
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
 const PageTitle = () => (
-  <div className='page__title'>
-    <h1 className='page__title-main'>
+  <div className="page__title">
+    <h1 className="page__title-main">
       React in viewport
       <a
-        className='github mui-icon'
-        href='https://github.com/roderickhsiao/react-in-viewport'
-        target='_blank'
-        rel='noopener noreferrer'
+        className="github mui-icon"
+        href="https://github.com/roderickhsiao/react-in-viewport"
+        target="_blank"
+        rel="noopener noreferrer"
       />
     </h1>
-    <p className='page__title-desc'>
+    <p className="page__title-desc">
       Check if element is in viewport using Intersection Observer
     </p>
   </div>
 );
 
 const Card = ({ titleText, contentNode, innerRef }) => (
-  <div className='card' ref={innerRef}>
-    <div className='card__head'>
-      <h3 className='card__title'>{titleText}</h3>
+  <div className="card" ref={innerRef}>
+    <div className="card__head">
+      <h3 className="card__title">{titleText}</h3>
     </div>
-    <div className='card__conent'>
-      {contentNode}
-    </div>
+    <div className="card__conent">{contentNode}</div>
   </div>
 );
 
@@ -47,7 +45,14 @@ const Block = props => {
       titleText={text}
       innerRef={innerRef}
       contentNode={
-        <div style={{ width: '400px', height: '300px', background: color, transitionDuration: '1s' }} />
+        <div
+          style={{
+            width: '400px',
+            height: '300px',
+            background: color,
+            transitionDuration: '1s'
+          }}
+        />
       }
     />
   );
@@ -75,9 +80,9 @@ class Iframe extends PureComponent {
     const Component = this.state.loaded ? 'iframe' : 'div';
     const props = this.state.loaded
       ? {
-        src,
-        frameBorder: 0,
-      }
+          src,
+          frameBorder: 0
+        }
       : {};
 
     return (
@@ -113,7 +118,7 @@ class ImageObject extends PureComponent {
     }
   }
 
-  loadImage = (src) => {
+  loadImage = src => {
     const img = new Image();
     img.onload = () => {
       action('Image loaded')(src);
@@ -121,16 +126,20 @@ class ImageObject extends PureComponent {
         src,
         loaded: true
       });
-    }
+    };
     img.src = src;
     action('Load image')(src);
-  }
+  };
 
   render() {
     return (
       <AspectRatio
         ratio={this.props.ratio}
-        style={{ maxWidth: '400px', marginBottom: '20px', backgroundColor: 'rgba(0,0,0,.12)' }}
+        style={{
+          maxWidth: '400px',
+          marginBottom: '20px',
+          backgroundColor: 'rgba(0,0,0,.12)'
+        }}
         ref={this.props.innerRef}
       >
         <img src={this.state.src} />
@@ -147,21 +156,28 @@ storiesOf('Viewport detection', module)
       <div style={{ height: '100vh', padding: '20px' }}>
         <p>Scroll down to make component in viewport 👇 </p>
       </div>
-      <ViewportBlock className='card' onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+      <ViewportBlock
+        className="card"
+        onEnterViewport={() => console.log('enter')}
+        onLeaveViewport={() => console.log('leave')}
+      />
     </div>
   ))
   .add('Lazyload Image', () => {
     const imageArray = [
       {
-        src: 'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
+        src:
+          'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
         ratio: '595/397'
       },
       {
-        src: 'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
+        src:
+          'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
         ratio: '508/397'
       },
       {
-        src: 'http://cdn1-www.dogtime.com/assets/uploads/gallery/english-bulldog-puppies/english-bulldog-9.jpg',
+        src:
+          'http://cdn1-www.dogtime.com/assets/uploads/gallery/english-bulldog-puppies/english-bulldog-9.jpg',
         ratio: '1'
       }
     ];
@@ -169,7 +185,7 @@ storiesOf('Viewport detection', module)
       <div>
         <PageTitle />
         <Card
-          titleText='Lazyload Image'
+          titleText="Lazyload Image"
           contentNode={imageArray.map(image => (
             <LazyImage key={image.src} src={image.src} ratio={image.ratio} />
           ))}
@@ -196,9 +212,13 @@ storiesOf('Viewport detection', module)
       <div>
         <PageTitle />
         <Card
-          titleText='Lazyload Iframe'
+          titleText="Lazyload Iframe"
           contentNode={iframeArray.map(iframe => (
-            <LazyIframe key={iframe.src} src={iframe.src} ratio={iframe.ratio} />
+            <LazyIframe
+              key={iframe.src}
+              src={iframe.src}
+              ratio={iframe.ratio}
+            />
           ))}
         />
       </div>

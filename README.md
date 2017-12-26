@@ -1,4 +1,5 @@
 # React In Viewport Component
+
 [![npm version](https://badge.fury.io/js/react-aspect-ratio.svg)](http://badge.fury.io/js/react-in-viewport)
 
 Wrapper component to detect if the component is in viewport.
@@ -15,11 +16,12 @@ Wrap your component with handleViewport HOC, you will receive `inViewport` props
 1. Component
 1. Options: second param is the option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 1. Config object:
- - `disconnectOnLeave { Boolean }` disconnect intersection observer after leave
+
+* `disconnectOnLeave { Boolean }` disconnect intersection observer after leave
 
 The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
 
-*NOTE*: Stateless: Need to add `ref={this.props.innerRef}` on your component
+_NOTE_: Stateless: Need to add `ref={this.props.innerRef}` on your component
 
 ```javascript
 import handleViewport from 'react-in-viewport';
@@ -47,3 +49,7 @@ const Component = (props) => (
   </div>
 ))
 ```
+
+## Who is using this component
+
+- [Tinder](https://tinder.com)

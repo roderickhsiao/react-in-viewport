@@ -7,7 +7,11 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
-function handleViewport(Component, options, config = { disconnectOnLeave: false }) {
+function handleViewport(
+  Component,
+  options,
+  config = { disconnectOnLeave: false }
+) {
   class InViewport extends PureComponent {
     constructor(props) {
       super(props);
@@ -109,7 +113,7 @@ function handleViewport(Component, options, config = { disconnectOnLeave: false 
               // handle stateless
               this.node = ReactDOM.findDOMNode(node);
               this.initIntersectionObserver();
-              this.startObserver(ReactDOM.findDOMNode(node), this.observer);
+              this.startObserver(this.node, this.observer);
             }
           }}
         />
