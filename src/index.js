@@ -23,6 +23,8 @@ function handleViewport(
       this.intersected = false;
       this.handleIntersection = this.handleIntersection.bind(this);
       this.initIntersectionObserver = this.initIntersectionObserver.bind(this);
+      this.setRef = this.setRef.bind(this);
+      this.setInnerRef = this.setInnerRef.bind(this);
     }
 
     componentDidMount() {
@@ -99,23 +101,27 @@ function handleViewport(
       }
     }
 
+    setRef(node) {
+      this.node = ReactDOM.findDOMNode(node);
+    }
+
+    setInnerRef(node) {
+      if (node && !this.node) {
+        // handle stateless
+        this.node = ReactDOM.findDOMNode(node);
+        this.initIntersectionObserver();
+        this.startObserver(this.node, this.observer);
+      }
+    }
+
     render() {
       const { onEnterViewport, onLeaveViewport, ...others } = this.props;
       return (
         <Component
           {...others}
           inViewport={this.state.inViewport}
-          ref={node => {
-            this.node = ReactDOM.findDOMNode(node);
-          }}
-          innerRef={node => {
-            if (node && !this.node) {
-              // handle stateless
-              this.node = ReactDOM.findDOMNode(node);
-              this.initIntersectionObserver();
-              this.startObserver(this.node, this.observer);
-            }
-          }}
+          ref={this.setRef}
+          innerRef={this.setInnerRef}
         />
       );
     }
