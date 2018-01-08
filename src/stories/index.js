@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import 'react-aspect-ratio/aspect-ratio.css';
 import { storiesOf, action, setAddon } from '@storybook/react';
 import AspectRatio from 'react-aspect-ratio';
 import JSXAddon from 'storybook-addon-jsx';
 
+import 'react-aspect-ratio/aspect-ratio.css';
 import '../../theme.css';
 import handleViewport from '../index';
 

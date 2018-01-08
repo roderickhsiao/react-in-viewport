@@ -7,6 +7,8 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
+const isStateless = Component => !Component.prototype.render;
+
 function handleViewport(
   Component,
   options,
@@ -23,6 +25,8 @@ function handleViewport(
       this.intersected = false;
       this.handleIntersection = this.handleIntersection.bind(this);
       this.initIntersectionObserver = this.initIntersectionObserver.bind(this);
+      this.setRef = this.setRef.bind(this);
+      this.setInnerRef = this.setInnerRef.bind(this);
     }
 
     componentDidMount() {
@@ -99,23 +103,31 @@ function handleViewport(
       }
     }
 
+    setRef(node) {
+      this.node = ReactDOM.findDOMNode(node);
+    }
+
+    setInnerRef(node) {
+      if (node && !this.node) {
+        // handle stateless
+        this.node = ReactDOM.findDOMNode(node);
+        this.initIntersectionObserver();
+        this.startObserver(this.node, this.observer);
+      }
+    }
+
     render() {
       const { onEnterViewport, onLeaveViewport, ...others } = this.props;
+      // pass ref to class and innerRef for stateless component
+
+      const refProps = isStateless(Component)
+        ? { innerRef: this.setInnerRef }
+        : { ref: this.setRef };
       return (
         <Component
           {...others}
           inViewport={this.state.inViewport}
-          ref={node => {
-            this.node = ReactDOM.findDOMNode(node);
-          }}
-          innerRef={node => {
-            if (node && !this.node) {
-              // handle stateless
-              this.node = ReactDOM.findDOMNode(node);
-              this.initIntersectionObserver();
-              this.startObserver(this.node, this.observer);
-            }
-          }}
+          {...refProps}
         />
       );
     }
