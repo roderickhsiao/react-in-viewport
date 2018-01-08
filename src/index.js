@@ -7,6 +7,8 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
+const isStateless = Component => !Component.prototype.render;
+
 function handleViewport(
   Component,
   options,
@@ -116,12 +118,16 @@ function handleViewport(
 
     render() {
       const { onEnterViewport, onLeaveViewport, ...others } = this.props;
+      // pass ref to class and innerRef for stateless component
+
+      const refProps = isStateless(Component)
+        ? { innerRef: this.setInnerRef }
+        : { ref: this.setRef };
       return (
         <Component
           {...others}
           inViewport={this.state.inViewport}
-          ref={this.setRef}
-          innerRef={this.setInnerRef}
+          {...refProps}
         />
       );
     }
