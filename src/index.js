@@ -76,8 +76,7 @@ function handleViewport(
     handleIntersection(entries) {
       const { onEnterViewport, onLeaveViewport } = this.props;
       const entry = entries[0] || {};
-      const { intersectionRatio } = entry;
-      const inViewport = intersectionRatio > 0;
+      const inViewport = entry.isIntersecting;
 
       // enter
       if (!this.intersected && inViewport) {
