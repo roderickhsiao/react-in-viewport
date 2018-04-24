@@ -1,4 +1,5 @@
 .babelrc
+.out
 .eslintrc
 .gitignore
 .npmignore
