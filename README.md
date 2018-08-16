@@ -49,9 +49,9 @@ const Component = (props) => (
   </div>
 ))
 ```
-
-If you need to know how many times the component has entered the viewport use the prop `viewCount`.
-If you need to know how many times the component has left the viewport use the prop `leaveCount`.
+***
+* If you need to know how many times the component has entered the viewport use the prop `viewCount`.
+* If you need to know how many times the component has left the viewport use the prop `leaveCount`.
 ```javascript
 import React, { Component } from 'react';
 import handleViewport from 'react-in-viewport';
