@@ -49,6 +49,40 @@ const Component = (props) => (
   </div>
 ))
 ```
+***
+* If you need to know how many times the component has entered the viewport use the prop `viewCount`.
+* If you need to know how many times the component has left the viewport use the prop `leaveCount`.
+```javascript
+import React, { Component } from 'react';
+import handleViewport from 'react-in-viewport';
+class MySectionBlock extends Component {
+
+  getStyle(){
+    //Fade in only the first time we enter the viewport
+    if(this.props.inViewport && this.props.viewCount === 1){
+      return {"WebkitTransition": "opacity 0.75s ease-in-out"};
+    }
+    else if(!this.props.inViewport && this.props.viewCount < 1){
+      return {"WebkitTransition": "none", "opacity": "0"};
+    }else{
+     return {};
+    }
+  }
+
+  render(){
+    return (
+        <section>
+          <div className="content"  style={this.getStyle()}>
+            <div><h1>Hello</h1></div>
+          </div>
+        </section>
+    );
+  };
+};
+const MySection = handleViewport(MySectionBlock,{rootMargin:'-1.0px'});
+
+export default MySection;
+```
 
 ## Who is using this component
 

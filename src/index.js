@@ -20,7 +20,9 @@ function handleViewport(
       this.observer = null;
       this.node = null;
       this.state = {
-        inViewport: false
+        inViewport: false,
+        viewCount: 0,
+        leaveCount: 0
       };
       this.intersected = false;
       this.handleIntersection = this.handleIntersection.bind(this);
@@ -84,7 +86,8 @@ function handleViewport(
         this.intersected = true;
         onEnterViewport && onEnterViewport();
         this.setState({
-          inViewport
+          inViewport: inViewport,
+          viewCount: this.state.viewCount + 1
         });
         return;
       }
@@ -98,7 +101,8 @@ function handleViewport(
           this.observer && this.observer.disconnect();
         }
         this.setState({
-          inViewport
+          inViewport: inViewport,
+          leaveCount: this.state.leaveCount + 1
         });
       }
     }
@@ -127,6 +131,8 @@ function handleViewport(
         <Component
           {...others}
           inViewport={this.state.inViewport}
+          viewCount={this.state.viewCount}
+          leaveCount={this.state.leaveCount}
           {...refProps}
         />
       );
