@@ -21,7 +21,7 @@ function handleViewport(
       this.node = null;
       this.state = {
         inViewport: false,
-        viewCount: 0,
+        enterCount: 0,
         leaveCount: 0
       };
       this.intersected = false;
@@ -87,7 +87,7 @@ function handleViewport(
         onEnterViewport && onEnterViewport();
         this.setState({
           inViewport: inViewport,
-          viewCount: this.state.viewCount + 1
+          enterCount: this.state.enterCount + 1
         });
         return;
       }
@@ -131,7 +131,7 @@ function handleViewport(
         <Component
           {...others}
           inViewport={this.state.inViewport}
-          viewCount={this.state.viewCount}
+          enterCount={this.state.enterCount}
           leaveCount={this.state.leaveCount}
           {...refProps}
         />

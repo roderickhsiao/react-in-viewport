@@ -22,9 +22,7 @@ const PageTitle = () => (
         rel="noopener noreferrer"
       />
     </h1>
-    <p className="page__title-desc">
-      Check if element is in viewport using Intersection Observer
-    </p>
+    <p className="page__title-desc">Check if element is in viewport using Intersection Observer</p>
   </div>
 );
 
@@ -38,7 +36,7 @@ const Card = ({ titleText, contentNode, innerRef }) => (
 );
 
 const Block = props => {
-  const { inViewport, innerRef, className } = props;
+  const { inViewport, innerRef, className, enterCount, leaveCount } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
   action('Is in viewport')(inViewport);
@@ -50,6 +48,7 @@ const Block = props => {
       innerRef={innerRef}
       contentNode={
         <div
+          title={`Enter viewport ${enterCount} times, leave viewport ${leaveCount} times`}
           style={{
             width: '400px',
             height: '300px',
@@ -170,8 +169,7 @@ storiesOf('Viewport detection', module)
   .addWithJSX('Lazyload Image', () => {
     const imageArray = [
       {
-        src:
-          'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
+        src: 'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
         ratio: '595/397'
       },
       {
@@ -218,11 +216,7 @@ storiesOf('Viewport detection', module)
         <Card
           titleText="Lazyload Iframe"
           contentNode={iframeArray.map(iframe => (
-            <LazyIframe
-              key={iframe.src}
-              src={iframe.src}
-              ratio={iframe.ratio}
-            />
+            <LazyIframe key={iframe.src} src={iframe.src} ratio={iframe.ratio} />
           ))}
         />
       </div>
