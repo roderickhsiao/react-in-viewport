@@ -7,7 +7,10 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
-const isStateless = Component => !Component.prototype.render;
+const isStateless = (Component) => (
+  typeof Component === 'function'
+  && !(Component.prototype && Component.prototype.isReactComponent)
+)
 
 function handleViewport(
   Component,
