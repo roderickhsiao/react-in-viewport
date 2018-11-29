@@ -3,7 +3,7 @@ if (typeof window !== 'undefined') {
   require('intersection-observer');
 }
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
@@ -17,7 +17,7 @@ function handleViewport(
   options,
   config = { disconnectOnLeave: false }
 ) {
-  class InViewport extends PureComponent {
+  class InViewport extends Component {
     constructor(props) {
       super(props);
       this.observer = null;
