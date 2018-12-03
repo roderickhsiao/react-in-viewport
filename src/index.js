@@ -7,13 +7,13 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
-const isStateless = (Component) => (
-  typeof Component === 'function'
-  && !(Component.prototype && Component.prototype.isReactComponent)
+const isStateless = (TargetComponent) => (
+  typeof TargetComponent === 'function'
+  && !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent)
 )
 
 function handleViewport(
-  Component,
+  TargetComponent,
   options,
   config = { disconnectOnLeave: false }
 ) {
@@ -127,11 +127,11 @@ function handleViewport(
       const { onEnterViewport, onLeaveViewport, ...others } = this.props;
       // pass ref to class and innerRef for stateless component
 
-      const refProps = isStateless(Component)
+      const refProps = isStateless(TargetComponent)
         ? { innerRef: this.setInnerRef }
         : { ref: this.setRef };
       return (
-        <Component
+        <TargetComponent
           {...others}
           inViewport={this.state.inViewport}
           enterCount={this.state.enterCount}
@@ -141,7 +141,7 @@ function handleViewport(
       );
     }
   }
-  return hoistNonReactStatic(InViewport, Component);
+  return hoistNonReactStatic(InViewport, TargetComponent);
 }
 
 export default handleViewport;
