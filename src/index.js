@@ -1,22 +1,17 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import hoistNonReactStatic from 'hoist-non-react-statics';
+
 if (typeof window !== 'undefined') {
   // Polyfills for intersection-observer
   require('intersection-observer');
 }
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import hoistNonReactStatic from 'hoist-non-react-statics';
+const isStateless = TargetComponent =>
+  typeof TargetComponent === 'function' &&
+  !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent);
 
-const isStateless = (TargetComponent) => (
-  typeof TargetComponent === 'function'
-  && !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent)
-)
-
-function handleViewport(
-  TargetComponent,
-  options,
-  config = { disconnectOnLeave: false }
-) {
+function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
   class InViewport extends Component {
     constructor(props) {
       super(props);
@@ -30,8 +25,8 @@ function handleViewport(
       this.intersected = false;
       this.handleIntersection = this.handleIntersection.bind(this);
       this.initIntersectionObserver = this.initIntersectionObserver.bind(this);
-      this.setRef = this.setRef.bind(this);
       this.setInnerRef = this.setInnerRef.bind(this);
+      this.setRef = this.setRef.bind(this);
     }
 
     componentDidMount() {
@@ -53,10 +48,7 @@ function handleViewport(
 
     initIntersectionObserver() {
       if (!this.observer) {
-        this.observer = new IntersectionObserver(
-          this.handleIntersection,
-          options
-        );
+        this.observer = new IntersectionObserver(this.handleIntersection, options);
       }
     }
 
@@ -82,14 +74,15 @@ function handleViewport(
       const { onEnterViewport, onLeaveViewport } = this.props;
       const entry = entries[0] || {};
       const { isIntersecting, intersectionRatio } = entry;
-      const inViewport = (typeof isIntersecting !== 'undefined') ? isIntersecting : (intersectionRatio > 0);
+      const inViewport =
+        typeof isIntersecting !== 'undefined' ? isIntersecting : intersectionRatio > 0;
 
       // enter
       if (!this.intersected && inViewport) {
         this.intersected = true;
         onEnterViewport && onEnterViewport();
         this.setState({
-          inViewport: inViewport,
+          inViewport,
           enterCount: this.state.enterCount + 1
         });
         return;
@@ -104,7 +97,7 @@ function handleViewport(
           this.observer && this.observer.disconnect();
         }
         this.setState({
-          inViewport: inViewport,
+          inViewport,
           leaveCount: this.state.leaveCount + 1
         });
       }
@@ -124,18 +117,18 @@ function handleViewport(
     }
 
     render() {
-      const { onEnterViewport, onLeaveViewport, ...others } = this.props;
+      const { onEnterViewport, onLeaveViewport, ...otherProps } = this.props;
       // pass ref to class and innerRef for stateless component
-
+      const { inViewport, enterCount, leaveCount } = this.state;
       const refProps = isStateless(TargetComponent)
         ? { innerRef: this.setInnerRef }
         : { ref: this.setRef };
       return (
         <TargetComponent
-          {...others}
-          inViewport={this.state.inViewport}
-          enterCount={this.state.enterCount}
-          leaveCount={this.state.leaveCount}
+          {...otherProps}
+          inViewport={inViewport}
+          enterCount={enterCount}
+          leaveCount={leaveCount}
           {...refProps}
         />
       );
