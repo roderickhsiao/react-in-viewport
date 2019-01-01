@@ -1,5 +1,11 @@
 {
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "plugins": [
+    "flowtype"
+  ],
   "rules": {
     # We use _ to define private variables and methods in clases
     "no-underscore-dangle": 0,
@@ -9,6 +15,9 @@
     "react/require-extension": 0,
     # We can write JSX in anyfile we want.
     "react/jsx-filename-extension": 0,
+    "react/destructuring-assignment": 0,
+    "react/default-props-match-prop-types": 0,
+    "react/no-find-dom-node": 0,
     # We don't like this rule.
     "arrow-body-style": 0,
     # We don't like this rule. We write arrow functions only when we needed.
@@ -18,7 +27,18 @@
     # propTypes can be object
     "react/forbid-prop-types": 0,
     # trailing comma
-    "comma-dangle": 0
+    "comma-dangle": 0,
+    "react/sort-comp": 0,
+    "react/prop-types": 0,
+    "arrow-parens": 0,
+    "lines-between-class-members": 0,
+    "class-methods-use-this": 0,
+    "no-unused-expressions": 0,
+    "react/no-access-state-in-setstate": 0,
+    "object-curly-newline": 0,
+    "react/no-multi-comp": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-wrap-multilines": 0
   },
   "env": {
     "jest": true

@@ -1,19 +1,51 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+// @flow
+import React, { Component, type Element } from 'react';
+import { findDOMNode } from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 if (typeof window !== 'undefined') {
   // Polyfills for intersection-observer
-  require('intersection-observer');
+  require('intersection-observer'); // eslint-disable-line
 }
 
-const isStateless = TargetComponent =>
-  typeof TargetComponent === 'function' &&
-  !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent);
+type Props = {
+  onEnterViewport: () => void,
+  onLeaveViewport: () => void
+};
 
-function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
-  class InViewport extends Component {
-    constructor(props) {
+type State = {
+  inViewport: boolean,
+  enterCount: number,
+  leaveCount: number
+};
+
+type OptionType = {
+  root?: Node,
+  rootMargin?: string,
+  threshold?: number | Array<number>
+};
+
+type ConfigType = {
+  disconnectOnLeave: boolean
+};
+
+const isStateless = TargetComponent => typeof TargetComponent === 'function' && !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent);
+
+function handleViewport(
+  TargetComponent: Element<*>,
+  options: OptionType = {},
+  config: ConfigType = { disconnectOnLeave: false }
+): Element<*> {
+  class InViewport extends Component<Props, State> {
+    node: ?HTMLElement;
+    intersected: boolean;
+    handleIntersection: () => void;
+    initIntersectionObserver: () => void;
+    setInnerRef: () => void;
+    setRef: () => void;
+    observer: ?IntersectionObserver;
+
+    constructor(props: Props) {
       super(props);
       this.observer = null;
       this.node = null;
@@ -40,7 +72,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
       // the element is not in viewport, such as in animation
       if (!this.intersected && !prevState.inViewport) {
         if (this.observer && this.node) {
-          this.observer.unobserve(this.node);
+          this.observer.unobserve(this.node); // $FlowFixMe
           this.observer.observe(this.node);
         }
       }
@@ -48,6 +80,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
 
     initIntersectionObserver() {
       if (!this.observer) {
+        // $FlowFixMe
         this.observer = new IntersectionObserver(this.handleIntersection, options);
       }
     }
@@ -74,8 +107,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
       const { onEnterViewport, onLeaveViewport } = this.props;
       const entry = entries[0] || {};
       const { isIntersecting, intersectionRatio } = entry;
-      const inViewport =
-        typeof isIntersecting !== 'undefined' ? isIntersecting : intersectionRatio > 0;
+      const inViewport = typeof isIntersecting !== 'undefined' ? isIntersecting : intersectionRatio > 0;
 
       // enter
       if (!this.intersected && inViewport) {
@@ -104,13 +136,15 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
     }
 
     setRef(node) {
-      this.node = ReactDOM.findDOMNode(node);
+      // $FlowFixMe
+      this.node = findDOMNode(node);
     }
 
     setInnerRef(node) {
       if (node && !this.node) {
         // handle stateless
-        this.node = ReactDOM.findDOMNode(node);
+        // $FlowFixMe
+        this.node = findDOMNode(node);
         this.initIntersectionObserver();
         this.startObserver(this.node, this.observer);
       }
@@ -124,6 +158,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
         ? { innerRef: this.setInnerRef }
         : { ref: this.setRef };
       return (
+        // $FlowFixMe
         <TargetComponent
           {...otherProps}
           inViewport={inViewport}

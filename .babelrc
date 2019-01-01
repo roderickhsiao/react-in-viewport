@@ -4,20 +4,30 @@
       "env",
       {
         "targets": {
-          "browsers": [
-            "last 1 versions",
-            "ie >= 11"
-          ]
+          "browsers": ["last 1 versions", "ie >= 11"]
         },
         "modules": false,
         "loose": true,
         "useBuiltIns": true
       }
     ],
-    "react"
+    "react",
+    "flow"
   ],
-  "plugins": [
-    "transform-object-rest-spread",
-    "transform-class-properties"
-  ]
+  "plugins": ["transform-object-rest-spread", "transform-class-properties"],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "modules": "commonjs"
+          }
+        ],
+        "react",
+        "flow"
+      ],
+      "plugins": ["transform-object-rest-spread", "transform-class-properties"]
+    }
+  }
 }
