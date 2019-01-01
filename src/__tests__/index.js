@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 
 import handleViewport from '../index';
 
