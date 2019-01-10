@@ -95,6 +95,9 @@ const MySection = handleViewport(MySectionBlock, { rootMargin: '-1.0px' });
 export default MySection;
 ```
 
+## Note
+This library is currently using `ReactDOM.findDOMNode` to access DOM from React element. This method is deprecated in `StrictMode`, we will update the code and release a major version when React 17 is out.
+
 ## Who is using this component
 
 - [Tinder](https://tinder.com)

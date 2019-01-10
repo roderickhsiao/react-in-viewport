@@ -143,10 +143,7 @@ function handleViewport(
     setInnerRef(node) {
       if (node && !this.node) {
         // handle stateless
-        // $FlowFixMe
-        this.node = findDOMNode(node);
-        this.initIntersectionObserver();
-        this.startObserver(this.node, this.observer);
+        this.node = node;
       }
     }
 
