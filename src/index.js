@@ -29,7 +29,8 @@ type ConfigType = {
   disconnectOnLeave: boolean
 };
 
-const isStateless = TargetComponent => typeof TargetComponent === 'function' && !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent);
+const isStateless = TargetComponent => typeof TargetComponent === 'function'
+  && !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent);
 
 function handleViewport(
   TargetComponent: Element<*>,

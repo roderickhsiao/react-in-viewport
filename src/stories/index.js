@@ -26,7 +26,7 @@ const PageTitle = () => (
         <span style={{ visibility: 'hidden' }}>Github</span>
       </a>
     </h1>
-    <p className="page__title-desc">Check if element is in viewport using Intersection Observer</p>
+    <p className="page__title-desc">Track React component in viewport using Intersection Observer API</p>
   </div>
 );
 

@@ -1,12 +1,33 @@
-# React In Viewport Component
+<p align="center">
+  <h1>React In Viewport</h1>
+  <a href="https://www.npmjs.org/package/react-in-viewport"><img src="https://img.shields.io/npm/v/react-in-viewport.svg?style=flat" alt="npm"></a>
+  <a href="https://unpkg.com/react-in-viewport"><img src="https://img.badgesize.io/https://unpkg.com/react-in-viewport/dist/es/index.js?compression=gzip" alt="gzip size"></a>
+  <a href="https://www.npmjs.com/package/react-in-viewport"><img src="https://img.shields.io/npm/dt/react-in-viewport.svg" alt="downloads" ></a>
+  <a href="https://circleci.com/gh/roderickhsiao/react-in-viewport"><img src="https://circleci.com/gh/roderickhsiao/react-in-viewport.svg?style=svg" alt="circleci"></a>
+</p>
 
-[![npm version](https://badge.fury.io/js/react-aspect-ratio.svg)](http://badge.fury.io/js/react-in-viewport)
-[![CircleCI](https://circleci.com/gh/roderickhsiao/react-in-viewport.svg?style=svg)](https://circleci.com/gh/roderickhsiao/react-in-viewport)
+<hr>
+Wrapper component to detect if the component is in viewport using [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 
-Wrapper component to detect if the component is in viewport.
-Use [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+[Demo](https://roderickhsiao.github.io/react-in-viewport/)
 
 Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/intersection-observer)
+
+## Why
+
+Very common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
+
+Traditionally we will need to keep monitoring scroll position and calculating viewport size which could be a big scroll performance bottleneck.
+
+Modern browser now provides a new API [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which can make the implementation much easier and performant.
+
+For browser not supporting the API, we will load a polyfill.
+
+[Browser support table](https://caniuse.com/#feat=intersectionobserver)
+
+## Design
+
+This component use higher order component (HOC) as a wrapper and attach intersection observer to your target component. The HOC will then pass down extra props indicating viewport information along with executing callback function when component entering and leaving viewport.
 
 ## Usages
 
@@ -79,12 +100,8 @@ class MySectionBlock extends Component {
       <section>
         <div className="content" style={this.getStyle()}>
           <h1>Hello</h1>
-          <p>
-            {`Enter viewport: ${enterCount} times`}
-          </p>
-          <p>
-            {`Leave viewport: ${leaveCount} times`}
-          </p>
+          <p>{`Enter viewport: ${enterCount} times`}</p>
+          <p>{`Leave viewport: ${leaveCount} times`}</p>
         </div>
       </section>
     );
@@ -96,7 +113,10 @@ export default MySection;
 ```
 
 ## Note
+
 This library is currently using `ReactDOM.findDOMNode` to access DOM from React element. This method is deprecated in `StrictMode`, we will update the code and release a major version when React 17 is out.
+
+We might also remove hard import of `intersection-observer` and let user to import based on needed.
 
 ## Who is using this component
 
