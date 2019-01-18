@@ -8,62 +8,12 @@ import JSXAddon from 'storybook-addon-jsx';
 import 'react-aspect-ratio/aspect-ratio.css';
 import '../../theme.css';
 import handleViewport from '../index';
+import { PageTitle, Card, Block, Spacer } from './common/themeComponent';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
 setAddon(JSXAddon);
 
-const PageTitle = () => (
-  <div className="page__title">
-    <h1 className="page__title-main">
-      React in viewport
-      <a
-        className="github mui-icon"
-        href="https://github.com/roderickhsiao/react-in-viewport"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span style={{ visibility: 'hidden' }}>Github</span>
-      </a>
-    </h1>
-    <p className="page__title-desc">Track React component in viewport using Intersection Observer API</p>
-  </div>
-);
-
-const Card = ({ titleText, contentNode, innerRef }) => (
-  <div className="card" ref={innerRef}>
-    <div className="card__head">
-      <h3 className="card__title">{titleText}</h3>
-    </div>
-    <div className="card__conent">{contentNode}</div>
-  </div>
-);
-
-const Block = props => {
-  const { inViewport, innerRef, enterCount, leaveCount } = props;
-  const color = inViewport ? '#217ac0' : '#ff9800';
-  const text = inViewport ? 'In viewport' : 'Not in viewport';
-  action('Is in viewport')(inViewport);
-
-  return (
-    <Card
-      className="viewport-block"
-      titleText={text}
-      innerRef={innerRef}
-      contentNode={
-        <div
-          title={`Enter viewport ${enterCount} times, leave viewport ${leaveCount} times`}
-          style={{
-            width: '400px',
-            height: '300px',
-            background: color,
-            transitionDuration: '1s'
-          }}
-        />
-      }
-    />
-  );
-};
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
 
 class Iframe extends PureComponent {
@@ -95,7 +45,7 @@ class Iframe extends PureComponent {
     return (
       <AspectRatio
         ratio={ratio}
-        style={{ marginBottom: '20px', backgroundColor: 'rgba(0,0,0,.12)' }}
+        style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
       >
         <Component {...props} />
       </AspectRatio>
@@ -146,7 +96,7 @@ class ImageObject extends PureComponent {
         ratio={this.props.ratio}
         style={{
           maxWidth: '400px',
-          marginBottom: '20px',
+          marginBottom: '200px',
           backgroundColor: 'rgba(0,0,0,.12)'
         }}
         ref={this.props.innerRef}
@@ -157,19 +107,50 @@ class ImageObject extends PureComponent {
   }
 }
 
-const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
+const LazyImage = handleViewport(ImageObject, { threshold: 0.25 }, { disconnectOnLeave: true });
+
+class MySectionBlock extends PureComponent {
+  getStyle() {
+    const { inViewport, enterCount } = this.props;
+    const basicStyle = {
+      width: '400px',
+      height: '300px',
+      backgroundColor: '#217ac0',
+      color: '#fff'
+    };
+    // Fade in only the first time we enter the viewport
+    if (inViewport && enterCount === 1) {
+      return { ...basicStyle, WebkitTransition: 'opacity 1s ease-in-out' };
+    }
+    if (!inViewport && enterCount < 1) {
+      return { ...basicStyle, WebkitTransition: 'none', opacity: '0' };
+    }
+    return basicStyle;
+  }
+
+  render() {
+    const { enterCount, leaveCount } = this.props;
+    return (
+      <section>
+        <div className="card" style={this.getStyle()}>
+          <div className="card__conent">
+            <h3>Hello</h3>
+            <p>{`Enter viewport: ${enterCount} times`}</p>
+            <p>{`Leave viewport: ${leaveCount} times`}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+}
+
+const SectionWithTransition = handleViewport(MySectionBlock, { rootMargin: '-1.0px' });
+
 storiesOf('Viewport detection', module)
   .addWithJSX('Callback when in viewport', () => (
     <Fragment>
       <PageTitle />
-      <div style={{ height: '100vh', padding: '20px' }}>
-        <p>
-          Scroll down to make component in viewport{' '}
-          <span role="img" aria-label="down">
-            👇
-          </span>{' '}
-        </p>
-      </div>
+      <Spacer />
       <ViewportBlock
         className="card"
         onEnterViewport={() => console.log('enter')}
@@ -192,11 +173,17 @@ storiesOf('Viewport detection', module)
         src:
           'http://cdn1-www.dogtime.com/assets/uploads/gallery/english-bulldog-puppies/english-bulldog-9.jpg',
         ratio: '1'
+      },
+      {
+        src:
+          'https://i2-prod.mirror.co.uk/incoming/article4482806.ece/ALTERNATES/s615/PAY-Stolen-Lilac-Puppy.jpg',
+        ratio: '615/409'
       }
     ];
     return (
       <Fragment>
         <PageTitle />
+        <Spacer />
         <Card
           titleText="Lazyload Image"
           contentNode={imageArray.map(image => (
@@ -224,6 +211,7 @@ storiesOf('Viewport detection', module)
     return (
       <Fragment>
         <PageTitle />
+        <Spacer />
         <Card
           titleText="Lazyload Iframe"
           contentNode={iframeArray.map(iframe => (
@@ -232,4 +220,19 @@ storiesOf('Viewport detection', module)
         />
       </Fragment>
     );
-  });
+  })
+  .addWithJSX('Use enter/leave counts for transition', () => (
+    <Fragment>
+      <PageTitle />
+      <Spacer />
+      <div style={{ height: '100vh', padding: '20px' }}>
+        <p>
+          Scroll down to make component in viewport{' '}
+          <span role="img" aria-label="down">
+            👇
+          </span>{' '}
+        </p>
+      </div>
+      <SectionWithTransition />
+    </Fragment>
+  ));

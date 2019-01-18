@@ -16,7 +16,7 @@ Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/in
 
 ## Why
 
-Very common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
+A common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
 
 Traditionally we will need to keep monitoring scroll position and calculating viewport size which could be a big scroll performance bottleneck.
 
@@ -62,7 +62,7 @@ The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
 
 ### Props pass down by HOC to your component
 
-| Props      | Type      | Default | Description                                                                       | 
+| Props      | Type      | Default | Description                                                                       |
 |------------|-----------|---------|-----------------------------------------------------------------------------------|
 | inViewport | boolean   | false   | Is your component in viewport                                                     |  
 | innerRef   | React ref |         | If you are using functional component, assign this props as ref on your component |
