@@ -35,15 +35,42 @@ Wrap your component with handleViewport HOC, you will receive `inViewport` props
 
 `handleViewport` HOC accepts three params
 
-1.  Component
-1.  Options: second param is the option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
-1.  Config object:
+`handleViewport(Component, Options, Config)`
 
-- `disconnectOnLeave { Boolean }` disconnect intersection observer after leave
+| Params    | Type          | Description                                                                                                                        |
+|-----------|---------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Component | React Element | Callback function for component enters viewport                                                                                    |
+| Options   | Object        | Option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |   |
+| Config    | Object        | Configs for HOC, see below |
+
+### Supported config
+
+| Params            | Type    | Default                                                                                                                            | Description                                  |
+|-------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| disconnectOnLeave | boolean | fasle                                                                                                                              | disconnect intersection observer after leave |
+
+### Props to the HOC component
+
+| Props           | Type     | Default | Description                                     |
+|-----------------|----------|---------|-------------------------------------------------|
+| onEnterViewport | function |         | Callback function for component enters viewport |
+| onLeaveViewport | function |         | Callback function for component leaves viewport |
 
 The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
 
+
+### Props pass down by HOC to your component
+
+| Props      | Type      | Default | Description                                                                       | 
+|------------|-----------|---------|-----------------------------------------------------------------------------------|
+| inViewport | boolean   | false   | Is your component in viewport                                                     |  
+| innerRef   | React ref |         | If you are using functional component, assign this props as ref on your component |
+| enterCount | number    |         | Amount of time your component enters viewport                                     |
+| leaveCount | number    |         | Amount of time your component leaves viewport                                     |
+
 _NOTE_: Stateless: Need to add `ref={this.props.innerRef}` on your component
+
+#### Example of functional component
 
 ```javascript
 import handleViewport from 'react-in-viewport';
@@ -72,7 +99,7 @@ const Component = (props) => (
 ))
 ```
 
----
+#### Example for enter/leave counts
 
 - If you need to know how many times the component has entered the viewport use the prop `enterCount`.
 - If you need to know how many times the component has left the viewport use the prop `leaveCount`.
