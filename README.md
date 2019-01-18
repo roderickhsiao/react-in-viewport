@@ -7,6 +7,7 @@
 </p>
 
 <hr>
+
 Wrapper component to detect if the component is in viewport using [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 
 [Demo](https://roderickhsiao.github.io/react-in-viewport/)
