@@ -225,14 +225,6 @@ storiesOf('Viewport detection', module)
     <Fragment>
       <PageTitle />
       <Spacer />
-      <div style={{ height: '100vh', padding: '20px' }}>
-        <p>
-          Scroll down to make component in viewport{' '}
-          <span role="img" aria-label="down">
-            👇
-          </span>{' '}
-        </p>
-      </div>
       <SectionWithTransition />
     </Fragment>
   ));
