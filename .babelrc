@@ -1,6 +1,11 @@
 {
   "presets": [
-    "@babel/preset-env",
+    [
+      "@babel/preset-env",
+      {
+        "loose": true
+      }
+    ],
     "@babel/preset-react",
     "@babel/preset-flow"
   ],
@@ -16,7 +21,8 @@
           "@babel/preset-env",
           {
             "targets": {
-              "esmodules": true
+              "esmodules": true,
+              "loose": true
             }
           }
         ],
@@ -29,7 +35,8 @@
         [
           "@babel/preset-env",
           {
-            "modules": "umd"
+            "modules": "umd",
+            "loose": true
           }
         ],
         "@babel/preset-react",
