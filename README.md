@@ -16,6 +16,8 @@ Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/in
 
 ## Why
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/roderickhsiao/react-in-viewport.svg)](https://greenkeeper.io/)
+
 A common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
 
 Traditionally we will need to keep monitoring scroll position and calculating viewport size which could be a big scroll performance bottleneck.
