@@ -3,7 +3,9 @@
   <a href="https://www.npmjs.org/package/react-in-viewport"><img src="https://img.shields.io/npm/v/react-in-viewport.svg?style=flat" alt="npm"></a>
   <a href="https://unpkg.com/react-in-viewport"><img src="https://img.badgesize.io/https://unpkg.com/react-in-viewport/dist/es/index.js?compression=gzip" alt="gzip size"></a>
   <a href="https://www.npmjs.com/package/react-in-viewport"><img src="https://img.shields.io/npm/dt/react-in-viewport.svg" alt="downloads" ></a>
-  <a href="https://circleci.com/gh/roderickhsiao/react-in-viewport"><img src="https://circleci.com/gh/roderickhsiao/react-in-viewport.svg?style=svg" alt="circleci"></a>
+  <a href="https://circleci.com/gh/roderickhsiao/react-in-viewport"><img src="https://circleci.com/gh/roderickhsiao/react-in-viewport.svg?style=svg" alt="Greenkeeper badge"></a>
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/roderickhsiao/react-in-viewport.svg" alt="circleci"></a>
+
 </p>
 
 <hr>
@@ -15,8 +17,6 @@ Wrapper component to detect if the component is in viewport using [Intersection 
 Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/intersection-observer)
 
 ## Why
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/roderickhsiao/react-in-viewport.svg)](https://greenkeeper.io/)
 
 A common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
 
