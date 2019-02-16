@@ -1,6 +1,6 @@
 {
   "name": "react-in-viewport",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "Track React component in viewport using Intersection Observer API",
   "author": "Roderick Hsiao <roderickhsiao@gmail.com>",
   "license": "MIT",

@@ -17,6 +17,9 @@ NODE_ENV=production BABEL_ENV=es ./node_modules/.bin/babel --ignore tests,storie
 echo "=> Transpiling 'src' into UMD ..."
 NODE_ENV=production BABEL_ENV=umd ./node_modules/.bin/babel --ignore tests,stories ./src --out-dir ./dist/umd
 
+echo "=> Transpiling 'src' into NEXT ..."
+NODE_ENV=production BABEL_ENV=next ./node_modules/.bin/babel --ignore tests,stories ./src --out-dir ./dist/next
+
 echo ""
 echo "=> Transpiling completed."
 

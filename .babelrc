@@ -15,15 +15,28 @@
     "@babel/plugin-proposal-class-properties"
   ],
   "env": {
+    "next": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "modules": false,
+            "loose": true
+          }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-flow"
+      ]
+    },
     "es": {
       "presets": [
         [
           "@babel/preset-env",
           {
             "targets": {
-              "esmodules": true,
-              "loose": true
-            }
+              "esmodules": true
+            },
+            "loose": true
           }
         ],
         "@babel/preset-react",
