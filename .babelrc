@@ -1,33 +1,40 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": ["last 1 versions", "ie >= 11"]
-        },
-        "modules": false,
-        "loose": true,
-        "useBuiltIns": true
-      }
-    ],
-    "react",
-    "flow"
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-flow"
   ],
-  "plugins": ["transform-object-rest-spread", "transform-class-properties"],
+  "plugins": [
+    "@babel/plugin-transform-flow-strip-types",
+    "@babel/plugin-transform-spread",
+    "@babel/plugin-proposal-class-properties"
+  ],
   "env": {
-    "test": {
+    "es": {
       "presets": [
         [
-          "env",
+          "@babel/preset-env",
           {
-            "modules": "commonjs"
+            "targets": {
+              "esmodules": true
+            }
           }
         ],
-        "react",
-        "flow"
-      ],
-      "plugins": ["transform-object-rest-spread", "transform-class-properties"]
+        "@babel/preset-react",
+        "@babel/preset-flow"
+      ]
+    },
+    "umd": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "modules": "umd"
+          }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-flow"
+      ]
     }
   }
 }
