@@ -3,7 +3,7 @@ import { storiesOf, setAddon } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import AspectRatio from 'react-aspect-ratio';
-import JSXAddon from 'storybook-addon-jsx';
+// import JSXAddon from 'storybook-addon-jsx';
 
 import 'react-aspect-ratio/aspect-ratio.css';
 import '../../theme.css';
@@ -12,7 +12,7 @@ import { PageTitle, Card, Block, Spacer } from './common/themeComponent';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
-setAddon(JSXAddon);
+// setAddon(JSXAddon);
 
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
 
