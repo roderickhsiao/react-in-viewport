@@ -147,7 +147,7 @@ class MySectionBlock extends PureComponent {
 const SectionWithTransition = handleViewport(MySectionBlock, { rootMargin: '-1.0px' });
 
 storiesOf('Viewport detection', module)
-  .addWithJSX('Callback when in viewport', () => (
+  .add('Callback when in viewport', () => (
     <Fragment>
       <PageTitle />
       <Spacer />
@@ -158,7 +158,7 @@ storiesOf('Viewport detection', module)
       />
     </Fragment>
   ))
-  .addWithJSX('Lazyload Image', () => {
+  .add('Lazyload Image', () => {
     const imageArray = [
       {
         src: 'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
@@ -193,7 +193,7 @@ storiesOf('Viewport detection', module)
       </Fragment>
     );
   })
-  .addWithJSX('Lazyload Iframe', () => {
+  .add('Lazyload Iframe', () => {
     const iframeArray = [
       {
         src: 'https://www.youtube.com/embed/hTcBnxxuAls',
@@ -221,7 +221,7 @@ storiesOf('Viewport detection', module)
       </Fragment>
     );
   })
-  .addWithJSX('Use enter/leave counts for transition', () => (
+  .add('Use enter/leave counts for transition', () => (
     <Fragment>
       <PageTitle />
       <Spacer />
