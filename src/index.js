@@ -3,7 +3,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import { findDOMNode } from 'react-dom';
 
 function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
-  const ForwardedRefComponent: AbstractComponent<*> = forwardRef((props, ref) => (
+  const ForwardedRefComponent = forwardRef((props, ref) => (
     <TargetComponent {...props} forwardedRef={ref} />
   ));
 
