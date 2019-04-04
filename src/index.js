@@ -24,16 +24,13 @@ type ConfigType = {
   disconnectOnLeave: boolean
 };
 
-const isStateless = TargetComponent => typeof TargetComponent === 'function'
-  && !(TargetComponent.prototype && TargetComponent.prototype.isReactComponent);
-
 function handleViewport(
   TargetComponent: Element<*>,
   options: OptionType = {},
   config: ConfigType = { disconnectOnLeave: false }
 ): Element<*> {
   const ForwardedRefComponent = forwardRef((props, ref) => (
-    <TargetComponent {...props} forwardedRef={ref}  />
+    <TargetComponent {...props} forwardedRef={ref} />
   ));
 
   const InViewport = (props: Props) => {
@@ -92,21 +89,23 @@ function handleViewport(
 
     function initIntersectionObserver() {
       if (!observer.current) {
-        console.log('!!! start initIntersectionObserver');
         // $FlowFixMe
         observer.current = new IntersectionObserver(handleIntersection, options);
       }
     }
 
-    useEffect(() => {
-      // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-      initIntersectionObserver();
-      startObserver(node, observer);
+    useEffect(
+      () => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+        initIntersectionObserver();
+        startObserver(node, observer);
 
-      return () => {
-        stopObserver(node, observer);
-      };
-    }, [ForwardedRefComponent]);
+        return () => {
+          stopObserver(node, observer);
+        };
+      },
+      [ForwardedRefComponent]
+    );
 
     useEffect(() => {
       // reset observer on update, to fix race condition that when observer init,
