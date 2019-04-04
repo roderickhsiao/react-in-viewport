@@ -7,7 +7,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
     <TargetComponent {...props} forwardedRef={ref} />
   ));
 
-  const InViewport = (props: Props) => {
+  const InViewport = props => {
     const { onEnterViewport, onLeaveViewport, ...otherProps } = props;
 
     const [inViewport, setInViewport] = useState(false);
