@@ -1,8 +1,3 @@
-if (typeof window !== 'undefined') {
-  // Polyfills for intersection-observer
-  require('intersection-observer'); // eslint-disable-line
-}
-
 import React, { Fragment, PureComponent } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -16,6 +11,11 @@ import handleViewport from '../index';
 import { PageTitle, Card, Block, Spacer } from './common/themeComponent';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
+
+if (typeof window !== 'undefined') {
+  // Polyfills for intersection-observer
+  require('intersection-observer'); // eslint-disable-line
+}
 
 // setAddon(JSXAddon);
 

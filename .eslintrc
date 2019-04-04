@@ -41,6 +41,7 @@
     "react/jsx-wrap-multilines": 0
   },
   "env": {
-    "jest": true
+    "jest": true,
+    "browser": true
   }
 }

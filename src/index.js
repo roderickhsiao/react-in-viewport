@@ -1,17 +1,11 @@
 // @flow
-import React, { useState, useEffect, useLayoutEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import { findDOMNode } from 'react-dom';
 
 type Props = {
   onEnterViewport: () => void,
   onLeaveViewport: () => void
-};
-
-type State = {
-  inViewport: boolean,
-  enterCount: number,
-  leaveCount: number
 };
 
 type OptionType = {
@@ -43,16 +37,13 @@ function handleViewport(
     const intersected = useRef(false);
     const node = useRef();
 
-    function startObserver(node, observer) {
-      console.log('node', node.current);
-      console.log('observer', observer.current);
-
+    function startObserver() {
       if (node.current && observer.current) {
         observer.current.observe(findDOMNode(node.current));
       }
     }
 
-    function stopObserver(node, observer) {
+    function stopObserver() {
       if (node.current && observer.current) {
         observer.current.unobserve(findDOMNode(node.current));
         observer.current.disconnect();
@@ -98,10 +89,10 @@ function handleViewport(
       () => {
         // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
         initIntersectionObserver();
-        startObserver(node, observer);
+        startObserver();
 
         return () => {
-          stopObserver(node, observer);
+          stopObserver();
         };
       },
       [ForwardedRefComponent]
