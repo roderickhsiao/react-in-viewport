@@ -1,29 +1,9 @@
-// @flow
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import { findDOMNode } from 'react-dom';
 
-type Props = {
-  onEnterViewport: () => void,
-  onLeaveViewport: () => void
-};
-
-type OptionType = {
-  root?: Node,
-  rootMargin?: string,
-  threshold?: number | Array<number>
-};
-
-type ConfigType = {
-  disconnectOnLeave: boolean
-};
-
-function handleViewport(
-  TargetComponent: Element<*>,
-  options: OptionType = {},
-  config: ConfigType = { disconnectOnLeave: false }
-): Element<*> {
-  const ForwardedRefComponent = forwardRef((props, ref) => (
+function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
+  const ForwardedRefComponent: AbstractComponent<*> = forwardRef((props, ref) => (
     <TargetComponent {...props} forwardedRef={ref} />
   ));
 
@@ -110,7 +90,6 @@ function handleViewport(
     });
 
     return (
-      // $FlowFixMe
       <ForwardedRefComponent
         {...otherProps}
         inViewport={inViewport}
