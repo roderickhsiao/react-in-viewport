@@ -50,7 +50,7 @@ export const Block = props => {
           ref={forwardedRef}
           title={`Enter viewport ${enterCount} times, leave viewport ${leaveCount} times`}
           style={{
-            width: '400px',
+            width: '100%',
             height: '300px',
             background: color,
             transitionDuration: '1s'
