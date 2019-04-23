@@ -36,7 +36,7 @@ export const Card = memo(({ titleText, contentNode, innerRef }) => (
 Card.displayName = 'Card';
 
 export const Block = props => {
-  const { inViewport, innerRef, enterCount, leaveCount } = props;
+  const { inViewport, enterCount, leaveCount, forwardedRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
   action('Is in viewport')(inViewport);
@@ -45,9 +45,9 @@ export const Block = props => {
     <Card
       className="viewport-block"
       titleText={text}
-      innerRef={innerRef}
       contentNode={
         <div
+          ref={forwardedRef}
           title={`Enter viewport ${enterCount} times, leave viewport ${leaveCount} times`}
           style={{
             width: '400px',

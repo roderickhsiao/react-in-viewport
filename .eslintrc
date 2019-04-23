@@ -1,11 +1,8 @@
 {
   "extends": [
-    "airbnb",
-    "plugin:flowtype/recommended"
+    "airbnb"
   ],
-  "plugins": [
-    "flowtype"
-  ],
+  "parser": "babel-eslint",
   "rules": {
     # We use _ to define private variables and methods in clases
     "no-underscore-dangle": 0,
@@ -41,6 +38,7 @@
     "react/jsx-wrap-multilines": 0
   },
   "env": {
-    "jest": true
+    "jest": true,
+    "browser": true
   }
 }

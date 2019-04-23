@@ -12,6 +12,11 @@ import { PageTitle, Card, Block, Spacer } from './common/themeComponent';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
+if (typeof window !== 'undefined') {
+  // Polyfills for intersection-observer
+  require('intersection-observer'); // eslint-disable-line
+}
+
 // setAddon(JSXAddon);
 
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
@@ -47,7 +52,7 @@ class Iframe extends PureComponent {
         ratio={ratio}
         style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
       >
-        <Component {...props} />
+        <Component {...props} ref={this.props.forwardedRef} />
       </AspectRatio>
     );
   }
@@ -99,7 +104,7 @@ class ImageObject extends PureComponent {
           marginBottom: '200px',
           backgroundColor: 'rgba(0,0,0,.12)'
         }}
-        ref={this.props.innerRef}
+        ref={this.props.forwardedRef}
       >
         <img src={this.state.src} alt="demo" />
       </AspectRatio>
@@ -131,7 +136,7 @@ class MySectionBlock extends PureComponent {
   render() {
     const { enterCount, leaveCount } = this.props;
     return (
-      <section>
+      <section ref={this.props.forwardedRef}>
         <div className="card" style={this.getStyle()}>
           <div className="card__conent">
             <h3>Hello</h3>
