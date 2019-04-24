@@ -33,6 +33,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
     "@babel/plugin-transform-flow-strip-types": "^7.2.3",
     "@babel/plugin-transform-spread": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
@@ -73,7 +74,8 @@
     "react-dom": "^16.8.3"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^3.0.0"
+    "hoist-non-react-statics": "^3.0.0",
+    "react-is": "^16.8.6"
   },
   "main": "dist/index.js",
   "module": "dist/es/index.js",
