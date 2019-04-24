@@ -16,6 +16,10 @@ Wrapper component to detect if the component is in viewport using [Intersection 
 
 Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/intersection-observer)
 
+## Version
+Stable: 0.0.37
+Work in progress: 1.0.0 alpha (use at your own risk), will publish stable version once finished
+
 ## Why
 
 A common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
