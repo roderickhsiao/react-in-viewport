@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { action } from '@storybook/addon-actions';
 
 export const PageTitle = memo(
   ({
@@ -39,7 +38,6 @@ export const Block = props => {
   const { inViewport, enterCount, leaveCount, forwardedRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
-  action('Is in viewport')(inViewport);
 
   return (
     <Card
