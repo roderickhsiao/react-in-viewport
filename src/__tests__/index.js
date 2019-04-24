@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { mount } from 'enzyme';
 
-import handleViewport from '../index';
+import { handleViewport } from '../index';
 
 class DemoClass extends PureComponent {
   render() {
