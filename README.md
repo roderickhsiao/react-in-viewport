@@ -10,15 +10,9 @@
 
 <hr>
 
-Wrapper component to detect if the component is in viewport using [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+Library to detect if the component is in viewport using [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 
 [Demo](https://roderickhsiao.github.io/react-in-viewport/)
-
-Dependencies: [Intersection Observer Polyfills](https://www.npmjs.com/package/intersection-observer)
-
-## Version
-Stable: 0.0.37
-Work in progress: 1.0.0 alpha (use at your own risk), will publish stable version once finished
 
 ## Why
 
@@ -28,13 +22,21 @@ Traditionally we will need to keep monitoring scroll position and calculating vi
 
 Modern browser now provides a new API [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which can make the implementation much easier and performant.
 
-For browser not supporting the API, we will load a polyfill.
 
+## Polyfill
+
+For browser not supporting the API, you will load a [polyfill](https://www.npmjs.com/package/intersection-observer).
 [Browser support table](https://caniuse.com/#feat=intersectionobserver)
+
+```js
+require('intersection-observer');
+```
 
 ## Design
 
-This component use higher order component (HOC) as a wrapper and attach intersection observer to your target component. The HOC will then pass down extra props indicating viewport information along with executing callback function when component entering and leaving viewport.
+The core logic written in React Hook. We provides two interface, you could use `handleViewport` which is a higher order component (if your component is a class based component) or directly use hooks (functional component).
+
+The higher order component (HOC) as a wrapper and attach intersection observer to your target component. The HOC will then pass down extra props indicating viewport information along with executing callback function when component entering and leaving viewport.
 
 ## Usages
 
@@ -148,9 +150,7 @@ export default MySection;
 
 ## Note
 
-This library is currently using `ReactDOM.findDOMNode` to access DOM from React element. This method is deprecated in `StrictMode`, we will update the code and release a major version when React 17 is out.
-
-We might also remove hard import of `intersection-observer` and let user to import based on needed.
+This library is using `ReactDOM.findDOMNode` to access DOM from React element. This method is deprecated in `StrictMode`, we will update the code and release a major version when React 17 is out.
 
 ## Who is using this component
 

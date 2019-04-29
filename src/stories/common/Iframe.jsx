@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import AspectRatio from 'react-aspect-ratio';
 
-import handleViewport from '../../index';
+import { handleViewport } from '../../index';
 
 class Iframe extends PureComponent {
   constructor(props) {
@@ -20,7 +20,7 @@ class Iframe extends PureComponent {
   }
 
   render() {
-    const { src, ratio } = this.props;
+    const { src, ratio, forwardedRef } = this.props;
     const Component = this.state.loaded ? 'iframe' : 'div';
     const props = this.state.loaded
       ? {
@@ -34,7 +34,7 @@ class Iframe extends PureComponent {
         ratio={ratio}
         style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
       >
-        <Component {...props} ref={this.props.forwardedRef} />
+        <Component {...props} ref={forwardedRef} />
       </AspectRatio>
     );
   }

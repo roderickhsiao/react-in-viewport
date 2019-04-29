@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import AspectRatio from 'react-aspect-ratio';
 
-import handleViewport from '../../index';
+import { handleViewport } from '../../index';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 

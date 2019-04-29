@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import handleViewport from '../../index';
+import { handleViewport } from '../../index';
 
 class MySectionBlock extends PureComponent {
   getStyle() {
@@ -22,9 +22,9 @@ class MySectionBlock extends PureComponent {
   }
 
   render() {
-    const { enterCount, leaveCount } = this.props;
+    const { enterCount, leaveCount, forwardedRef } = this.props;
     return (
-      <section ref={this.props.forwardedRef}>
+      <section ref={forwardedRef}>
         <div className="card" style={this.getStyle()}>
           <div className="card__conent">
             <h3>Hello</h3>

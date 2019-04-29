@@ -23,8 +23,8 @@ export const PageTitle = memo(
 );
 PageTitle.displayName = 'PageTitle';
 
-export const Card = memo(({ titleText, contentNode, innerRef }) => (
-  <div className="card" ref={innerRef}>
+export const Card = memo(({ titleText, contentNode, forwardedRef }) => (
+  <div className="card" ref={forwardedRef}>
     <div className="card__head">
       <h3 className="card__title">{titleText}</h3>
     </div>
