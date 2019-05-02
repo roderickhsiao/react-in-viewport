@@ -81,10 +81,6 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         observer.current.observe(findDOMNode(target.current));
       }
     }
-
-    return () => {
-      stopObserver();
-    };
   });
 
   return {
