@@ -85,7 +85,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     return () => {
       stopObserver();
     };
-  }, [observer, target, inViewport]);
+  });
 
   return {
     inViewport,
