@@ -48,13 +48,12 @@ class ImageObject extends PureComponent {
           marginBottom: '200px',
           backgroundColor: 'rgba(0,0,0,.12)'
         }}
-        ref={this.props.forwardedRef}
       >
-        <img src={this.state.src} alt="demo" />
+        <img src={this.state.src} alt="demo" ref={this.props.forwardedRef} />
       </AspectRatio>
     );
   }
 }
 
-const LazyImage = handleViewport(ImageObject, { threshold: 0.25 }, { disconnectOnLeave: true });
+const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
 export default LazyImage;
