@@ -45,7 +45,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
       onLeaveViewport && onLeaveViewport();
       if (config.disconnectOnLeave) {
         // disconnect obsever on leave
-        observer && observer.current.disconnect();
+        stopObserver();
       }
       setInViewport(isInViewport);
       setLeaveCount(leaveCount + 1);
@@ -81,6 +81,10 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         observer.current.observe(findDOMNode(target.current));
       }
     }
+
+    return () => {
+      stopObserver();
+    };
   });
 
   return {
