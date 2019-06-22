@@ -48,7 +48,7 @@
     "bundlesize": "^0.17.0",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.7.1",
-    "eslint": "^5.11.1",
+    "eslint": "^6.0.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-flowtype": "^3.2.0",
