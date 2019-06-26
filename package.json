@@ -77,9 +77,6 @@
   },
   "main": "dist/index.js",
   "module": "dist/es/index.js",
-  "engines": {
-    "npm": "^5.0.0 || ^3.0.0"
-  },
   "bundlesize": [
     {
       "path": "./dist/*.js",
