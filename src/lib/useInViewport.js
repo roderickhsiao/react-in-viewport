@@ -69,7 +69,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         stopObserver();
       };
     },
-    [target]
+    [target, options, config, onEnterViewport, onLeaveViewport]
   );
 
   useEffect(() => {
