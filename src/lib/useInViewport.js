@@ -45,7 +45,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
       onLeaveViewport && onLeaveViewport();
       if (config.disconnectOnLeave) {
         // disconnect obsever on leave
-        stopObserver();
+        observer.current.disconnect();
       }
       setInViewport(isInViewport);
       setLeaveCount(leaveCount + 1);
