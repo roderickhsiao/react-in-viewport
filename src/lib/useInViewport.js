@@ -43,7 +43,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     if (intersected.current && !isInViewport) {
       intersected.current = false;
       onLeaveViewport && onLeaveViewport();
-      if (config.disconnectOnLeave) {
+      if (config.disconnectOnLeave && observer.current) {
         // disconnect obsever on leave
         observer.current.disconnect();
       }
