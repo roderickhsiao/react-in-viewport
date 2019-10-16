@@ -1,17 +1,16 @@
 // HOC for handleViewport
 import React, { useRef, forwardRef } from 'react';
-import hoistNonReactStatic from 'hoist-non-react-statics';
 import useInViewport from './useInViewport';
 
 const noop = () => {};
 
 function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
-  const ForwardedRefComponent = forwardRef((props, ref) => {
-    return <TargetComponent {...props} forwardedRef={ref} />;
-  });
-
-  const InViewport = ({ onEnterViewport = noop, onLeaveViewport = noop, ...restProps }) => {
-    const node = useRef();
+  const InViewport = ({
+    onEnterViewport = noop,
+    onLeaveViewport = noop,
+    ...restProps
+  }, ref) => {
+    const node = useRef(ref);
     const { inViewport, enterCount, leaveCount } = useInViewport(
       node,
       options,
@@ -21,9 +20,9 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
         onLeaveViewport
       }
     );
-
+    
     return (
-      <ForwardedRefComponent
+      <TargetComponent
         {...restProps}
         inViewport={inViewport}
         enterCount={enterCount}
@@ -33,7 +32,9 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
     );
   };
 
-  return hoistNonReactStatic(InViewport, ForwardedRefComponent);
+  const name = TargetComponent.displayName || TargetComponent.name || 'Component';
+  InViewport.displayName = `handleViewport(${name})`;
+  return forwardRef(InViewport);
 }
 
 export default handleViewport;
