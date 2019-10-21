@@ -73,7 +73,7 @@ The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
 | Props      | Type      | Default | Description                                                                       |
 |------------|-----------|---------|-----------------------------------------------------------------------------------|
 | inViewport | boolean   | false   | Is your component in viewport                                                     |  
-| innerRef   | React ref |         | If you are using functional component, assign this props as ref on your component |
+| forwardedRef   | React ref |         | If you are using functional component, assign this props as ref on your component |
 | enterCount | number    |         | Amount of time your component enters viewport                                     |
 | leaveCount | number    |         | Amount of time your component leaves viewport                                     |
 
