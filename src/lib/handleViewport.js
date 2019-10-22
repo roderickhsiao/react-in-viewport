@@ -6,15 +6,12 @@ import useInViewport from './useInViewport';
 const noop = () => {};
 
 const isFunctionalComponent = Component => {
-  return (
-    typeof Component === 'function'
-    && !(Component.prototype && Component.prototype.render)
-  );
+  return typeof Component === 'function' && !(Component.prototype && Component.prototype.render);
 };
 
 const isReactComponent = Component => {
   return Component.prototype && Component.prototype.isReactComponent;
-}
+};
 
 function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
   const ForwardedRefComponent = forwardRef((props, ref) => {
