@@ -27,7 +27,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
     return <TargetComponent {...props} {...refProps} />;
   });
 
-  const InViewport = ({ onEnterViewport = noop, onLeaveViewport = noop, ...restProps }, ref) => {
+  const InViewport = ({ onEnterViewport = noop, onLeaveViewport = noop, ...restProps }) => {
     const node = useRef();
     const { inViewport, enterCount, leaveCount } = useInViewport(node, options, config, {
       onEnterViewport,
