@@ -34,7 +34,6 @@ class Iframe extends PureComponent {
       <AspectRatio
         ratio={ratio}
         style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
-        ref={forwardedRef}
       >
         <Component {...props}  />
       </AspectRatio>

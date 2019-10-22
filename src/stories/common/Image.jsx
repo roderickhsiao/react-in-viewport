@@ -48,7 +48,6 @@ class ImageObject extends PureComponent {
           marginBottom: '200px',
           backgroundColor: 'rgba(0,0,0,.12)'
         }}
-        ref={this.props.forwardedRef}
       >
         <img src={this.state.src} alt="demo" />
       </AspectRatio>
