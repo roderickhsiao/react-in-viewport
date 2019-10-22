@@ -8,17 +8,20 @@ const noop = () => {};
 const isFunctionalComponent = Component => {
   return (
     typeof Component === 'function'
-    && !(Component.prototype && Component.prototype.isReactComponent)
     && !(Component.prototype && Component.prototype.render)
   );
 };
+
+const isReactComponent = Component => {
+  return Component.prototype && Component.prototype.isReactComponent;
+}
 
 function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
   const ForwardedRefComponent = forwardRef((props, ref) => {
     const refProps = {
       forwardedRef: ref,
       // pass both ref/forwardedRef for class component for backward competiblity
-      ...(!isFunctionalComponent(TargetComponent)
+      ...(isReactComponent(TargetComponent) && !isFunctionalComponent(TargetComponent)
         ? {
           ref
         }

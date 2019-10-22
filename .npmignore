@@ -16,5 +16,5 @@ yarn.lock
 setupTests.js
 junit.xml
 dist/*/__tests__
-dist/*/stories.js
+dist/*/stories
 dist/*/setupTests.js
