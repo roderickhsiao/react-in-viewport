@@ -77,7 +77,7 @@ The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
 | enterCount | number    |         | Amount of time your component enters viewport                                     |
 | leaveCount | number    |         | Amount of time your component leaves viewport                                     |
 
-_NOTE_: Stateless: Need to add `ref={this.props.innerRef}` on your component
+_NOTE_: Stateless: Need to add `ref={this.props.forwardedRef}` on your component
 
 #### Example of functional component
 
@@ -85,11 +85,11 @@ _NOTE_: Stateless: Need to add `ref={this.props.innerRef}` on your component
 import handleViewport from 'react-in-viewport';
 
 const Block = (props: { inViewport: boolean }) => {
-  const { inViewport, innerRef } = props;
+  const { inViewport, forwardedRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
   return (
-    <div className="viewport-block" ref={innerRef}>
+    <div className="viewport-block" ref={forwardedRef}>
       <h3>{ text }</h3>
       <div style={{ width: '400px', height: '300px', background: color }} />
     </div>

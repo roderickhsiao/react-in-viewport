@@ -10,7 +10,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
     return <TargetComponent {...props} forwardedRef={ref} />;
   });
 
-  const InViewport = ({ onEnterViewport = noop, onLeaveViewport = noop, ...restProps }) => {
+  const InViewport = ({ onEnterViewport = noop, onLeaveViewport = noop, ...restProps }, ref) => {
     const node = useRef();
     const { inViewport, enterCount, leaveCount } = useInViewport(
       node,
@@ -32,6 +32,9 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
       />
     );
   };
+
+  const name = TargetComponent.displayName || TargetComponent.name || 'Component';
+  InViewport.displayName = `handleViewport(${name})`;
 
   return hoistNonReactStatic(InViewport, ForwardedRefComponent);
 }

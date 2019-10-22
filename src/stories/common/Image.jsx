@@ -21,9 +21,9 @@ class ImageObject extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.inViewport && !this.state.loaded) {
-      this.loadImage(nextProps.src);
+  componentDidUpdate() {
+    if (this.props.inViewport && !this.state.loaded) {
+      this.loadImage(this.props.src);
     }
   }
 
@@ -48,8 +48,9 @@ class ImageObject extends PureComponent {
           marginBottom: '200px',
           backgroundColor: 'rgba(0,0,0,.12)'
         }}
+        ref={this.props.forwardedRef}
       >
-        <img src={this.state.src} alt="demo" ref={this.props.forwardedRef} />
+        <img src={this.state.src} alt="demo" />
       </AspectRatio>
     );
   }

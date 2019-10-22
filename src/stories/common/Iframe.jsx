@@ -11,12 +11,13 @@ class Iframe extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.inViewport && !this.loaded) {
-      this.setState({
+  static getDerivedStateFromProps(props, state) {
+    if (props.inViewport && !state.loaded) {
+      return {
         loaded: true
-      });
+      };
     }
+    return null;
   }
 
   render() {
@@ -33,9 +34,9 @@ class Iframe extends PureComponent {
       <AspectRatio
         ratio={ratio}
         style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
-
+        ref={forwardedRef}
       >
-        <Component {...props} ref={forwardedRef} />
+        <Component {...props}  />
       </AspectRatio>
     );
   }
