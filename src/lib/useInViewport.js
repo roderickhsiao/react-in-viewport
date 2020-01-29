@@ -43,9 +43,9 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     if (intersected.current && !isInViewport) {
       intersected.current = false;
       onLeaveViewport && onLeaveViewport();
-      if (config.disconnectOnLeave) {
+      if (config.disconnectOnLeave && observer.current) {
         // disconnect obsever on leave
-        stopObserver();
+        observer.current.disconnect();
       }
       setInViewport(isInViewport);
       setLeaveCount(leaveCount + 1);
@@ -69,7 +69,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         stopObserver();
       };
     },
-    [target]
+    [target, options, config, onEnterViewport, onLeaveViewport]
   );
 
   useEffect(() => {

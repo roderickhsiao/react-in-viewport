@@ -22,9 +22,9 @@ class MySectionBlock extends PureComponent {
   }
 
   render() {
-    const { enterCount, leaveCount, forwardedRef } = this.props;
+    const { enterCount, leaveCount } = this.props;
     return (
-      <section ref={forwardedRef}>
+      <section>
         <div className="card" style={this.getStyle()}>
           <div className="card__conent">
             <h3>Hello</h3>
