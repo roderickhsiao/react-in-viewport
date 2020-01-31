@@ -24,7 +24,7 @@
     "postpublish": "npm run publish-storybook",
     "prepublish": ". ./.scripts/prepublish.sh",
     "publish-storybook": "bash .scripts/publish_storybook.sh",
-    "storybook": "start-storybook -p 9010",
+    "storybook": "NODE_ENV=development start-storybook -p 9010",
     "test-watch": "npm run testonly -- --watch --watch-extensions js",
     "test": "npm run lint && npm run testonly",
     "testonly": "jest --config jest-config.js"
@@ -64,8 +64,11 @@
     "react": "^16.0.0",
     "react-aspect-ratio": "^1.0.3",
     "react-dom": "^16.0.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
     "react-storybook-addon-chapters": "^3.1.3",
     "react-test-renderer": "^16.0.0",
+    "recompose": "^0.30.0",
     "storybook-addon-jsx": "^7.0.0"
   },
   "peerDependencies": {

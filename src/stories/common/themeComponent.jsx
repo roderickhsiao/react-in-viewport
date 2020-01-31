@@ -61,12 +61,12 @@ export const Block = props => {
 
 Block.displayName = 'Block';
 
-export const Spacer = () => (
+export const Spacer = ({ dir = 'down' }) => (
   <div style={{ height: '100vh', padding: '20px' }}>
     <p>
-      Scroll down to make component in viewport{' '}
+      {`Scroll ${dir} to make component in viewport`}{' '}
       <span role="img" aria-label="down">
-        👇
+        {dir === 'down' ? '👇' : '☝️'}
       </span>{' '}
     </p>
   </div>

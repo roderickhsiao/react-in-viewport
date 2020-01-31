@@ -19,10 +19,11 @@ setAddon(chaptersAddon);
 addDecorator(story => (
   <Fragment>
     <PageTitle />
-    <Spacer />
+    <Spacer dir="down" />
     <div style={{ padding: '20px' }}>
       {story()}
     </div>
+    <Spacer dir="up" />
   </Fragment>
 ));
 
