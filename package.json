@@ -73,7 +73,7 @@
     "react-dom": "^16.8.3"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^3.0.0"
+    "hoist-non-react-statics": "^3.3.2"
   },
   "main": "dist/index.js",
   "module": "dist/es/index.js",
