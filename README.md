@@ -3,9 +3,6 @@
   <a href="https://www.npmjs.org/package/react-in-viewport"><img src="https://img.shields.io/npm/v/react-in-viewport.svg?style=flat" alt="npm"></a>
   <a href="https://unpkg.com/react-in-viewport"><img src="https://img.badgesize.io/https://unpkg.com/react-in-viewport/dist/es/index.js?compression=gzip" alt="gzip size"></a>
   <a href="https://www.npmjs.com/package/react-in-viewport"><img src="https://img.shields.io/npm/dt/react-in-viewport.svg" alt="downloads" ></a>
-  <a href="https://circleci.com/gh/roderickhsiao/react-in-viewport"><img src="https://circleci.com/gh/roderickhsiao/react-in-viewport.svg?style=svg" alt="Greenkeeper badge"></a>
-  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/roderickhsiao/react-in-viewport.svg" alt="circleci"></a>
-
 </p>
 
 <hr>
