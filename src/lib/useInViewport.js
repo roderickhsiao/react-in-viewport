@@ -72,17 +72,6 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     [target, options, config, onEnterViewport, onLeaveViewport]
   );
 
-  useEffect(() => {
-    // reset observer on update, to fix race condition that when observer init,
-    // the element is not in viewport, such as in animation
-    if (!intersected.current && !inViewport) {
-      if (observer.current && target.current) {
-        observer.current.unobserve(findDOMNode(target.current));
-        observer.current.observe(findDOMNode(target.current));
-      }
-    }
-  });
-
   return {
     inViewport,
     enterCount,
