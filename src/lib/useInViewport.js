@@ -13,15 +13,21 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
 
   function startObserver() {
     if (target.current && observer.current) {
-      observer.current.observe(findDOMNode(target.current));
+      const node = findDOMNode(target.current);
+      if (node) {
+        observer.current.observe(node);
+      }
     }
   }
 
   function stopObserver() {
     if (target.current && observer.current) {
-      observer.current.unobserve(findDOMNode(target.current));
-      observer.current.disconnect();
-      observer.current = null;
+      const node = findDOMNode(target.current);
+      if (node) {
+        observer.current.unobserve(node);
+        observer.current.disconnect();
+        observer.current = null;
+      }
     }
   }
 
