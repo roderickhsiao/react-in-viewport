@@ -23,6 +23,7 @@ class MySectionBlock extends PureComponent {
 
   render() {
     const { enterCount, leaveCount } = this.props;
+
     return (
       <section>
         <div className="card" style={this.getStyle()}>

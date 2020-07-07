@@ -6,10 +6,10 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
   const { onEnterViewport, onLeaveViewport } = props;
 
   const [inViewport, setInViewport] = useState(false);
-  const [enterCount, setEnterCount] = useState(0);
-  const [leaveCount, setLeaveCount] = useState(0);
   const observer = useRef();
   const intersected = useRef(false);
+  const enterCountRef = useRef(0);
+  const leaveCountRef = useRef(0);
 
   function startObserver() {
     if (target.current && observer.current) {
@@ -40,8 +40,8 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     if (!intersected.current && isInViewport) {
       intersected.current = true;
       onEnterViewport && onEnterViewport();
+      enterCountRef.current = enterCountRef.current + 1;
       setInViewport(isInViewport);
-      setEnterCount(enterCount + 1);
       return;
     }
 
@@ -53,8 +53,8 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         // disconnect obsever on leave
         observer.current.disconnect();
       }
+      leaveCountRef.current = leaveCountRef.current + 1;
       setInViewport(isInViewport);
-      setLeaveCount(leaveCount + 1);
     }
   }
 
@@ -80,8 +80,8 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
 
   return {
     inViewport,
-    enterCount,
-    leaveCount
+    enterCount: enterCountRef.current,
+    leaveCount: leaveCountRef.current
   };
 };
 
