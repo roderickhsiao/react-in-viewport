@@ -4,10 +4,13 @@ import { findDOMNode } from 'react-dom';
 
 const useInViewport = (target, options, config = { disconnectOnLeave: false }, props) => {
   const { onEnterViewport, onLeaveViewport } = props;
+  const [, forceUpdate] = useState();
 
-  const [inViewport, setInViewport] = useState(false);
   const observer = useRef();
+
+  const inViewportRef = useRef(false);
   const intersected = useRef(false);
+
   const enterCountRef = useRef(0);
   const leaveCountRef = useRef(0);
 
@@ -40,8 +43,9 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     if (!intersected.current && isInViewport) {
       intersected.current = true;
       onEnterViewport && onEnterViewport();
-      enterCountRef.current = enterCountRef.current + 1;
-      setInViewport(isInViewport);
+      enterCountRef.current += 1;
+      inViewportRef.current = isInViewport;
+      forceUpdate(isInViewport);
       return;
     }
 
@@ -53,8 +57,9 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         // disconnect obsever on leave
         observer.current.disconnect();
       }
-      leaveCountRef.current = leaveCountRef.current + 1;
-      setInViewport(isInViewport);
+      leaveCountRef.current += 1;
+      inViewportRef.current = isInViewport;
+      forceUpdate(isInViewport);
     }
   }
 
@@ -79,7 +84,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
   );
 
   return {
-    inViewport,
+    inViewport: inViewportRef.current,
     enterCount: enterCountRef.current,
     leaveCount: leaveCountRef.current
   };
