@@ -7,22 +7,22 @@
 
 <hr>
 
-Library to detect if the component is in viewport using [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+Library to detect if a component is in the viewport using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 
 [Demo](https://roderickhsiao.github.io/react-in-viewport/)
 
 ## Why
 
-A common use case is to load image when component is in viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
+A common use case is to load an image when a component is in the viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
 
-Traditionally we will need to keep monitoring scroll position and calculating viewport size which could be a big scroll performance bottleneck.
+Traditionally we have needed to continuously monitor scroll position and calculate the viewport size, which can be a big scroll performance bottleneck.
 
-Modern browser now provides a new API [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which can make the implementation much easier and performant.
+Modern browsers now provide a new API--[Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)--which can make implementating this effort much easier and performant.
 
 
 ## Polyfill
 
-For browser not supporting the API, you will load a [polyfill](https://www.npmjs.com/package/intersection-observer).
+For browsers not supporting the API, you will need to load a [polyfill](https://www.npmjs.com/package/intersection-observer).
 [Browser support table](https://caniuse.com/#feat=intersectionobserver)
 
 ```js
@@ -31,52 +31,50 @@ require('intersection-observer');
 
 ## Design
 
-The core logic written in React Hook. We provides two interface, you could use `handleViewport` which is a higher order component (if your component is a class based component) or directly use hooks (functional component).
+The core logic is written using React Hooks. We provide two interfaces: you can use `handleViewport`, a higher order component (HOC) for class based components, or use hooks directly, for functional components.
 
-The higher order component (HOC) as a wrapper and attach intersection observer to your target component. The HOC will then pass down extra props indicating viewport information along with executing callback function when component entering and leaving viewport.
+The HOC acts as a wrapper and attaches the intersection observer to your target component. The HOC will then pass down extra props, indicating viewport information and executing a callback function when the component enters and leaves the viewport.
 
 ## Usages
 
-Wrap your component with handleViewport HOC, you will receive `inViewport` props indicating the component is in viewport or not.
+When wrapping your component with `handleViewport` HOC, you will receive `inViewport` props indicating whether the component is in the viewport or not.
 
-`handleViewport` HOC accepts three params
-
-`handleViewport(Component, Options, Config)`
+`handleViewport` HOC accepts three params: `handleViewport(Component, Options, Config)`
 
 | Params    | Type          | Description                                                                                                                        |
 |-----------|---------------|------------------------------------------------------------------------------------------------------------------------------------|
-| Component | React Element | Callback function for component enters viewport                                                                                    |
-| Options   | Object        | Option you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |   |
-| Config    | Object        | Configs for HOC, see below |
+| Component | React Element | Callback function for when the component enters the viewport                                                                                    |
+| Options   | Object        | Options you want to pass to [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |   |
+| Config    | Object        | Configs for HOC (see below) |
 
 ### Supported config
 
 | Params            | Type    | Default                                                                                                                            | Description                                  |
 |-------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| disconnectOnLeave | boolean | fasle                                                                                                                              | disconnect intersection observer after leave |
+| disconnectOnLeave | boolean | fasle                                                                                                                              | Disconnect intersection observer after leave |
 
-### Props to the HOC component
+### HOC Component Props
 
 | Props           | Type     | Default | Description                                     |
 |-----------------|----------|---------|-------------------------------------------------|
-| onEnterViewport | function |         | Callback function for component enters viewport |
-| onLeaveViewport | function |         | Callback function for component leaves viewport |
+| onEnterViewport | function |         | Callback function for when the component enters the viewport |
+| onLeaveViewport | function |         | Callback function for when the component leaves the viewport |
 
-The HOC preserve `onEnterViewport` and `onLeaveViewport` props as a callback
+The HOC preserves `onEnterViewport` and `onLeaveViewport` props as a callback
 
 
-### Props pass down by HOC to your component
+### Props passed down by HOC to your component
 
 | Props      | Type      | Default | Description                                                                       |
 |------------|-----------|---------|-----------------------------------------------------------------------------------|
-| inViewport | boolean   | false   | Is your component in viewport                                                     |  
-| forwardedRef   | React ref |         | If you are using functional component, assign this props as ref on your component |
-| enterCount | number    |         | Amount of time your component enters viewport                                     |
-| leaveCount | number    |         | Amount of time your component leaves viewport                                     |
+| inViewport | boolean   | false   | Whether your component is in the viewport                                                     |  
+| forwardedRef   | React ref |         | If you are using a functional component, assign this prop as a ref on your component |
+| enterCount | number    |         | Numbers of times your component has entered the viewport                                     |
+| leaveCount | number    |         | Number of times your component has left the viewport                                     |
 
-_NOTE_: Stateless: Need to add `ref={this.props.forwardedRef}` on your component
+_NOTE_: Stateless: Need to add `ref={this.props.forwardedRef}` to your component
 
-#### Example of functional component
+#### Example of a functional component
 
 ```javascript
 import handleViewport from 'react-in-viewport';
@@ -107,8 +105,8 @@ const Component = (props) => (
 
 #### Example for enter/leave counts
 
-- If you need to know how many times the component has entered the viewport use the prop `enterCount`.
-- If you need to know how many times the component has left the viewport use the prop `leaveCount`.
+- If you need to know how many times the component has entered the viewport, use the prop `enterCount`.
+- If you need to know how many times the component has left the viewport, use the prop `leaveCount`.
 
 ```javascript
 import React, { Component } from 'react';
@@ -147,7 +145,7 @@ export default MySection;
 
 ## Note
 
-This library is using `ReactDOM.findDOMNode` to access DOM from React element. This method is deprecated in `StrictMode`, we will update the code and release a major version when React 17 is out.
+This library is using `ReactDOM.findDOMNode` to access the DOM from a React element. This method is deprecated in `StrictMode`. We will update the package and release a major version when React 17 is out.
 
 ## Who is using this component
 
