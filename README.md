@@ -7,7 +7,13 @@
 
 <hr>
 
-Library to detect if a component is in the viewport using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+Library to detect whether or not a component is in the viewport, using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+
+```npm install --save react-in-viewport```
+
+```yarn add react-in-viewport```
+
+## Examples
 
 [Demo](https://roderickhsiao.github.io/react-in-viewport/)
 
@@ -15,7 +21,7 @@ Library to detect if a component is in the viewport using the [Intersection Obse
 
 A common use case is to load an image when a component is in the viewport ([lazy load](https://medium.com/@roderickhsiao/performance-101-i-know-how-to-load-images-a262d556250f)).
 
-Traditionally we have needed to continuously monitor scroll position and calculate the viewport size, which can be a big scroll performance bottleneck.
+We have traditionally needed to monitor scroll position and calculate the viewport size, which can be a scroll performance bottleneck.
 
 Modern browsers now provide a new API--[Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)--which can make implementating this effort much easier and performant.
 
