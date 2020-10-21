@@ -47,6 +47,7 @@
     "babel-runtime": "^6.11.6",
     "bundlesize": "^0.18.0",
     "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-babel": "^5.3.0",
