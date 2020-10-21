@@ -15,6 +15,7 @@
     "react/destructuring-assignment": 0,
     "react/default-props-match-prop-types": 0,
     "react/no-find-dom-node": 0,
+    "react/jsx-props-no-spreading": 0,
     # We don't like this rule.
     "arrow-body-style": 0,
     # We don't like this rule. We write arrow functions only when we needed.

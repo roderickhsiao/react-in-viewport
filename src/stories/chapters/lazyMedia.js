@@ -19,11 +19,6 @@ storiesOf('Lazyload Media', module)
               const imageArray = [
                 {
                   src:
-                    'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
-                  ratio: '595/397'
-                },
-                {
-                  src:
                     'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
                   ratio: '508/397'
                 },
@@ -88,11 +83,6 @@ storiesOf('Lazyload Media', module)
             title: 'Lazyload image',
             sectionFn: () => {
               const imageArray = [
-                {
-                  src:
-                    'https://i0.wp.com/peopledotcom.files.wordpress.com/2016/08/gettyimages-175928870.jpg',
-                  ratio: '595/397'
-                },
                 {
                   src:
                     'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',

@@ -16,9 +16,9 @@ const IframeFunctional = props => {
   const Component = loaded ? 'iframe' : 'div';
   const componentProps = loaded
     ? {
-        src,
-        frameBorder: 0
-      }
+      src,
+      frameBorder: 0
+    }
     : {};
 
   return (

@@ -4,24 +4,33 @@ import { findDOMNode } from 'react-dom';
 
 const useInViewport = (target, options, config = { disconnectOnLeave: false }, props) => {
   const { onEnterViewport, onLeaveViewport } = props;
+  const [, forceUpdate] = useState();
 
-  const [inViewport, setInViewport] = useState(false);
-  const [enterCount, setEnterCount] = useState(0);
-  const [leaveCount, setLeaveCount] = useState(0);
   const observer = useRef();
+
+  const inViewportRef = useRef(false);
   const intersected = useRef(false);
+
+  const enterCountRef = useRef(0);
+  const leaveCountRef = useRef(0);
 
   function startObserver() {
     if (target.current && observer.current) {
-      observer.current.observe(findDOMNode(target.current));
+      const node = findDOMNode(target.current);
+      if (node) {
+        observer.current.observe(node);
+      }
     }
   }
 
   function stopObserver() {
     if (target.current && observer.current) {
-      observer.current.unobserve(findDOMNode(target.current));
-      observer.current.disconnect();
-      observer.current = null;
+      const node = findDOMNode(target.current);
+      if (node) {
+        observer.current.unobserve(node);
+        observer.current.disconnect();
+        observer.current = null;
+      }
     }
   }
 
@@ -34,8 +43,9 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     if (!intersected.current && isInViewport) {
       intersected.current = true;
       onEnterViewport && onEnterViewport();
-      setInViewport(isInViewport);
-      setEnterCount(enterCount + 1);
+      enterCountRef.current += 1;
+      inViewportRef.current = isInViewport;
+      forceUpdate(isInViewport);
       return;
     }
 
@@ -47,8 +57,9 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         // disconnect obsever on leave
         observer.current.disconnect();
       }
-      setInViewport(isInViewport);
-      setLeaveCount(leaveCount + 1);
+      leaveCountRef.current += 1;
+      inViewportRef.current = isInViewport;
+      forceUpdate(isInViewport);
     }
   }
 
@@ -72,21 +83,10 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     [target, options, config, onEnterViewport, onLeaveViewport]
   );
 
-  useEffect(() => {
-    // reset observer on update, to fix race condition that when observer init,
-    // the element is not in viewport, such as in animation
-    if (!intersected.current && !inViewport) {
-      if (observer.current && target.current) {
-        observer.current.unobserve(findDOMNode(target.current));
-        observer.current.observe(findDOMNode(target.current));
-      }
-    }
-  });
-
   return {
-    inViewport,
-    enterCount,
-    leaveCount
+    inViewport: inViewportRef.current,
+    enterCount: enterCountRef.current,
+    leaveCount: leaveCountRef.current
   };
 };
 
