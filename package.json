@@ -1,6 +1,6 @@
 {
   "name": "react-in-viewport",
-  "version": "1.0.0-alpha.11",
+  "version": "1.0.0-alpha.12",
   "description": "Track React component in viewport using Intersection Observer API",
   "author": "Roderick Hsiao <roderickhsiao@gmail.com>",
   "license": "MIT",
@@ -69,8 +69,8 @@
     "storybook-addon-jsx": "^7.0.0"
   },
   "peerDependencies": {
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3"
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.8.3 || ^17.0.0"
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.0.0"
