@@ -17,7 +17,7 @@ function handleViewport(TargetComponent, options, config = { disconnectOnLeave: 
   const ForwardedRefComponent = forwardRef((props, ref) => {
     const refProps = {
       forwardedRef: ref,
-      // pass both ref/forwardedRef for class component for backward competiblity
+      // pass both ref/forwardedRef for class component for backward compatibility
       ...(isReactComponent(TargetComponent) && !isFunctionalComponent(TargetComponent)
         ? {
           ref

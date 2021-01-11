@@ -80,7 +80,7 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         stopObserver();
       };
     },
-    [target, options, config, onEnterViewport, onLeaveViewport]
+    [target.current, options, config, onEnterViewport, onLeaveViewport]
   );
 
   return {
