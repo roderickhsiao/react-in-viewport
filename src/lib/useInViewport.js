@@ -33,7 +33,7 @@ const useInViewport = (props, options, config = { disconnectOnLeave: false }) =>
   const [node, setNode] = useState(null);
   const getNode = useCallback(myNode => {
     if (myNode !== null) {
-      setNode(node);
+      setNode(myNode);
     }
   }, []);
   const { onEnterViewport, onLeaveViewport } = props;
