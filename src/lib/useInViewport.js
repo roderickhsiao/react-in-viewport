@@ -1,4 +1,4 @@
-/* USAGE:
+/* USAGE getNode function:
 
 const Parent =  (props) => {
   //stuff
@@ -13,29 +13,40 @@ const Parent =  (props) => {
 const Child = ({onEnterViewport, onLeaveViewport, ...props}) => {
   const options = {//stuff};
   const {inViewport, enterCount, leaveCount, getNode} = useInViewport(
-    {onEnterViewport, onLeaveViewport}, options, { disconnectOnLeave: true }
+    undefined, options, { disconnectOnLeave: true }, {onEnterViewport, onLeaveViewport}
   );
-	useEffect(() => {
-	  console.log("currently in viewport: " + inViewport);
+  useEffect(() => {
+    console.log("currently in viewport: " + inViewport);
     console.log("times entered: " + enterCount);
     console.log("times left: " + leaveCount);
-	}, [inViewport, enterCount, leaveCount])
+  }, [inViewport, enterCount, leaveCount])
 
   return (
     <div ref={getNode} />
-	)
+  )
 };
 
 */
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { findDOMNode } from 'react-dom';
 
-const useInViewport = (props, options, config = { disconnectOnLeave: false }) => {
+const useInViewport = (target, options, config = { disconnectOnLeave: false }, props) => {
   const [node, setNode] = useState(null);
+
+  // When target is provided, set node by finding DOM node.
+  useMemo(() => {
+    if (target && target.current) {
+      setNode(findDOMNode(target.current));
+    }
+  }, [target.current]);
+
+  // When target isn't provided, allow node setting by 'getNode'
   const getNode = useCallback(myNode => {
-    if (myNode !== null) {
+    if (!target && (myNode !== null)) {
       setNode(myNode);
     }
   }, []);
+
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState();
 
