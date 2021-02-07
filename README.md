@@ -43,6 +43,7 @@ The HOC acts as a wrapper and attaches the intersection observer to your target 
 
 ## Usages
 
+### Using Higher Order Component
 When wrapping your component with `handleViewport` HOC, you will receive `inViewport` props indicating whether the component is in the viewport or not.
 
 `handleViewport` HOC accepts three params: `handleViewport(Component, Options, Config)`
@@ -147,6 +148,39 @@ class MySectionBlock extends Component {
 const MySection = handleViewport(MySectionBlock, { rootMargin: '-1.0px' });
 
 export default MySection;
+```
+
+### Using Hooks
+
+Alternatively, you can also directly using `useInViewport` hook which takes similar configuration as HOC.
+
+```js
+import React, { useRef } from 'react;
+import { useInViewport } from 'react-in-viewport';
+
+const MySectionBlock = () => {
+  const myRef = useRef();
+  const {
+    inViewport,
+    enterCount,
+    leaveCount,
+  } = useInViewport(
+    myRef,
+    options,
+    config = { disconnectOnLeave: false },
+    props
+  );
+
+  return (
+    <section ref={myRef}>
+      <div className="content" style={this.getStyle()}>
+        <h1>Hello</h1>
+        <p>{`Enter viewport: ${enterCount} times`}</p>
+        <p>{`Leave viewport: ${leaveCount} times`}</p>
+      </div>
+    </section>
+  );
+};
 ```
 
 ## Note
