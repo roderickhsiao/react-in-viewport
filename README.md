@@ -155,22 +155,24 @@ export default MySection;
 Alternatively, you can also directly using `useInViewport` hook which takes similar configuration as HOC.
 
 ```js
+import React, { useRef } from 'react;
 import { useInViewport } from 'react-in-viewport';
 
 const MySectionBlock = () => {
+  const myRef = useRef();
   const {
     inViewport,
     enterCount,
     leaveCount,
   } = useInViewport(
-    target,
+    myRef,
     options,
     config = { disconnectOnLeave: false },
     props
   );
 
   return (
-    <section>
+    <section ref={myRef}>
       <div className="content" style={this.getStyle()}>
         <h1>Hello</h1>
         <p>{`Enter viewport: ${enterCount} times`}</p>
@@ -180,7 +182,6 @@ const MySectionBlock = () => {
   );
 };
 ```
-
 
 ## Note
 
