@@ -58,7 +58,7 @@ When wrapping your component with `handleViewport` HOC, you will receive `inView
 
 | Params            | Type    | Default                                                                                                                            | Description                                  |
 |-------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| disconnectOnLeave | boolean | fasle                                                                                                                              | Disconnect intersection observer after leave |
+| disconnectOnLeave | boolean | false                                                                                                                              | Disconnect intersection observer after leave |
 
 ### HOC Component Props
 
