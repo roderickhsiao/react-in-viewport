@@ -1,8 +1,52 @@
-// React hooks
-import { useEffect, useRef, useState } from 'react';
+/* USAGE getNode function:
+
+const Parent =  (props) => {
+  //stuff
+  return (
+    <Child
+      onEnterViewport={() => console.log("enter")}
+      onLeaveViewport={() => console.log("leave")}
+    />
+  )
+};
+
+const Child = ({onEnterViewport, onLeaveViewport, ...props}) => {
+  const options = {//stuff};
+  const {inViewport, enterCount, leaveCount, getNode} = useInViewport(
+    undefined, options, { disconnectOnLeave: true }, {onEnterViewport, onLeaveViewport}
+  );
+  useEffect(() => {
+    console.log("currently in viewport: " + inViewport);
+    console.log("times entered: " + enterCount);
+    console.log("times left: " + leaveCount);
+  }, [inViewport, enterCount, leaveCount])
+
+  return (
+    <div ref={getNode} />
+  )
+};
+
+*/
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { findDOMNode } from 'react-dom';
 
 const useInViewport = (target, options, config = { disconnectOnLeave: false }, props) => {
+  const [node, setNode] = useState(null);
+
+  // When target is provided, set node by finding DOM node.
+  useMemo(() => {
+    if (target && target.current) {
+      setNode(findDOMNode(target.current));
+    }
+  }, [target.current]);
+
+  // When target isn't provided, allow node setting by 'getNode'
+  const getNode = useCallback(myNode => {
+    if (!target && (myNode !== null)) {
+      setNode(myNode);
+    }
+  }, []);
+
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState();
 
@@ -15,22 +59,16 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
   const leaveCountRef = useRef(0);
 
   function startObserver() {
-    if (target.current && observer.current) {
-      const node = findDOMNode(target.current);
-      if (node) {
-        observer.current.observe(node);
-      }
+    if (node && observer.current) {
+      observer.current.observe(node);
     }
   }
 
   function stopObserver() {
-    if (target.current && observer.current) {
-      const node = findDOMNode(target.current);
-      if (node) {
-        observer.current.unobserve(node);
-        observer.current.disconnect();
-        observer.current = null;
-      }
+    if (node && observer.current) {
+      observer.current.unobserve(node);
+      observer.current.disconnect();
+      observer.current = null;
     }
   }
 
@@ -80,13 +118,14 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
         stopObserver();
       };
     },
-    [target.current, options, config, onEnterViewport, onLeaveViewport]
+    [node, options, config, onEnterViewport, onLeaveViewport]
   );
 
   return {
     inViewport: inViewportRef.current,
     enterCount: enterCountRef.current,
-    leaveCount: leaveCountRef.current
+    leaveCount: leaveCountRef.current,
+    getNode
   };
 };
 
