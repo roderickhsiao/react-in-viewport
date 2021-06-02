@@ -1,7 +1,14 @@
 // React hooks
-import { useEffect, useRef, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { useEffect, useRef, useState, MutableRefObject } from 'react';
 import { findDOMNode } from 'react-dom';
 
+/**
+ *
+ * @param {MutableRefObject} target
+ * @param {IntersectionObserverInit} options
+ * @returns
+ */
 const useInViewport = (target, options, config = { disconnectOnLeave: false }, props) => {
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState();
