@@ -1,5 +1,6 @@
 // HOC for handleViewport
-import React, { useRef, forwardRef } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useRef, forwardRef, ReactNode, ComponentType } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import useInViewport from './useInViewport';
 
@@ -13,6 +14,15 @@ const isReactComponent = Component => {
   return Component.prototype && Component.prototype.isReactComponent;
 };
 
+/**
+ * @template P
+ * @param {ReactNode} TargetComponent
+ * @param {IntersectionObserverInit} options
+ * @returns {ComponentType<P & {
+      onEnterViewport?: VoidFunction
+      onLeaveViewport?: VoidFunction
+    }>}
+ */
 function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
   const ForwardedRefComponent = forwardRef((props, ref) => {
     const refProps = {

@@ -1,0 +1,19 @@
+{
+  "include": [
+    "src/**/*.js"
+  ],
+  "compilerOptions": {
+    "target": "ES6",
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist/types",
+    "types": [],
+    "module": "commonjs"
+  },
+  "exclude": [
+    "./node_modules",
+    "./src/__tests__",
+    "./src/setupTests.js",
+  ]
+}
