@@ -3,17 +3,18 @@
     "src/**/*.js"
   ],
   "compilerOptions": {
-    "target": "ES6",
     "allowJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "module": "commonjs",
     "outDir": "dist/types",
-    "types": [],
-    "module": "commonjs"
+    "target": "ES6",
+    "types": []
   },
   "exclude": [
     "./node_modules",
     "./src/__tests__",
     "./src/setupTests.js",
+    "./src/stories",
   ]
 }
