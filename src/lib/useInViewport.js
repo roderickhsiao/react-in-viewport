@@ -21,21 +21,27 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
   const enterCountRef = useRef(0);
   const leaveCountRef = useRef(0);
 
-  function startObserver() {
-    if (target.current && observer.current) {
-      const node = findDOMNode(target.current);
+  function startObserver({
+    targetRef,
+    observerRef
+  }) {
+    if (targetRef && observerRef) {
+      const node = findDOMNode(targetRef);
       if (node) {
-        observer.current.observe(node);
+        observerRef.observe(node);
       }
     }
   }
 
-  function stopObserver() {
-    if (target.current && observer.current) {
-      const node = findDOMNode(target.current);
+  function stopObserver({
+    observerRef,
+    targetRef
+  }) {
+    if (targetRef && observerRef) {
+      const node = findDOMNode(targetRef);
       if (node) {
-        observer.current.unobserve(node);
-        observer.current.disconnect();
+        observerRef.unobserve(node);
+        observerRef.disconnect();
         observer.current = null;
       }
     }
@@ -70,25 +76,41 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
     }
   }
 
-  function initIntersectionObserver() {
-    if (!observer.current) {
+  function initIntersectionObserver({
+    observerRef
+  }) {
+    if (!observerRef) {
       // $FlowFixMe
       observer.current = new IntersectionObserver(handleIntersection, options);
+      return observer.current;
     }
+    return observerRef;
   }
 
-  useEffect(
-    () => {
-      // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-      initIntersectionObserver();
-      startObserver();
+  useEffect(() => {
+    let observerRef = observer.current;
+    const targetRef = target.current;
+    // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+    observerRef = initIntersectionObserver({ observerRef });
 
-      return () => {
-        stopObserver();
-      };
-    },
-    [target.current, options, config, onEnterViewport, onLeaveViewport]
-  );
+    startObserver({
+      observerRef,
+      targetRef,
+    });
+
+    return () => {
+      stopObserver({
+        observerRef,
+        targetRef,
+      });
+    };
+  }, [
+    target.current,
+    options,
+    config,
+    onEnterViewport,
+    onLeaveViewport,
+  ]);
 
   return {
     inViewport: inViewportRef.current,
