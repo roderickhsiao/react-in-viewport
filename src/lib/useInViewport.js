@@ -22,29 +22,30 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
   const leaveCountRef = useRef(0);
 
   function startObserver({
-    targetRef,
     observerRef
   }) {
-    if (targetRef && observerRef) {
+    const targetRef = target.current;
+    if (targetRef) {
       const node = findDOMNode(targetRef);
       if (node) {
-        observerRef.observe(node);
+        observerRef?.observe(node);
       }
     }
   }
 
   function stopObserver({
-    observerRef,
-    targetRef
+    observerRef
   }) {
-    if (targetRef && observerRef) {
+    const targetRef = target.current;
+    if (targetRef) {
       const node = findDOMNode(targetRef);
       if (node) {
-        observerRef.unobserve(node);
-        observerRef.disconnect();
-        observer.current = null;
+        observerRef?.unobserve(node);
       }
     }
+
+    observerRef?.disconnect();
+    observer.current = null;
   }
 
   function handleIntersection(entries) {
@@ -89,19 +90,16 @@ const useInViewport = (target, options, config = { disconnectOnLeave: false }, p
 
   useEffect(() => {
     let observerRef = observer.current;
-    const targetRef = target.current;
     // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
     observerRef = initIntersectionObserver({ observerRef });
 
     startObserver({
-      observerRef,
-      targetRef,
+      observerRef
     });
 
     return () => {
       stopObserver({
-        observerRef,
-        targetRef,
+        observerRef
       });
     };
   }, [
