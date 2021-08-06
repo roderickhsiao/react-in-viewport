@@ -155,7 +155,7 @@ export default MySection;
 Alternatively, you can also directly using `useInViewport` hook which takes similar configuration as HOC.
 
 ```js
-import React, { useRef } from 'react;
+import React, { useRef } from 'react';
 import { useInViewport } from 'react-in-viewport';
 
 const MySectionBlock = () => {
