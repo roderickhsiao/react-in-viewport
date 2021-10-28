@@ -3,13 +3,16 @@
 import { useEffect, useRef, useState, MutableRefObject } from 'react';
 import { findDOMNode } from 'react-dom';
 
+import { defaultOptions, defaultConfig } from './constants';
 /**
  *
  * @param {MutableRefObject} target
- * @param {IntersectionObserverInit} options
+ * @param {IntersectionObserverInit} [options = defaultOptions]
+ * @param {Object} [config = defaultConfig]
  * @returns
  */
-const useInViewport = (target, options, config = { disconnectOnLeave: false }, props) => {
+
+const useInViewport = (target, options = defaultOptions, config = defaultConfig, props) => {
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState();
 

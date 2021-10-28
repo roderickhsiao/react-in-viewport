@@ -4,7 +4,7 @@ import React, { useRef, forwardRef, ReactNode, ComponentType } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import useInViewport from './useInViewport';
 
-const noop = () => {};
+import { noop, defaultOptions, defaultConfig } from './constants';
 
 const isFunctionalComponent = Component => {
   return typeof Component === 'function' && !(Component.prototype && Component.prototype.render);
@@ -17,13 +17,14 @@ const isReactComponent = Component => {
 /**
  * @template P
  * @param {ReactNode} TargetComponent
- * @param {IntersectionObserverInit} options
+ * @param {IntersectionObserverInit} [options = defaultOptions]
+ * @param {Object} [config = defaultConfig]
  * @returns {ComponentType<P & {
       onEnterViewport?: VoidFunction
       onLeaveViewport?: VoidFunction
     }>}
  */
-function handleViewport(TargetComponent, options, config = { disconnectOnLeave: false }) {
+function handleViewport(TargetComponent, options = defaultOptions, config = defaultConfig) {
   const ForwardedRefComponent = forwardRef((props, ref) => {
     const refProps = {
       forwardedRef: ref,
