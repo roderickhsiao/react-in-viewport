@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, MutableRefObject } from 'react';
 import { findDOMNode } from 'react-dom';
 
-import { defaultOptions, defaultConfig, defaultProps, noop } from './constants';
+import { defaultOptions, defaultConfig, defaultProps } from './constants';
 /**
  *
  * @param {MutableRefObject} target
