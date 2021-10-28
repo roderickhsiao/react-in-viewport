@@ -20,7 +20,8 @@ import { defaultOptions, defaultConfig, defaultProps } from './constants';
  */
 
 const useInViewport = (
-  target, options = defaultOptions,
+  target,
+  options = defaultOptions,
   config = defaultConfig,
   props = defaultProps
 ) => {
