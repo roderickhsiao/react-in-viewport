@@ -19,6 +19,7 @@ const isReactComponent = Component => {
  * @param {ReactNode} TargetComponent
  * @param {IntersectionObserverInit} [options = defaultOptions]
  * @param {Object} [config = defaultConfig]
+ * @param {boolean} [config.disconnectOnLeave = false]
  * @returns {ComponentType<P & {
       onEnterViewport?: VoidFunction
       onLeaveViewport?: VoidFunction
