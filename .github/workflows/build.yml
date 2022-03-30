@@ -30,7 +30,7 @@ jobs:
         run: |
           yarn install 
       - name: unit test
-        run: yarn test:ci
+        run: yarn test
       - name: Type Check
         run: yarn tsc --noEmit
       - name: Bundle size
