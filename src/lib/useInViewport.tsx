@@ -1,44 +1,30 @@
-// React hooks
-// eslint-disable-next-line no-unused-vars
-import { useEffect, useRef, useState, MutableRefObject } from 'react';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
-/**
- *
- * @param {MutableRefObject} target
- * @param {IntersectionObserverInit} [options = defaultOptions]
- * @param {Object} [config = defaultConfig]
- * @param {boolean} [config.disconnectOnLeave = false]
- * @param {Object} [props = defaultProps]
- * @param {VoidFunction} [props.onEnterViewport = noop]
- * @param {VoidFunction} [props.onLeaveViewport = noop]
- * @returns {Object} returnObject
- * @returns {boolean} returnObject.inViewport
- * @returns {number} returnObject.enterCount
- * @returns {number} returnObject.leaveCount
- */
+
+import type { Config, Props, Options } from './types';
 
 const useInViewport = (
-  target,
-  options = defaultOptions,
-  config = defaultConfig,
-  props = defaultProps
+  target: React.MutableRefObject<HTMLElement>,
+  options: Options = defaultOptions,
+  config : Config = defaultConfig,
+  props: Props = defaultProps,
 ) => {
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState();
 
-  const observer = useRef();
+  const observer = useRef<IntersectionObserver>();
 
-  const inViewportRef = useRef(false);
-  const intersected = useRef(false);
+  const inViewportRef = useRef<boolean>(false);
+  const intersected = useRef<boolean>(false);
 
-  const enterCountRef = useRef(0);
-  const leaveCountRef = useRef(0);
+  const enterCountRef = useRef<number>(0);
+  const leaveCountRef = useRef<number>(0);
 
-  function startObserver({
-    observerRef
-  }) {
+  function startObserver({ observerRef }) {
     const targetRef = target.current;
     if (targetRef) {
       const node = findDOMNode(targetRef);
@@ -48,9 +34,7 @@ const useInViewport = (
     }
   }
 
-  function stopObserver({
-    observerRef
-  }) {
+  function stopObserver({ observerRef }) {
     const targetRef = target.current;
     if (targetRef) {
       const node = findDOMNode(targetRef);
@@ -66,12 +50,14 @@ const useInViewport = (
   function handleIntersection(entries) {
     const entry = entries[0] || {};
     const { isIntersecting, intersectionRatio } = entry;
-    const isInViewport = typeof isIntersecting !== 'undefined' ? isIntersecting : intersectionRatio > 0;
+    const isInViewport = typeof isIntersecting !== 'undefined'
+      ? isIntersecting
+      : intersectionRatio > 0;
 
     // enter
     if (!intersected.current && isInViewport) {
       intersected.current = true;
-      onEnterViewport && onEnterViewport();
+      onEnterViewport?.();
       enterCountRef.current += 1;
       inViewportRef.current = isInViewport;
       forceUpdate(isInViewport);
@@ -81,7 +67,7 @@ const useInViewport = (
     // leave
     if (intersected.current && !isInViewport) {
       intersected.current = false;
-      onLeaveViewport && onLeaveViewport();
+      onLeaveViewport?.();
       if (config.disconnectOnLeave && observer.current) {
         // disconnect obsever on leave
         observer.current.disconnect();
@@ -92,11 +78,8 @@ const useInViewport = (
     }
   }
 
-  function initIntersectionObserver({
-    observerRef
-  }) {
+  function initIntersectionObserver({ observerRef }) {
     if (!observerRef) {
-      // $FlowFixMe
       observer.current = new IntersectionObserver(handleIntersection, options);
       return observer.current;
     }
@@ -109,26 +92,20 @@ const useInViewport = (
     observerRef = initIntersectionObserver({ observerRef });
 
     startObserver({
-      observerRef
+      observerRef,
     });
 
     return () => {
       stopObserver({
-        observerRef
+        observerRef,
       });
     };
-  }, [
-    target.current,
-    options,
-    config,
-    onEnterViewport,
-    onLeaveViewport,
-  ]);
+  }, [target.current, options, config, onEnterViewport, onLeaveViewport]);
 
   return {
     inViewport: inViewportRef.current,
     enterCount: enterCountRef.current,
-    leaveCount: leaveCountRef.current
+    leaveCount: leaveCountRef.current,
   };
 };
 

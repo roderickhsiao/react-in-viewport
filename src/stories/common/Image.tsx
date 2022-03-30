@@ -6,13 +6,16 @@ import { handleViewport } from '../../index';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
-class ImageObject extends PureComponent {
+class ImageObject extends PureComponent<
+{ inViewport: boolean; src: string; ratio: string },
+{ status: number; src: string }
+> {
   // eslint-disable-line
   constructor(props) {
     super(props);
     this.state = {
       src: DUMMY_IMAGE_SRC,
-      status: INIT
+      status: INIT,
     };
   }
 
@@ -28,15 +31,15 @@ class ImageObject extends PureComponent {
     }
   }
 
-  loadImage = src => {
+  loadImage = (src) => {
     const img = new Image(); // eslint-disable-line
     this.setState({
-      status: LOADING
+      status: LOADING,
     });
     img.onload = () => {
       this.setState({
         src,
-        status: LOADED
+        status: LOADED,
       });
     };
     img.alt = 'demo';
@@ -57,7 +60,6 @@ class ImageObject extends PureComponent {
   };
 
   render() {
-    const { status } = this.state;
     return (
       <AspectRatio
         ratio={this.props.ratio}
@@ -65,7 +67,7 @@ class ImageObject extends PureComponent {
           transitionDuration: '300ms',
           maxWidth: '400px',
           marginBottom: '200px',
-          backgroundColor: this.getBackgroundColor()
+          backgroundColor: this.getBackgroundColor(),
         }}
       >
         <img src={this.state.src} alt="demo" />

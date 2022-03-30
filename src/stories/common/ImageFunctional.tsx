@@ -7,7 +7,9 @@ import { INIT, LOADING, LOADED } from './constants';
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
 const ImageObject = props => {
-  const { src: originalSrc, ratio, forwardedRef, inViewport } = props;
+  const {
+    src: originalSrc, ratio, forwardedRef, inViewport,
+  } = props;
   const [src, setSrc] = useState(DUMMY_IMAGE_SRC);
   const [status, setStatus] = useState(INIT);
 
@@ -47,7 +49,7 @@ const ImageObject = props => {
         transitionDuration: '300ms',
         maxWidth: '400px',
         marginBottom: '200px',
-        backgroundColor: getBackgroundColor()
+        backgroundColor: getBackgroundColor(),
       }}
       ref={forwardedRef}
     >

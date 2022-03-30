@@ -3,7 +3,10 @@ import React, { memo } from 'react';
 export const PageTitle = memo(
   ({
     title = 'React In Viewport',
-    description = 'Wrapper component to detect if the component is in viewport using Intersection Observer API'
+    description = 'Wrapper component to detect if the component is in viewport using Intersection Observer API',
+  }: {
+    title?: string;
+    description?: string;
   }) => (
     <div className="page__title">
       <h1 className="page__title-main">
@@ -23,25 +26,34 @@ export const PageTitle = memo(
 );
 PageTitle.displayName = 'PageTitle';
 
-export const Card = memo(({ titleText, contentNode, forwardedRef }) => (
-  <div className="card" ref={forwardedRef}>
-    <div className="card__head">
-      <h3 className="card__title">{titleText}</h3>
+export const Card = memo(
+  ({
+    titleText,
+    contentNode,
+    forwardedRef,
+  }: {
+    titleText: string;
+    contentNode: React.ReactNode;
+    forwardedRef?: React.Ref<any>;
+  }) => (
+    <div className="card" ref={forwardedRef}>
+      <div className="card__head">
+        <h3 className="card__title">{titleText}</h3>
+      </div>
+      <div className="card__conent">{contentNode}</div>
     </div>
-    <div className="card__conent">{contentNode}</div>
-  </div>
-));
+  )
+);
 
 Card.displayName = 'Card';
 
-export const Block = props => {
+export const Block = (props) => {
   const { inViewport, enterCount, leaveCount, forwardedRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
 
   return (
     <Card
-      className="viewport-block"
       titleText={text}
       contentNode={
         <div
@@ -51,7 +63,7 @@ export const Block = props => {
             width: '100%',
             height: '300px',
             background: color,
-            transitionDuration: '1s'
+            transitionDuration: '1s',
           }}
         />
       }

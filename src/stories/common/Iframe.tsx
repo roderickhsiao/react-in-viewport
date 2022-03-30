@@ -3,30 +3,33 @@ import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
 
-class Iframe extends PureComponent {
+class Iframe extends PureComponent<
+{ src: string; ratio: string },
+{ loaded: boolean }
+> {
   constructor(props) {
     super(props);
     this.state = {
-      loaded: false
+      loaded: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.inViewport && !state.loaded) {
       return {
-        loaded: true
+        loaded: true,
       };
     }
     return null;
   }
 
   render() {
-    const { src, ratio, forwardedRef } = this.props;
+    const { src, ratio } = this.props;
     const Component = this.state.loaded ? 'iframe' : 'div';
     const props = this.state.loaded
       ? {
         src,
-        frameBorder: 0
+        frameBorder: 0,
       }
       : {};
 

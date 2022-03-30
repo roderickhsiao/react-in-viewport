@@ -10,7 +10,7 @@ class DemoClass extends PureComponent {
       <div
         style={{
           width: '400px',
-          height: '300px'
+          height: '300px',
         }}
       >
         <span className="content">{inViewport ? 'in viewport' : 'not in viewport'}</span>

@@ -1,20 +1,17 @@
 {
   "include": [
-    "src/**/*.js"
+    "src/**/*",
   ],
   "compilerOptions": {
     "allowJs": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "module": "commonjs",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "outDir": "dist/types",
-    "target": "ES6",
-    "types": []
-  },
-  "exclude": [
-    "./node_modules",
-    "./src/__tests__",
-    "./src/setupTests.js",
-    "./src/stories",
-  ]
+    "skipLibCheck": true,
+    "target": "ESNext",
+  }
 }

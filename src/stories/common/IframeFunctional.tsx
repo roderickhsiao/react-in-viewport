@@ -4,7 +4,9 @@ import AspectRatio from 'react-aspect-ratio';
 import { handleViewport } from '../../index';
 
 const IframeFunctional = props => {
-  const { inViewport, src, ratio, forwardedRef } = props;
+  const {
+    inViewport, src, ratio, forwardedRef,
+  } = props;
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ const IframeFunctional = props => {
   const componentProps = loaded
     ? {
       src,
-      frameBorder: 0
+      frameBorder: 0,
     }
     : {};
 

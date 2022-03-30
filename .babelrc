@@ -6,14 +6,15 @@
         "loose": true
       }
     ],
-    "@babel/preset-react",
-    "@babel/preset-flow"
+    [
+      "@babel/preset-react",
+      {
+        "runtime":"automatic"
+      }
+    ],
+    "@babel/preset-typescript"
   ],
   "plugins": [
-    "@babel/plugin-transform-flow-strip-types",
-    "@babel/plugin-transform-spread",
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread"
   ],
   "env": {
     "next": {
@@ -25,8 +26,13 @@
             "loose": true
           }
         ],
-        "@babel/preset-react",
-        "@babel/preset-flow"
+        [
+          "@babel/preset-react",
+          {
+            "runtime":"automatic"
+          }
+        ],
+        "@babel/preset-typescript"
       ]
     },
     "es": {
@@ -40,8 +46,13 @@
             "loose": true
           }
         ],
-        "@babel/preset-react",
-        "@babel/preset-flow"
+        [
+          "@babel/preset-react",
+          {
+            "runtime":"automatic"
+          }
+        ],
+        "@babel/preset-typescript"
       ]
     },
     "umd": {
@@ -53,8 +64,13 @@
             "loose": true
           }
         ],
-        "@babel/preset-react",
-        "@babel/preset-flow"
+        [
+          "@babel/preset-react",
+          {
+            "runtime":"automatic"
+          }
+        ],
+        "@babel/preset-typescript"
       ]
     }
   }

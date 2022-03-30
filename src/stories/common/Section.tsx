@@ -2,14 +2,18 @@ import React, { PureComponent } from 'react';
 
 import { handleViewport } from '../../index';
 
-class MySectionBlock extends PureComponent {
+class MySectionBlock extends PureComponent<{
+  inViewport: boolean;
+  enterCount: number;
+  leaveCount: number;
+}> {
   getStyle() {
     const { inViewport, enterCount } = this.props;
     const basicStyle = {
       width: '400px',
       height: '300px',
       backgroundColor: '#217ac0',
-      color: '#fff'
+      color: '#fff',
     };
     // Fade in only the first time we enter the viewport
     if (inViewport && enterCount === 1) {
@@ -38,5 +42,7 @@ class MySectionBlock extends PureComponent {
   }
 }
 
-const SectionWithTransition = handleViewport(MySectionBlock, { rootMargin: '-1.0px' });
+const SectionWithTransition = handleViewport(MySectionBlock, {
+  rootMargin: '-1.0px',
+});
 export default SectionWithTransition;
