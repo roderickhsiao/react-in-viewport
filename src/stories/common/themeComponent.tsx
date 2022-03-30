@@ -31,7 +31,8 @@ export class Card extends React.PureComponent<{
   contentNode: React.ReactNode;
   forwardedRef?: React.Ref<any> | undefined;
 }> {
-  displayName = 'Card';
+  static displayName = 'Card';
+
   render() {
     const { titleText, contentNode, forwardedRef } = this.props;
     return (
@@ -43,7 +44,7 @@ export class Card extends React.PureComponent<{
       </div>
     );
   }
-};
+}
 
 export function Block(props) {
   const {
