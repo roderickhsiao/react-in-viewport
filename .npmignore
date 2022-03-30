@@ -1,7 +1,6 @@
 .babelrc
 .circleci
 .eslintrc
-.flowconfig
 .gitignore
 .npmignore
 .scripts
