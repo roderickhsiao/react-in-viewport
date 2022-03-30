@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { mount } from 'enzyme';
-
+import { render } from '@testing-library/react';
 import { handleViewport } from '../index';
 
 class DemoClass extends PureComponent<{
@@ -15,7 +14,7 @@ class DemoClass extends PureComponent<{
           height: '300px',
         }}
       >
-        <span className="content">
+        <span className="content" data-testid="content">
           {inViewport ? 'in viewport' : 'not in viewport'}
         </span>
       </div>
@@ -26,18 +25,7 @@ class DemoClass extends PureComponent<{
 describe('In Viewport', () => {
   it('basic render', () => {
     const TestNode = handleViewport(DemoClass);
-    const tree = mount(<TestNode />);
-    expect(tree.find('.content').text()).toEqual('not in viewport');
+    const { getByTestId } = render(<TestNode />);
+    expect(getByTestId('content').innerHTML).toEqual('not in viewport');
   });
-
-  // it.skip('scroll render', () => {
-  //   // until jsdom support observer
-  //   jest.useFakeTimers();
-  //   const TestNode = handleViewport(DemoClass);
-  //   const tree = mount(<TestNode />);
-  //   global.document.scrollTop = 200;
-  //   jest.runOnlyPendingTimers();
-  //   tree.update();
-  //   expect(tree.find('.content').text()).toEqual('in viewport');
-  // });
 });
