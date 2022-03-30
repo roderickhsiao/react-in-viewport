@@ -1,4 +1,4 @@
-import React, { useRef, forwardRef } from 'react';
+import { useRef, forwardRef } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 import type { Config, Props, Options } from './types';
@@ -8,8 +8,8 @@ import { noop, defaultOptions, defaultConfig } from './constants';
 
 const isFunctionalComponent = (Component: React.ElementType) => {
   return (
-    typeof Component === 'function' &&
-    !(Component.prototype && Component.prototype.render)
+    typeof Component === 'function'
+    && !(Component.prototype && Component.prototype.render)
   );
 };
 
@@ -30,23 +30,23 @@ type RefProps = React.PropsWithRef<{
 type OmittedProps = 'onEnterViewport' | 'onLeaveViewport';
 type RestPropsRef = Omit<Props, OmittedProps>;
 
-function handleViewport<Props>(
-  TargetComponent: React.ElementType | React.ComponentClass,
+function handleViewport<P extends Props>(
+  TargetComponent: React.ElementType | React.ComponentClass<P>,
   options: Options = defaultOptions,
-  config: Config = defaultConfig
+  config: Config = defaultConfig,
 ) {
   const ForwardedRefComponent = forwardRef<
-    any,
-    InjectedProps & RefProps & RestPropsRef
+  any,
+  InjectedProps & RefProps & RestPropsRef
   >((props, ref) => {
     const refProps: RefProps = {
       forwardedRef: ref,
       // pass both ref/forwardedRef for class component for backward compatibility
-      ...(isReactComponent(TargetComponent as React.ComponentClass) &&
-      !isFunctionalComponent(TargetComponent)
+      ...(isReactComponent(TargetComponent as React.ComponentClass<P>)
+      && !isFunctionalComponent(TargetComponent)
         ? {
-            ref,
-          }
+          ref,
+        }
         : {}),
     };
     return (
@@ -57,7 +57,7 @@ function handleViewport<Props>(
     );
   });
 
-  function InViewport<Props>({
+  function InViewport({
     onEnterViewport = noop,
     onLeaveViewport = noop,
     ...restProps
@@ -70,7 +70,7 @@ function handleViewport<Props>(
       {
         onEnterViewport,
         onLeaveViewport,
-      }
+      },
     );
 
     const injectedProps: InjectedProps = {
@@ -84,10 +84,9 @@ function handleViewport<Props>(
     );
   }
 
-  const name =
-    (TargetComponent as React.FC).displayName ||
-    (TargetComponent as React.FC).name ||
-    'Component';
+  const name = (TargetComponent as React.FC).displayName
+    || (TargetComponent as React.FC).name
+    || 'Component';
   InViewport.displayName = `handleViewport(${name})`;
 
   return hoistNonReactStatic(InViewport, ForwardedRefComponent);
