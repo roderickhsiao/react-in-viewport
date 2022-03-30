@@ -6,49 +6,63 @@ import useInViewport from './useInViewport';
 
 import { noop, defaultOptions, defaultConfig } from './constants';
 
-const isFunctionalComponent = (Component) => {
+const isFunctionalComponent = (Component: React.ElementType) => {
   return (
     typeof Component === 'function'
     && !(Component.prototype && Component.prototype.render)
   );
 };
 
-const isReactComponent = (Component) => {
+const isReactComponent = (Component: React.ComponentClass) => {
   return Component.prototype && Component.prototype.isReactComponent;
 };
 
-function handleViewport(
-  TargetComponent: React.ElementType | React.ComponentClass,
+type InjectedProps = {
+  enterCount: number;
+  inViewport: boolean;
+  leaveCount: number;
+};
+
+type RefProps = React.PropsWithRef<{
+  forwardedRef?: React.ForwardedRef<any>;
+}>;
+
+type OmittedProps = 'onEnterViewport' | 'onLeaveViewport';
+type RestPropsRef = Omit<Props, OmittedProps>;
+
+function handleViewport<P extends Props>(
+  TargetComponent: React.ElementType | React.ComponentClass<P>,
   options: Options = defaultOptions,
   config: Config = defaultConfig,
 ) {
   const ForwardedRefComponent = forwardRef<
-  React.Ref<any>,
-  {
-    inViewport: boolean;
-    enterCount: number;
-    leaveCount: number;
-  }
+  any,
+  InjectedProps & RefProps & RestPropsRef
   >((props, ref) => {
-    const refProps = {
+    const refProps: RefProps = {
       forwardedRef: ref,
       // pass both ref/forwardedRef for class component for backward compatibility
-      ...(isReactComponent(TargetComponent)
+      ...(isReactComponent(TargetComponent as React.ComponentClass<P>)
       && !isFunctionalComponent(TargetComponent)
         ? {
           ref,
         }
         : {}),
     };
-    return <TargetComponent {...props} {...refProps} />;
+    return (
+      <TargetComponent
+        {...(props as RestPropsRef)}
+        {...(refProps as RefProps)}
+      />
+    );
   });
 
   function InViewport({
     onEnterViewport = noop,
     onLeaveViewport = noop,
     ...restProps
-  }: Props) {
-    const node = useRef();
+  }) {
+    const node = useRef<any>();
     const { inViewport, enterCount, leaveCount } = useInViewport(
       node,
       options,
@@ -59,14 +73,14 @@ function handleViewport(
       },
     );
 
+    const injectedProps: InjectedProps = {
+      inViewport,
+      enterCount,
+      leaveCount,
+    };
+
     return (
-      <ForwardedRefComponent
-        {...restProps}
-        inViewport={inViewport}
-        enterCount={enterCount}
-        leaveCount={leaveCount}
-        ref={node}
-      />
+      <ForwardedRefComponent {...restProps} {...injectedProps} ref={node} />
     );
   }
 
