@@ -18,7 +18,7 @@ const isReactComponent = (Component) => {
 };
 
 function handleViewport(
-  TargetComponent: React.ElementType,
+  TargetComponent: React.ElementType | React.ComponentClass,
   options: Options = defaultOptions,
   config: Config = defaultConfig,
 ) {
