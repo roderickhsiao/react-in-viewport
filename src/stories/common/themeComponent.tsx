@@ -26,26 +26,24 @@ export const PageTitle = memo(
 );
 PageTitle.displayName = 'PageTitle';
 
-export const Card = memo(
-  ({
-    titleText,
-    contentNode,
-    forwardedRef,
-  }: {
-    titleText: string;
-    contentNode: React.ReactNode;
-    forwardedRef?: React.Ref<any> | undefined;
-  }) => (
-    <div className="card" ref={forwardedRef}>
-      <div className="card__head">
-        <h3 className="card__title">{titleText}</h3>
+export class Card extends React.PureComponent<{
+  titleText: string;
+  contentNode: React.ReactNode;
+  forwardedRef?: React.Ref<any> | undefined;
+}> {
+  displayName = 'Card';
+  render() {
+    const { titleText, contentNode, forwardedRef } = this.props;
+    return (
+      <div className="card" ref={forwardedRef}>
+        <div className="card__head">
+          <h3 className="card__title">{titleText}</h3>
+        </div>
+        <div className="card__conent">{contentNode}</div>
       </div>
-      <div className="card__conent">{contentNode}</div>
-    </div>
-  ),
-);
-
-Card.displayName = 'Card';
+    );
+  }
+};
 
 export function Block(props) {
   const {
