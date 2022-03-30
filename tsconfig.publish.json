@@ -1,10 +1,8 @@
 {
   "extends": "./tsconfig.json",
-
   "exclude": [
-    "./node_modules",
-    "./src/setupTests.js",
-    "./__tests__/**",
-    "./stories/**",
+    "src/setupTests.js",
+    "**/__tests__/**/*",
+    "**/stories/**/*",
   ]
 }
