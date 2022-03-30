@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": false,
     "outDir": "dist/types",
