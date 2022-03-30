@@ -43,11 +43,11 @@ function handleViewport(
     return <TargetComponent {...props} {...refProps} />;
   });
 
-  const InViewport = ({
+  function InViewport({
     onEnterViewport = noop,
     onLeaveViewport = noop,
     ...restProps
-  }: Props) => {
+  }: Props) {
     const node = useRef();
     const { inViewport, enterCount, leaveCount } = useInViewport(
       node,
@@ -68,7 +68,7 @@ function handleViewport(
         ref={node}
       />
     );
-  };
+  }
 
   const name = (TargetComponent as React.FC).displayName
     || (TargetComponent as React.FC).name

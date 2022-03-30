@@ -6,7 +6,7 @@ import { INIT, LOADING, LOADED } from './constants';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
-const ImageObject = props => {
+function ImageObject(props) {
   const {
     src: originalSrc, ratio, forwardedRef, inViewport,
   } = props;
@@ -56,7 +56,7 @@ const ImageObject = props => {
       <img src={src} alt="demo" />
     </AspectRatio>
   );
-};
+}
 
 const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
 export default LazyImage;

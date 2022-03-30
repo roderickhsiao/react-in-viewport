@@ -22,7 +22,7 @@ export const PageTitle = memo(
       </h1>
       <p className="page__title-desc">{description}</p>
     </div>
-  )
+  ),
 );
 PageTitle.displayName = 'PageTitle';
 
@@ -34,7 +34,7 @@ export const Card = memo(
   }: {
     titleText: string;
     contentNode: React.ReactNode;
-    forwardedRef?: React.Ref<any>;
+    forwardedRef?: React.Ref<any> | undefined;
   }) => (
     <div className="card" ref={forwardedRef}>
       <div className="card__head">
@@ -42,20 +42,22 @@ export const Card = memo(
       </div>
       <div className="card__conent">{contentNode}</div>
     </div>
-  )
+  ),
 );
 
 Card.displayName = 'Card';
 
-export const Block = (props) => {
-  const { inViewport, enterCount, leaveCount, forwardedRef } = props;
+export function Block(props) {
+  const {
+    inViewport, enterCount, leaveCount, forwardedRef,
+  } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
 
   return (
     <Card
       titleText={text}
-      contentNode={
+      contentNode={(
         <div
           ref={forwardedRef}
           title={`Enter viewport ${enterCount} times, leave viewport ${leaveCount} times`}
@@ -66,21 +68,25 @@ export const Block = (props) => {
             transitionDuration: '1s',
           }}
         />
-      }
+      )}
     />
   );
-};
+}
 
 Block.displayName = 'Block';
 
-export const Spacer = () => (
-  <div style={{ height: '100vh', padding: '20px' }}>
-    <p>
-      Scroll down to make component in viewport{' '}
-      <span role="img" aria-label="down">
-        👇
-      </span>{' '}
-    </p>
-  </div>
-);
+export function Spacer() {
+  return (
+    <div style={{ height: '100vh', padding: '20px' }}>
+      <p>
+        Scroll down to make component in viewport
+        {' '}
+        <span role="img" aria-label="down">
+          👇
+        </span>
+        {' '}
+      </p>
+    </div>
+  );
+}
 Spacer.displayName = Spacer;

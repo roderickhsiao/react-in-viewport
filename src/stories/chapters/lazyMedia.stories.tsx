@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 import { Card, PageTitle, Spacer } from '../common/themeComponent';
 import LazyIframe from '../common/Iframe';
 import LazyIframeFunctional from '../common/IframeFunctional';
@@ -11,18 +9,18 @@ export default {
   component: Card,
   decorators: [
     (Story: React.ElementType) => (
-      <Fragment>
+      <>
         <PageTitle />
         <Spacer />
         <div style={{ padding: '20px', maxWidth: '400px' }}>
           <Story />
         </div>
-      </Fragment>
+      </>
     ),
   ],
 };
 
-export const ClassComponentLazyloadImage = () => {
+export function ClassComponentLazyloadImage() {
   const imageArray = [
     {
       src: 'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
@@ -45,9 +43,9 @@ export const ClassComponentLazyloadImage = () => {
       ))}
     />
   );
-};
+}
 
-export const ClassComponentLazyloadIframe = () => {
+export function ClassComponentLazyloadIframe() {
   const iframeArray = [
     {
       src: 'https://www.youtube.com/embed/hTcBnxxuAls',
@@ -70,9 +68,9 @@ export const ClassComponentLazyloadIframe = () => {
       ))}
     />
   );
-};
+}
 
-export const FunctionalComponentLazyloadImage = () => {
+export function FunctionalComponentLazyloadImage() {
   const imageArray = [
     {
       src: 'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
@@ -99,9 +97,9 @@ export const FunctionalComponentLazyloadImage = () => {
       ))}
     />
   );
-};
+}
 
-export const FunctionalComponentLazyloadIframe = () => {
+export function FunctionalComponentLazyloadIframe() {
   const iframeArray = [
     {
       src: 'https://www.youtube.com/embed/hTcBnxxuAls',
@@ -128,4 +126,4 @@ export const FunctionalComponentLazyloadIframe = () => {
       ))}
     />
   );
-};
+}

@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 import { action } from '@storybook/addon-actions';
 import omit from 'lodash/omit';
 
@@ -7,7 +5,7 @@ import handleViewport, { customProps } from '../../index'; // eslint-disable-lin
 import { Block, PageTitle, Spacer } from '../common/themeComponent';
 
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
-const CustomAnchor = ({ forwardedRef, inViewport, ...restProps }) => {
+function CustomAnchor({ forwardedRef, inViewport, ...restProps }) {
   const text = inViewport ? 'Link (in viewport)' : 'Link (not in viewport)';
   return (
     <a
@@ -19,11 +17,11 @@ const CustomAnchor = ({ forwardedRef, inViewport, ...restProps }) => {
       {text}
     </a>
   );
-};
+}
 const ViewportAnchor = handleViewport(
   CustomAnchor,
   {},
-  { disconnectOnLeave: false }
+  { disconnectOnLeave: false },
 );
 
 export default {
@@ -31,28 +29,32 @@ export default {
   component: ViewportBlock,
   decorators: [
     (Story: React.ElementType) => (
-      <Fragment>
+      <>
         <PageTitle />
         <Spacer />
         <div style={{ padding: '20px', maxWidth: '400px' }}>
           <Story />
         </div>
-      </Fragment>
+      </>
     ),
   ],
 };
 
-export const ClassBaseComponent = () => (
-  <ViewportBlock
-    className="card"
-    onEnterViewport={() => action('callback')('onEnterViewport')}
-    onLeaveViewport={() => action('callback')('onLeaveViewport')}
-  />
-);
+export function ClassBaseComponent() {
+  return (
+    <ViewportBlock
+      className="card"
+      onEnterViewport={() => action('callback')('onEnterViewport')}
+      onLeaveViewport={() => action('callback')('onLeaveViewport')}
+    />
+  );
+}
 
-export const FunctionalComponent = () => (
-  <ViewportAnchor
-    onEnterViewport={() => action('callback')('onEnterViewport')}
-    onLeaveViewport={() => action('callback')('onLeaveViewport')}
-  />
-);
+export function FunctionalComponent() {
+  return (
+    <ViewportAnchor
+      onEnterViewport={() => action('callback')('onEnterViewport')}
+      onLeaveViewport={() => action('callback')('onLeaveViewport')}
+    />
+  );
+}

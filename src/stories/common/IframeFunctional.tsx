@@ -3,7 +3,7 @@ import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
 
-const IframeFunctional = props => {
+function IframeFunctional(props) {
   const {
     inViewport, src, ratio, forwardedRef,
   } = props;
@@ -32,7 +32,7 @@ const IframeFunctional = props => {
       <Component {...componentProps} />
     </AspectRatio>
   );
-};
+}
 
 const LazyIframe = handleViewport(memo(IframeFunctional), {}, { disconnectOnLeave: true });
 export default LazyIframe;
