@@ -8,7 +8,7 @@ import { defaultOptions, defaultConfig, defaultProps } from './constants';
 import type { Config, Props, Options } from './types';
 
 const useInViewport = (
-  target: React.MutableRefObject<HTMLElement>,
+  target: React.RefObject<HTMLElement>,
   options: Options = defaultOptions,
   config : Config = defaultConfig,
   props: Props = defaultProps,
