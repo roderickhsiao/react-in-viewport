@@ -4,4 +4,5 @@ module.exports = {
   },
   reporters: ['default', 'jest-junit'],
   setupFiles: ['./src/setupTests.js'],
+  testEnvironment: 'jsdom'
 };

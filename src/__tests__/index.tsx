@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { render } from '@testing-library/react';
 import { handleViewport } from '../index';
 
