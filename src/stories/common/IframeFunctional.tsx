@@ -2,9 +2,9 @@ import React, { memo, useEffect, useState } from 'react';
 import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
-import type { InjectedProps } from '../../lib/types';
+import type { InjectedViewportProps } from '../../lib/types';
 
-type IframeFunctionalProps = InjectedProps<HTMLDivElement> & {
+type IframeFunctionalProps = InjectedViewportProps<HTMLDivElement> & {
   src: string;
   ratio: string;
 };

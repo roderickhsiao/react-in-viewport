@@ -2,7 +2,7 @@ export type Config = {
   disconnectOnLeave?: boolean;
 };
 
-export type InjectedProps<TElement extends HTMLElement = HTMLElement> = {
+export type InjectedViewportProps<TElement extends HTMLElement = HTMLElement> = {
   inViewport: boolean;
   enterCount: number;
   leaveCount: number;

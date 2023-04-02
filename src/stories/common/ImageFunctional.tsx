@@ -3,11 +3,11 @@ import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
 import { INIT, LOADING, LOADED } from './constants';
-import type { InjectedProps } from '../../lib/types';
+import type { InjectedViewportProps } from '../../lib/types';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
-type ImageObjectProps = InjectedProps<HTMLDivElement> & {
+type ImageObjectProps = InjectedViewportProps<HTMLDivElement> & {
   src: string;
   ratio: string;
 };

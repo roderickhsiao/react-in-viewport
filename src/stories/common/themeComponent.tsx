@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { InjectedProps } from '../../lib/types';
+import { InjectedViewportProps } from '../../lib/types';
 
 export const PageTitle = memo(
   ({
@@ -48,7 +48,7 @@ export class Card extends React.PureComponent<CardProps> {
   }
 }
 
-type BlockProps = InjectedProps<HTMLDivElement>;
+type BlockProps = InjectedViewportProps<HTMLDivElement>;
 
 export function Block(props: BlockProps) {
   const {

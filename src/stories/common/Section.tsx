@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 
 import { handleViewport } from '../../index';
-import type { InjectedProps } from '../../lib/types';
+import type { InjectedViewportProps } from '../../lib/types';
 
-class MySectionBlock extends PureComponent<InjectedProps> {
+class MySectionBlock extends PureComponent<InjectedViewportProps> {
   getStyle() {
     const { inViewport, enterCount } = this.props;
     const basicStyle = {

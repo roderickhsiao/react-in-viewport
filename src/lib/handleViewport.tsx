@@ -4,7 +4,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import type {
   CallbackProps,
   Config,
-  InjectedProps,
+  InjectedViewportProps,
   Options,
 } from './types';
 import useInViewport from './useInViewport';
@@ -22,7 +22,10 @@ const isReactComponent = (Component: React.ComponentClass) => {
   return Component.prototype && Component.prototype.isReactComponent;
 };
 
-function handleViewport<TElement extends HTMLElement, TProps extends InjectedProps<TElement>>(
+function handleViewport<
+  TElement extends HTMLElement,
+  TProps extends InjectedViewportProps<TElement>,
+>(
   TargetComponent: React.ComponentType<TProps>,
   options: Options = defaultOptions,
   config: Config = defaultConfig,
@@ -43,7 +46,7 @@ function handleViewport<TElement extends HTMLElement, TProps extends InjectedPro
     onEnterViewport = noop,
     onLeaveViewport = noop,
     ...restProps
-  }: Omit<TProps, keyof InjectedProps<TElement>> & CallbackProps) {
+  }: Omit<TProps, keyof InjectedViewportProps<TElement>> & CallbackProps) {
     const node = useRef<TElement>();
     const { inViewport, enterCount, leaveCount } = useInViewport(
       node,
