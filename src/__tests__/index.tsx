@@ -1,10 +1,9 @@
 import { PureComponent } from 'react';
 import { render } from '@testing-library/react';
 import { handleViewport } from '../index';
+import type { InjectedProps } from '../lib/types';
 
-class DemoClass extends PureComponent<{
-  inViewport: boolean;
-}> {
+class DemoClass extends PureComponent<InjectedProps> {
   render() {
     const { inViewport } = this.props;
     return (

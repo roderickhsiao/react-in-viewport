@@ -5,13 +5,13 @@ import { findDOMNode } from 'react-dom';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
 
-import type { Config, Props, Options } from './types';
+import type { Config, CallbackProps, Options } from './types';
 
 const useInViewport = (
   target: React.RefObject<HTMLElement>,
   options: Options = defaultOptions,
   config : Config = defaultConfig,
-  props: Props = defaultProps,
+  props: CallbackProps = defaultProps,
 ) => {
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState();

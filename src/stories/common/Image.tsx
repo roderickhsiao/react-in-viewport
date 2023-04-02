@@ -3,11 +3,17 @@ import AspectRatio from 'react-aspect-ratio';
 
 import { INIT, LOADING, LOADED } from './constants';
 import { handleViewport } from '../../index';
+import type { InjectedProps } from '../../lib/types';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
+type ImageObjectProps = InjectedProps & {
+  src: string;
+  ratio: string;
+};
+
 class ImageObject extends PureComponent<
-{ inViewport: boolean; src: string; ratio: string },
+ImageObjectProps,
 { status: number; src: string }
 > {
   // eslint-disable-line

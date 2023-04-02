@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { InjectedProps } from '../../lib/types';
 
 export const PageTitle = memo(
   ({
@@ -26,17 +27,18 @@ export const PageTitle = memo(
 );
 PageTitle.displayName = 'PageTitle';
 
-export class Card extends React.PureComponent<{
+type CardProps = {
   titleText: string;
   contentNode: React.ReactNode;
-  forwardedRef?: React.Ref<any> | undefined;
-}> {
+};
+
+export class Card extends React.PureComponent<CardProps> {
   static displayName = 'Card';
 
   render() {
-    const { titleText, contentNode, forwardedRef } = this.props;
+    const { titleText, contentNode } = this.props;
     return (
-      <div className="card" ref={forwardedRef}>
+      <div className="card">
         <div className="card__head">
           <h3 className="card__title">{titleText}</h3>
         </div>
@@ -46,7 +48,9 @@ export class Card extends React.PureComponent<{
   }
 }
 
-export function Block(props) {
+type BlockProps = InjectedProps<HTMLDivElement>;
+
+export function Block(props: BlockProps) {
   const {
     inViewport, enterCount, leaveCount, forwardedRef,
   } = props;
