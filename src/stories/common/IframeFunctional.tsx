@@ -2,8 +2,14 @@ import React, { memo, useEffect, useState } from 'react';
 import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
+import type { InjectedViewportProps } from '../../lib/types';
 
-function IframeFunctional(props) {
+type IframeFunctionalProps = InjectedViewportProps<HTMLDivElement> & {
+  src: string;
+  ratio: string;
+};
+
+function IframeFunctional(props: IframeFunctionalProps) {
   const {
     inViewport, src, ratio, forwardedRef,
   } = props;
@@ -27,6 +33,8 @@ function IframeFunctional(props) {
     <AspectRatio
       ratio={ratio}
       style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
+      // @ts-expect-error
+      // TODO: fix upstream types in react-aspect-ratio to support ref
       ref={forwardedRef}
     >
       <Component {...componentProps} />

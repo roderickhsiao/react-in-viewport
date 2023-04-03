@@ -43,7 +43,6 @@ export default {
 export function ClassBaseComponent() {
   return (
     <ViewportBlock
-      className="card"
       onEnterViewport={() => action('callback')('onEnterViewport')}
       onLeaveViewport={() => action('callback')('onLeaveViewport')}
     />

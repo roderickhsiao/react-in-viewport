@@ -3,10 +3,16 @@ import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
 import { INIT, LOADING, LOADED } from './constants';
+import type { InjectedViewportProps } from '../../lib/types';
 
 const DUMMY_IMAGE_SRC = 'https://www.gstatic.com/psa/static/1.gif';
 
-function ImageObject(props) {
+type ImageObjectProps = InjectedViewportProps<HTMLDivElement> & {
+  src: string;
+  ratio: string;
+};
+
+function ImageObject(props: ImageObjectProps) {
   const {
     src: originalSrc, ratio, forwardedRef, inViewport,
   } = props;
@@ -51,6 +57,8 @@ function ImageObject(props) {
         marginBottom: '200px',
         backgroundColor: getBackgroundColor(),
       }}
+      // @ts-expect-error
+      // TODO: fix upstream types in react-aspect-ratio to support ref
       ref={forwardedRef}
     >
       <img src={src} alt="demo" />

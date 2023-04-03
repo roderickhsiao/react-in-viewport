@@ -2,9 +2,15 @@ import React, { PureComponent } from 'react';
 import AspectRatio from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
+import type { InjectedViewportProps } from '../../lib/types';
+
+type IframeProps = InjectedViewportProps & {
+  src: string;
+  ratio: string;
+};
 
 class Iframe extends PureComponent<
-{ src: string; ratio: string },
+IframeProps,
 { loaded: boolean }
 > {
   constructor(props) {
