@@ -84,9 +84,9 @@ _NOTE_: Stateless: Need to add `ref={this.props.forwardedRef}` to your component
 #### Example of a functional component
 
 ```tsx
-import handleViewport, { type InjectedProps } from 'react-in-viewport';
+import handleViewport, { type InjectedViewportProps } from 'react-in-viewport';
 
-const Block = (props: InjectedProps<HTMLDivElement>) => {
+const Block = (props: InjectedViewportProps<HTMLDivElement>) => {
   const { inViewport, forwardedRef } = props;
   const color = inViewport ? '#217ac0' : '#ff9800';
   const text = inViewport ? 'In viewport' : 'Not in viewport';
