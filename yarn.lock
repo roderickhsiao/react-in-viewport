@@ -7976,10 +7976,10 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-aspect-ratio@^1.0.3:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.1.5.tgz#ee8e66cc45652156ced405469ddbdb4bdc54f18e"
-  integrity sha512-zTeQlhG584qDwr1wJi6dd9+zdvEbAWnKz0gSbxcmwIYitZ4Z2Dr9buJa9GONsh1BOO2ILZmMdVq6A/YvcKPN8A==
+react-aspect-ratio@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.1.6.tgz#d949800ca1428194f98034b945f804ce3f4b3ec6"
+  integrity sha512-A7/x2MqpYelh2fxx6RnRSEcA+rwdfiDK74Ju78xW8EnzSGSopPnCugyKlB+2d6dNP1UzU/SscIslVtqzNZrwyQ==
 
 react-colorful@^5.1.2:
   version "5.6.1"

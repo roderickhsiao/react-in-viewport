@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AspectRatio from 'react-aspect-ratio';
+import { AspectRatio } from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
 import { INIT, LOADING, LOADED } from './constants';
@@ -57,8 +57,6 @@ function ImageObject(props: ImageObjectProps) {
         marginBottom: '200px',
         backgroundColor: getBackgroundColor(),
       }}
-      // @ts-expect-error
-      // TODO: fix upstream types in react-aspect-ratio to support ref
       ref={forwardedRef}
     >
       <img src={src} alt="demo" />
