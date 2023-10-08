@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import AspectRatio from 'react-aspect-ratio';
+import { AspectRatio } from 'react-aspect-ratio';
 
 import { INIT, LOADING, LOADED } from './constants';
 import { handleViewport } from '../../index';
