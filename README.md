@@ -75,11 +75,11 @@ The HOC preserves `onEnterViewport` and `onLeaveViewport` props as a callback
 | Props      | Type      | Default | Description                                                                       |
 |------------|-----------|---------|-----------------------------------------------------------------------------------|
 | inViewport | boolean   | false   | Whether your component is in the viewport                                                     |  
-| forwardedRef   | React ref |         | If you are using a functional component, assign this prop as a ref on your component |
+| forwardedRef   | React ref |         | Assign this prop as a ref on your component |
 | enterCount | number    |         | Numbers of times your component has entered the viewport                                     |
 | leaveCount | number    |         | Number of times your component has left the viewport                                     |
 
-_NOTE_: Stateless: Need to add `ref={this.props.forwardedRef}` to your component
+_NOTE_: Need to add `ref={this.props.forwardedRef}` to your component
 
 #### Example of a functional component
 
@@ -133,9 +133,9 @@ class MySectionBlock extends Component {
   }
 
   render() {
-    const { enterCount, leaveCount } = this.props;
+    const { enterCount, leaveCount, forwardedRef } = this.props;
     return (
-      <section>
+      <section ref={forwardedRef}>
         <div className="content" style={this.getStyle()}>
           <h1>Hello</h1>
           <p>{`Enter viewport: ${enterCount} times`}</p>
@@ -182,10 +182,6 @@ const MySectionBlock = () => {
   );
 };
 ```
-
-## Note
-
-This library is using `ReactDOM.findDOMNode` to access the DOM from a React element. This method is deprecated in `StrictMode`. We will update the package and release a major version when React 17 is out.
 
 ## Who is using this component
 

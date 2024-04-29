@@ -5,7 +5,7 @@ import handleViewport, { customProps } from '../../index'; // eslint-disable-lin
 import { Block, PageTitle, Spacer } from '../common/themeComponent';
 
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
-function CustomAnchor({ forwardedRef, inViewport, ...restProps }) {
+const CustomAnchor = ({ forwardedRef, inViewport, ...restProps }) => {
   const text = inViewport ? 'Link (in viewport)' : 'Link (not in viewport)';
   return (
     <a
@@ -17,7 +17,7 @@ function CustomAnchor({ forwardedRef, inViewport, ...restProps }) {
       {text}
     </a>
   );
-}
+};
 const ViewportAnchor = handleViewport(
   CustomAnchor,
   {},
@@ -40,20 +40,20 @@ export default {
   ],
 };
 
-export function ClassBaseComponent() {
+export const ClassBaseComponent = () => {
   return (
     <ViewportBlock
       onEnterViewport={() => action('callback')('onEnterViewport')}
       onLeaveViewport={() => action('callback')('onLeaveViewport')}
     />
   );
-}
+};
 
-export function FunctionalComponent() {
+export const FunctionalComponent = () => {
   return (
     <ViewportAnchor
       onEnterViewport={() => action('callback')('onEnterViewport')}
       onLeaveViewport={() => action('callback')('onLeaveViewport')}
     />
   );
-}
+};

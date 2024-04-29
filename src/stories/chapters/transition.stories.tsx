@@ -16,6 +16,6 @@ export default {
   ],
 };
 
-export function ClassComponentTransition() {
+export const ClassComponentTransition = () => {
   return <SectionWithTransition />;
-}
+};

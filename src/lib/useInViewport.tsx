@@ -1,7 +1,4 @@
-import React, {
-  useEffect, useRef, useState,
-} from 'react';
-import { findDOMNode } from 'react-dom';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
 
@@ -10,11 +7,11 @@ import type { Config, CallbackProps, Options } from './types';
 const useInViewport = (
   target: React.RefObject<HTMLElement>,
   options: Options = defaultOptions,
-  config : Config = defaultConfig,
+  config: Config = defaultConfig,
   props: CallbackProps = defaultProps,
 ) => {
   const { onEnterViewport, onLeaveViewport } = props;
-  const [, forceUpdate] = useState();
+  const [, forceUpdate] = useState<boolean>();
 
   const observer = useRef<IntersectionObserver>();
 
@@ -27,7 +24,7 @@ const useInViewport = (
   function startObserver({ observerRef }) {
     const targetRef = target.current;
     if (targetRef) {
-      const node = findDOMNode(targetRef);
+      const node = targetRef;
       if (node) {
         observerRef?.observe(node);
       }
@@ -37,7 +34,7 @@ const useInViewport = (
   function stopObserver({ observerRef }) {
     const targetRef = target.current;
     if (targetRef) {
-      const node = findDOMNode(targetRef);
+      const node = targetRef;
       if (node) {
         observerRef?.unobserve(node);
       }
@@ -47,8 +44,8 @@ const useInViewport = (
     observer.current = null;
   }
 
-  function handleIntersection(entries) {
-    const entry = entries[0] || {};
+  const handleIntersection: IntersectionObserverCallback = (entries) => {
+    const entry = entries[0] || {} as IntersectionObserverEntry;
     const { isIntersecting, intersectionRatio } = entry;
     const isInViewport = typeof isIntersecting !== 'undefined'
       ? isIntersecting
@@ -69,14 +66,14 @@ const useInViewport = (
       intersected.current = false;
       onLeaveViewport?.();
       if (config.disconnectOnLeave && observer.current) {
-        // disconnect obsever on leave
+        // disconnect observer on leave
         observer.current.disconnect();
       }
       leaveCountRef.current += 1;
       inViewportRef.current = isInViewport;
       forceUpdate(isInViewport);
     }
-  }
+  };
 
   function initIntersectionObserver({ observerRef }) {
     if (!observerRef) {

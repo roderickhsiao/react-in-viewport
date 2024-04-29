@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
@@ -12,14 +12,14 @@ type ImageObjectProps = InjectedViewportProps<HTMLDivElement> & {
   ratio: string;
 };
 
-function ImageObject(props: ImageObjectProps) {
+const ImageObject = (props: ImageObjectProps) => {
   const {
     src: originalSrc, ratio, forwardedRef, inViewport,
   } = props;
   const [src, setSrc] = useState(DUMMY_IMAGE_SRC);
   const [status, setStatus] = useState(INIT);
 
-  const loadImage = imageSrc => {
+  const loadImage = (imageSrc: string) => {
     const img = new Image(); // eslint-disable-line
     setStatus(LOADING);
     img.onload = () => {
@@ -62,7 +62,7 @@ function ImageObject(props: ImageObjectProps) {
       <img src={src} alt="demo" />
     </AspectRatio>
   );
-}
+};
 
 const LazyImage = handleViewport(ImageObject, {}, { disconnectOnLeave: true });
 export default LazyImage;

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent, RefObject } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 
 import { INIT, LOADING, LOADED } from './constants';
@@ -12,10 +12,7 @@ type ImageObjectProps = InjectedViewportProps & {
   ratio: string;
 };
 
-class ImageObject extends PureComponent<
-ImageObjectProps,
-{ status: number; src: string }
-> {
+class ImageObject extends PureComponent<ImageObjectProps, { status: number; src: string }> {
   // eslint-disable-line
   constructor(props) {
     super(props);
@@ -75,6 +72,7 @@ ImageObjectProps,
           marginBottom: '200px',
           backgroundColor: this.getBackgroundColor(),
         }}
+        ref={this.props.forwardedRef as RefObject<HTMLDivElement>}
       >
         <img src={this.state.src} alt="demo" />
       </AspectRatio>

@@ -9,7 +9,7 @@ type IframeFunctionalProps = InjectedViewportProps<HTMLDivElement> & {
   ratio: string;
 };
 
-function IframeFunctional(props: IframeFunctionalProps) {
+const IframeFunctional = (props: IframeFunctionalProps) => {
   const {
     inViewport, src, ratio, forwardedRef,
   } = props;
@@ -38,7 +38,7 @@ function IframeFunctional(props: IframeFunctionalProps) {
       <Component {...componentProps} />
     </AspectRatio>
   );
-}
+};
 
 const LazyIframe = handleViewport(memo(IframeFunctional), {}, { disconnectOnLeave: true });
 export default LazyIframe;
