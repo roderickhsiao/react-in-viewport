@@ -50,7 +50,7 @@ export class Card extends React.PureComponent<CardProps> {
 
 type BlockProps = InjectedViewportProps<HTMLDivElement>;
 
-export function Block(props: BlockProps) {
+export const Block = (props: BlockProps) => {
   const {
     inViewport, enterCount, leaveCount, forwardedRef,
   } = props;
@@ -74,11 +74,11 @@ export function Block(props: BlockProps) {
       )}
     />
   );
-}
+};
 
 Block.displayName = 'Block';
 
-export function Spacer() {
+export const Spacer = () => {
   return (
     <div style={{ height: '100vh', padding: '20px' }}>
       <p>
@@ -91,5 +91,5 @@ export function Spacer() {
       </p>
     </div>
   );
-}
+};
 Spacer.displayName = Spacer;

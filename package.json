@@ -1,6 +1,6 @@
 {
   "name": "react-in-viewport",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-beta.1",
   "description": "Track React component in viewport using Intersection Observer API",
   "author": "Roderick Hsiao <roderickhsiao@gmail.com>",
   "license": "MIT",
@@ -36,11 +36,12 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.16.7",
-    "@storybook/addon-actions": "^7.0.0",
-    "@storybook/addon-docs": "^7.0.0",
-    "@storybook/addon-essentials": "^7.0.0",
-    "@storybook/react": "^7.0.0",
-    "@storybook/react-webpack5": "^7.0.0",
+    "@storybook/addon-actions": "^8.0.9",
+    "@storybook/addon-docs": "^8.0.9",
+    "@storybook/addon-essentials": "^8.0.9",
+    "@storybook/addon-webpack5-compiler-babel": "^3.0.3",
+    "@storybook/react": "^8.0.9",
+    "@storybook/react-webpack5": "^8.0.9",
     "@testing-library/react": "^14.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^29.0.0",
@@ -67,16 +68,19 @@
     "jest-environment-jsdom": "^29.3.1",
     "jest-junit": "^15.0.0",
     "react": "^18.0.0",
-    "react-aspect-ratio": "^1.1.6",
+    "react-aspect-ratio": "^1.1.8",
     "react-dom": "^18.0.0",
     "react-test-renderer": "^18.0.0",
-    "storybook": "^7.0.0",
+    "storybook": "^8.0.9",
     "typescript": "^5.0.0",
     "webpack": "^5.75.0"
   },
   "peerDependencies": {
     "react": "^16.8.3 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.3 || ^17.0.0 || ^18.0.0"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.0.0"

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 
 import { handleViewport } from '../../index';
 import type { InjectedViewportProps } from '../../lib/types';

@@ -11,17 +11,6 @@ import useInViewport from './useInViewport';
 
 import { noop, defaultOptions, defaultConfig } from './constants';
 
-const isFunctionalComponent = (Component: React.ElementType) => {
-  return (
-    typeof Component === 'function'
-    && !(Component.prototype && Component.prototype.render)
-  );
-};
-
-const isReactComponent = (Component: React.ComponentClass) => {
-  return Component.prototype && Component.prototype.isReactComponent;
-};
-
 function handleViewport<
   TElement extends HTMLElement,
   TProps extends InjectedViewportProps<TElement>,
@@ -34,20 +23,16 @@ function handleViewport<
     const refProps = {
       forwardedRef: ref,
       // pass both ref/forwardedRef for class component for backward compatibility
-      ...(isReactComponent(TargetComponent as React.ComponentClass<TProps>)
-      && !isFunctionalComponent(TargetComponent)
-        ? { ref }
-        : {}),
     };
     return <TargetComponent {...props} {...refProps} />;
   });
 
-  function InViewport({
+  const InViewport = ({
     onEnterViewport = noop,
     onLeaveViewport = noop,
     ...restProps
-  }: Omit<TProps, keyof InjectedViewportProps<TElement>> & CallbackProps) {
-    const node = useRef<TElement>();
+  }: Omit<TProps, keyof InjectedViewportProps<TElement>> & CallbackProps) => {
+    const node = useRef<TElement>(null);
     const { inViewport, enterCount, leaveCount } = useInViewport(
       node,
       options,
@@ -65,10 +50,8 @@ function handleViewport<
       leaveCount,
     } as React.PropsWithoutRef<TProps>;
 
-    return (
-      <ForwardedRefComponent {...props} ref={node} />
-    );
-  }
+    return <ForwardedRefComponent {...props} ref={node} />;
+  };
 
   const name = (TargetComponent as React.FC).displayName
     || (TargetComponent as React.FC).name

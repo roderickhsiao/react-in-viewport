@@ -1,6 +1,10 @@
 module.exports = {
   stories: ['../src/**/*.stories.tsx'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-actions'],
+  addons: [
+    '@storybook/addon-docs',
+    '@storybook/addon-actions',
+    '@storybook/addon-webpack5-compiler-babel'
+  ],
   docs: {
     autodocs: true
   },

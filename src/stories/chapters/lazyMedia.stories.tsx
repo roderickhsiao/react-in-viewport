@@ -20,7 +20,7 @@ export default {
   ],
 };
 
-export function ClassComponentLazyloadImage() {
+export const ClassComponentLazyloadImage = () => {
   const imageArray = [
     {
       src: 'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
@@ -43,9 +43,9 @@ export function ClassComponentLazyloadImage() {
       ))}
     />
   );
-}
+};
 
-export function ClassComponentLazyloadIframe() {
+export const ClassComponentLazyloadIframe = () => {
   const iframeArray = [
     {
       src: 'https://www.youtube.com/embed/hTcBnxxuAls',
@@ -68,9 +68,9 @@ export function ClassComponentLazyloadIframe() {
       ))}
     />
   );
-}
+};
 
-export function FunctionalComponentLazyloadImage() {
+export const FunctionalComponentLazyloadImage = () => {
   const imageArray = [
     {
       src: 'https://s-media-cache-ak0.pinimg.com/originals/cf/31/83/cf31837a53dc1cdb13880ac38c66d70d.jpg',
@@ -97,9 +97,9 @@ export function FunctionalComponentLazyloadImage() {
       ))}
     />
   );
-}
+};
 
-export function FunctionalComponentLazyloadIframe() {
+export const FunctionalComponentLazyloadIframe = () => {
   const iframeArray = [
     {
       src: 'https://www.youtube.com/embed/hTcBnxxuAls',
@@ -126,4 +126,4 @@ export function FunctionalComponentLazyloadIframe() {
       ))}
     />
   );
-}
+};

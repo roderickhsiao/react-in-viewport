@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent, RefObject } from 'react';
 import { AspectRatio } from 'react-aspect-ratio';
 
 import { handleViewport } from '../../index';
@@ -9,10 +9,7 @@ type IframeProps = InjectedViewportProps & {
   ratio: string;
 };
 
-class Iframe extends PureComponent<
-IframeProps,
-{ loaded: boolean }
-> {
+class Iframe extends PureComponent<IframeProps, { loaded: boolean }> {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,6 +40,7 @@ IframeProps,
       <AspectRatio
         ratio={ratio}
         style={{ marginBottom: '200px', backgroundColor: 'rgba(0,0,0,.12)' }}
+        ref={this.props.forwardedRef as RefObject<HTMLDivElement>}
       >
         <Component {...props} />
       </AspectRatio>
