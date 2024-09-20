@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
 
@@ -11,7 +16,7 @@ const useDOMObserver = (
     attributes: true,
     childList: true,
     subtree: true,
-  }
+  },
 ) => {
   useEffect(() => {
     const currentElement = ref.current;
@@ -36,7 +41,7 @@ const useInViewport = (
   target: React.RefObject<HTMLElement>,
   options: Options = defaultOptions,
   config: Config = defaultConfig,
-  props: CallbackProps = defaultProps
+  props: CallbackProps = defaultProps,
 ) => {
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState<boolean>();
@@ -75,10 +80,9 @@ const useInViewport = (
   const handleIntersection: IntersectionObserverCallback = (entries) => {
     const entry = entries[0] || ({} as IntersectionObserverEntry);
     const { isIntersecting, intersectionRatio } = entry;
-    const isInViewport =
-      typeof isIntersecting !== 'undefined'
-        ? isIntersecting
-        : intersectionRatio > 0;
+    const isInViewport = typeof isIntersecting !== 'undefined'
+      ? isIntersecting
+      : intersectionRatio > 0;
 
     // enter
     if (!intersected.current && isInViewport) {
