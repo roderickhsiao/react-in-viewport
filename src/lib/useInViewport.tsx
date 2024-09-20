@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -9,32 +8,10 @@ import { defaultOptions, defaultConfig, defaultProps } from './constants';
 
 import type { Config, CallbackProps, Options } from './types';
 
-const useDOMObserver = (
-  ref: React.RefObject<HTMLElement>,
-  onChange: (mutations: MutationRecord[]) => void,
-  options: MutationObserverInit = {
-    attributes: true,
-    childList: true,
-    subtree: true,
-  },
-) => {
-  useEffect(() => {
-    const currentElement = ref.current;
-    let observer: MutationObserver;
-    if (currentElement) {
-      observer = new MutationObserver(onChange);
-
-      // Start observing the DOM element for mutations
-      observer.observe(currentElement, options);
-    }
-
-    // Cleanup function to stop observing when the component unmounts
-    return () => {
-      if (observer) {
-        observer.disconnect();
-      }
-    };
-  }, [ref, onChange, options]);
+const defaultMutationObserverOption = {
+  attributes: true,
+  childList: true,
+  subtree: true,
 };
 
 const useInViewport = (
@@ -116,7 +93,11 @@ const useInViewport = (
     return observerRef;
   }
 
-  const attachObserver = useCallback(({ observerRef }) => {
+  useEffect(() => {
+    let observerRef = observer.current;
+    // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+    observerRef = initIntersectionObserver({ observerRef });
+
     startObserver({
       observerRef,
     });
@@ -126,23 +107,34 @@ const useInViewport = (
         observerRef,
       });
     };
-  }, []);
-
-  const handleMutation = useCallback(() => {
-    const observerRef = observer.current;
-    attachObserver({ observerRef });
-  }, []);
-
-  useEffect(() => {
-    let observerRef = observer.current;
-    // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-    observerRef = initIntersectionObserver({ observerRef });
-
-    attachObserver({ observerRef });
-  }, [options, config, onEnterViewport, onLeaveViewport]);
+  }, [target.current, options, config, onEnterViewport, onLeaveViewport]);
 
   // handles when ref changes
-  useDOMObserver(target, handleMutation);
+  useEffect(() => {
+    const currentElement = target.current;
+    const observerRef = observer.current;
+
+    const handleOnChange = () => {
+      startObserver({
+        observerRef,
+      });
+    };
+
+    let mutationObserver: MutationObserver;
+    if (currentElement) {
+      mutationObserver = new MutationObserver(handleOnChange);
+
+      // Start observing the DOM element for mutations
+      mutationObserver.observe(currentElement, defaultMutationObserverOption);
+    }
+
+    // Cleanup function to stop observing when the component unmounts
+    return () => {
+      if (observer) {
+        mutationObserver.disconnect();
+      }
+    };
+  }, [target.current]);
 
   return {
     inViewport: inViewportRef.current,
