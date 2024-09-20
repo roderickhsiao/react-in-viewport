@@ -1,8 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
 
 import type { Config, CallbackProps, Options } from './types';
+
+const useDOMObserver = (
+  ref: React.RefObject<HTMLElement>,
+  onChange: (mutations: MutationRecord[]) => void,
+  options: MutationObserverInit = {
+    attributes: true,
+    childList: true,
+    subtree: true,
+  },
+) => {
+  useEffect(() => {
+    const currentElement = ref.current;
+    let observer: MutationObserver;
+    if (currentElement) {
+      observer = new MutationObserver(onChange);
+
+      // Start observing the DOM element for mutations
+      observer.observe(currentElement, options);
+    }
+
+    // Cleanup function to stop observing when the component unmounts
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [ref, onChange, options]);
+};
 
 const useInViewport = (
   target: React.RefObject<HTMLElement>,
@@ -45,7 +78,7 @@ const useInViewport = (
   }
 
   const handleIntersection: IntersectionObserverCallback = (entries) => {
-    const entry = entries[0] || {} as IntersectionObserverEntry;
+    const entry = entries[0] || ({} as IntersectionObserverEntry);
     const { isIntersecting, intersectionRatio } = entry;
     const isInViewport = typeof isIntersecting !== 'undefined'
       ? isIntersecting
@@ -83,11 +116,7 @@ const useInViewport = (
     return observerRef;
   }
 
-  useEffect(() => {
-    let observerRef = observer.current;
-    // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-    observerRef = initIntersectionObserver({ observerRef });
-
+  const attachObserver = useCallback(({ observerRef }) => {
     startObserver({
       observerRef,
     });
@@ -97,7 +126,23 @@ const useInViewport = (
         observerRef,
       });
     };
-  }, [target.current, options, config, onEnterViewport, onLeaveViewport]);
+  }, []);
+
+  const handleMutation = useCallback(() => {
+    const observerRef = observer.current;
+    attachObserver({ observerRef });
+  }, []);
+
+  useEffect(() => {
+    let observerRef = observer.current;
+    // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+    observerRef = initIntersectionObserver({ observerRef });
+
+    attachObserver({ observerRef });
+  }, [options, config, onEnterViewport, onLeaveViewport]);
+
+  // handles when ref changes
+  useDOMObserver(target, handleMutation);
 
   return {
     inViewport: inViewportRef.current,

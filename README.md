@@ -7,7 +7,9 @@
 
 <hr>
 
-Library to detect whether or not a component is in the viewport, using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+Library to detect whether or not a component is in the viewport, using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+
+This library also uses [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) to detect the change of the target element.
 
 ```npm install --save react-in-viewport```
 
