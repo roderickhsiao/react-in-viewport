@@ -5,9 +5,7 @@ module.exports = {
     '@storybook/addon-actions',
     '@storybook/addon-webpack5-compiler-babel'
   ],
-  docs: {
-    autodocs: true
-  },
+  docs: {},
   framework: {
     name: '@storybook/react-webpack5',
     options: {}
