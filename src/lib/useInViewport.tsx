@@ -30,6 +30,8 @@ const useInViewport = (
 
   const enterCountRef = useRef<number>(0);
   const leaveCountRef = useRef<number>(0);
+  // State to track when target is available
+  const [isTargetReady, setIsTargetReady] = useState(Boolean(target.current));
 
   function startObserver({ observerRef }) {
     const targetRef = target.current;
@@ -109,23 +111,28 @@ const useInViewport = (
     };
   }, [target.current, options, config, onEnterViewport, onLeaveViewport]);
 
-  // handles when ref changes
+  // Use MutationObserver to detect when `target.current` becomes non-null
+  // only at start up
   useEffect(() => {
     const currentElement = target.current;
-    const observerRef = observer.current;
+    let mutationObserver: MutationObserver | null = null;
 
+    // MutationObserver callback to check when the target ref is assigned
     const handleOnChange = () => {
-      startObserver({
-        observerRef,
-      });
+      if (target.current && !isTargetReady) {
+        setIsTargetReady(true);
+        if (mutationObserver) {
+          mutationObserver.disconnect();
+        }
+      }
     };
 
-    let mutationObserver: MutationObserver;
     if (currentElement) {
+      setIsTargetReady(true); // If target is already available, mark it ready
+    } else {
+      // Observe changes to detect when `target.current` becomes non-null
       mutationObserver = new MutationObserver(handleOnChange);
-
-      // Start observing the DOM element for mutations
-      mutationObserver.observe(currentElement, defaultMutationObserverOption);
+      mutationObserver.observe(document.body, defaultMutationObserverOption);
     }
 
     // Cleanup function to stop observing when the component unmounts
