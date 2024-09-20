@@ -130,7 +130,7 @@ const useInViewport = (
 
     // Cleanup function to stop observing when the component unmounts
     return () => {
-      if (observer) {
+      if (mutationObserver) {
         mutationObserver.disconnect();
       }
     };
