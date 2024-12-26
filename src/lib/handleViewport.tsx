@@ -1,4 +1,5 @@
 import { useRef, forwardRef } from 'react';
+import type { ComponentType, PropsWithoutRef } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 import type {
@@ -15,15 +16,15 @@ function handleViewport<
   TElement extends HTMLElement,
   TProps extends InjectedViewportProps<TElement>,
 >(
-  TargetComponent: React.ComponentType<TProps>,
+  TargetComponent: ComponentType<PropsWithoutRef<TProps>>,
   options: Options = defaultOptions,
-  config: Config = defaultConfig,
+  config: Config = defaultConfig
 ) {
   const ForwardedRefComponent = forwardRef<TElement, TProps>((props, ref) => {
     const refProps = {
       forwardedRef: ref,
       // pass both ref/forwardedRef for class component for backward compatibility
-    };
+    } as const;
     return <TargetComponent {...props} {...refProps} />;
   });
 
@@ -53,9 +54,10 @@ function handleViewport<
     return <ForwardedRefComponent {...props} ref={node} />;
   };
 
-  const name = (TargetComponent as React.FC).displayName
-    || (TargetComponent as React.FC).name
-    || 'Component';
+  const name =
+    (TargetComponent as React.FC).displayName ||
+    (TargetComponent as React.FC).name ||
+    'Component';
   InViewport.displayName = `handleViewport(${name})`;
 
   return hoistNonReactStatic(InViewport, ForwardedRefComponent);
