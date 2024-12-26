@@ -1,3 +1,5 @@
+import type { RefObject } from 'react';
+
 export type Config = {
   disconnectOnLeave?: boolean;
 };
@@ -6,12 +8,12 @@ export type InjectedViewportProps<TElement extends HTMLElement = HTMLElement> = 
   inViewport: boolean;
   enterCount: number;
   leaveCount: number;
-  forwardedRef: React.RefObject<TElement>;
+  readonly forwardedRef: RefObject<TElement>;
 };
 
 export type CallbackProps = {
-  onEnterViewport?: () => void;
-  onLeaveViewport?: () => void;
+  onEnterViewport?: VoidFunction
+  onLeaveViewport?: VoidFunction;
 };
 
 export type Options = IntersectionObserverInit;

@@ -161,7 +161,7 @@ import React, { useRef } from 'react';
 import { useInViewport } from 'react-in-viewport';
 
 const MySectionBlock = () => {
-  const myRef = useRef();
+  const myRef = useRef(null);
   const {
     inViewport,
     enterCount,

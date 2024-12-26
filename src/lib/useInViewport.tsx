@@ -1,4 +1,5 @@
-import React, {
+import {
+  type RefObject,
   useEffect,
   useRef,
   useState,
@@ -15,7 +16,7 @@ const defaultMutationObserverOption = {
 };
 
 const useInViewport = (
-  target: React.RefObject<HTMLElement>,
+  target: RefObject<HTMLElement | null>,
   options: Options = defaultOptions,
   config: Config = defaultConfig,
   props: CallbackProps = defaultProps,
@@ -23,7 +24,7 @@ const useInViewport = (
   const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState<boolean>();
 
-  const observer = useRef<IntersectionObserver>();
+  const observer = useRef<IntersectionObserver>(undefined);
 
   const inViewportRef = useRef<boolean>(false);
   const intersected = useRef<boolean>(false);
