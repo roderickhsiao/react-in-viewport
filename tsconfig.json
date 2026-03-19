@@ -14,7 +14,7 @@
     "outDir": "dist/types",
     "rootDir": "./src",
     "skipLibCheck": true,
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "target": "ESNext",
   }
 }
