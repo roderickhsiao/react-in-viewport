@@ -4,15 +4,16 @@ export type Config = {
   disconnectOnLeave?: boolean;
 };
 
-export type InjectedViewportProps<TElement extends HTMLElement = HTMLElement> = {
-  inViewport: boolean;
-  enterCount: number;
-  leaveCount: number;
-  readonly forwardedRef: RefObject<TElement>;
-};
+export type InjectedViewportProps<TElement extends HTMLElement = HTMLElement> =
+  {
+    inViewport: boolean;
+    enterCount: number;
+    leaveCount: number;
+    readonly forwardedRef: RefObject<TElement>;
+  };
 
 export type CallbackProps = {
-  onEnterViewport?: VoidFunction
+  onEnterViewport?: VoidFunction;
   onLeaveViewport?: VoidFunction;
 };
 

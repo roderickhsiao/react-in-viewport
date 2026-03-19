@@ -1,8 +1,5 @@
 import {
-  type RefObject,
-  useEffect,
-  useRef,
-  useState,
+  type RefObject, useEffect, useRef, useState,
 } from 'react';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
@@ -10,7 +7,6 @@ import { defaultOptions, defaultConfig, defaultProps } from './constants';
 import type { Config, CallbackProps, Options } from './types';
 
 const defaultMutationObserverOption = {
-  attributes: true,
   childList: true,
   subtree: true,
 };
@@ -34,7 +30,11 @@ const useInViewport = (
   // State to track when target is available
   const [isTargetReady, setIsTargetReady] = useState(Boolean(target.current));
 
-  function startObserver({ observerRef }) {
+  function startObserver({
+    observerRef,
+  }: {
+    observerRef: IntersectionObserver | undefined;
+  }) {
     const targetRef = target.current;
     if (targetRef) {
       const node = targetRef;
@@ -44,7 +44,11 @@ const useInViewport = (
     }
   }
 
-  function stopObserver({ observerRef }) {
+  function stopObserver({
+    observerRef,
+  }: {
+    observerRef: IntersectionObserver | undefined;
+  }) {
     const targetRef = target.current;
     if (targetRef) {
       const node = targetRef;
@@ -54,7 +58,7 @@ const useInViewport = (
     }
 
     observerRef?.disconnect();
-    observer.current = null;
+    observer.current = undefined;
   }
 
   const handleIntersection: IntersectionObserverCallback = (entries) => {
@@ -88,7 +92,11 @@ const useInViewport = (
     }
   };
 
-  function initIntersectionObserver({ observerRef }) {
+  function initIntersectionObserver({
+    observerRef,
+  }: {
+    observerRef: IntersectionObserver | undefined;
+  }) {
     if (!observerRef) {
       observer.current = new IntersectionObserver(handleIntersection, options);
       return observer.current;
@@ -110,7 +118,7 @@ const useInViewport = (
         observerRef,
       });
     };
-  }, [target.current, options, config, onEnterViewport, onLeaveViewport]);
+  }, [isTargetReady, options, config, onEnterViewport, onLeaveViewport]);
 
   // Use MutationObserver to detect when `target.current` becomes non-null
   // only at start up
