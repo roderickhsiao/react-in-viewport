@@ -10,14 +10,14 @@ type IframeProps = InjectedViewportProps & {
 };
 
 class Iframe extends PureComponent<IframeProps, { loaded: boolean }> {
-  constructor(props) {
+  constructor(props: IframeProps) {
     super(props);
     this.state = {
       loaded: false,
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: IframeProps, state: { loaded: boolean }) {
     if (props.inViewport && !state.loaded) {
       return {
         loaded: true,

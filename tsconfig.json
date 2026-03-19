@@ -8,11 +8,13 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "noEmit": false,
     "outDir": "dist/types",
+    "rootDir": "./src",
     "skipLibCheck": true,
+    "types": ["jest"],
     "target": "ESNext",
   }
 }

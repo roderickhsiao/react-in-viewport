@@ -14,19 +14,19 @@ class MySectionBlock extends PureComponent<InjectedViewportProps> {
     };
     // Fade in only the first time we enter the viewport
     if (inViewport && enterCount === 1) {
-      return { ...basicStyle, WebkitTransition: 'opacity 1s ease-in-out' };
+      return { ...basicStyle, transition: 'opacity 1s ease-in-out', opacity: 1 };
     }
     if (!inViewport && enterCount < 1) {
-      return { ...basicStyle, WebkitTransition: 'none', opacity: '0' };
+      return { ...basicStyle, transition: 'none', opacity: 0 };
     }
     return basicStyle;
   }
 
   render() {
-    const { enterCount, leaveCount } = this.props;
+    const { enterCount, leaveCount, forwardedRef } = this.props;
 
     return (
-      <section>
+      <section ref={forwardedRef}>
         <div className="card" style={this.getStyle()}>
           <div className="card__conent">
             <h3>Hello</h3>

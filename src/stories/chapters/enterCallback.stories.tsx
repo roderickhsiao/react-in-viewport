@@ -1,11 +1,12 @@
-import { action } from '@storybook/addon-actions';
-import omit from 'lodash/omit';
+import { fn } from 'storybook/test';
 
 import handleViewport, { customProps } from '../../index'; // eslint-disable-line import/no-named-as-default
+import type { InjectedViewportProps } from '../../lib/types';
+import { omit } from '../../lib/utils';
 import { Block, PageTitle, Spacer } from '../common/themeComponent';
 
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
-const CustomAnchor = ({ forwardedRef, inViewport, ...restProps }) => {
+const CustomAnchor = ({ forwardedRef, inViewport, ...restProps }: InjectedViewportProps<HTMLAnchorElement>) => {
   const text = inViewport ? 'Link (in viewport)' : 'Link (not in viewport)';
   return (
     <a
@@ -43,8 +44,8 @@ export default {
 export const ClassBaseComponent = () => {
   return (
     <ViewportBlock
-      onEnterViewport={() => action('callback')('onEnterViewport')}
-      onLeaveViewport={() => action('callback')('onLeaveViewport')}
+      onEnterViewport={fn()}
+      onLeaveViewport={fn()}
     />
   );
 };
@@ -52,8 +53,8 @@ export const ClassBaseComponent = () => {
 export const FunctionalComponent = () => {
   return (
     <ViewportAnchor
-      onEnterViewport={() => action('callback')('onEnterViewport')}
-      onLeaveViewport={() => action('callback')('onLeaveViewport')}
+      onEnterViewport={fn()}
+      onLeaveViewport={fn()}
     />
   );
 };
