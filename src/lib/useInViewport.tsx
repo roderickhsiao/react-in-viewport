@@ -1,4 +1,6 @@
-import { type RefObject, useEffect, useRef, useState } from 'react';
+import {
+  type RefObject, useEffect, useRef, useState,
+} from 'react';
 
 import { defaultOptions, defaultConfig, defaultProps } from './constants';
 
@@ -62,10 +64,9 @@ const useInViewport = (
   const handleIntersection: IntersectionObserverCallback = (entries) => {
     const entry = entries[0] || ({} as IntersectionObserverEntry);
     const { isIntersecting, intersectionRatio } = entry;
-    const isInViewport =
-      typeof isIntersecting !== 'undefined'
-        ? isIntersecting
-        : intersectionRatio > 0;
+    const isInViewport = typeof isIntersecting !== 'undefined'
+      ? isIntersecting
+      : intersectionRatio > 0;
 
     // enter
     if (!intersected.current && isInViewport) {

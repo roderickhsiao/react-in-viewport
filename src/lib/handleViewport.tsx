@@ -54,10 +54,9 @@ function handleViewport<
     return <ForwardedRefComponent {...props} ref={node} />;
   };
 
-  const name =
-    (TargetComponent as React.FC).displayName ||
-    (TargetComponent as React.FC).name ||
-    'Component';
+  const name = (TargetComponent as React.FC).displayName
+    || (TargetComponent as React.FC).name
+    || 'Component';
   InViewport.displayName = `handleViewport(${name})`;
 
   return hoistNonReactStatic(InViewport, ForwardedRefComponent);

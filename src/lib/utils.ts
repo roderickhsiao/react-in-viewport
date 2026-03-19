@@ -6,3 +6,5 @@ export function omit<T extends object>(
   keys.forEach((key) => delete result[key]);
   return result as Omit<T, string>;
 }
+
+export default omit;

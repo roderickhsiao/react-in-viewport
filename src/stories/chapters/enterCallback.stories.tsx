@@ -1,4 +1,4 @@
-import { fn } from 'storybook/test';
+import { fn } from 'storybook/test'; // eslint-disable-line import/extensions
 
 import handleViewport, { customProps } from '../../index'; // eslint-disable-line import/no-named-as-default
 import type { InjectedViewportProps } from '../../lib/types';

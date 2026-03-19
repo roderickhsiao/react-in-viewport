@@ -37,7 +37,9 @@ beforeEach(() => {
  */
 class DemoClass extends PureComponent<InjectedViewportProps<HTMLDivElement>> {
   render() {
-    const { inViewport, enterCount, leaveCount, forwardedRef } = this.props;
+    const {
+      inViewport, enterCount, leaveCount, forwardedRef,
+    } = this.props;
     return (
       <div ref={forwardedRef} style={{ width: '400px', height: '300px' }}>
         <span data-testid="state">
