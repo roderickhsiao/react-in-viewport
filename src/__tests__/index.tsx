@@ -4,7 +4,10 @@ import { handleViewport } from '../index';
 import type { InjectedViewportProps } from '../lib/types';
 
 // Controlled IntersectionObserver mock — lets tests manually fire intersection events
-type IOCallback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => void;
+type IOCallback = (
+  entries: IntersectionObserverEntry[],
+  observer: IntersectionObserver,
+) => void;
 let observerCallback: IOCallback | undefined;
 const mockObserve = jest.fn();
 const mockUnobserve = jest.fn();
@@ -15,12 +18,16 @@ beforeEach(() => {
   mockObserve.mockClear();
   mockUnobserve.mockClear();
   mockDisconnect.mockClear();
-  (global as unknown as { IntersectionObserver: unknown }).IntersectionObserver = jest.fn(
-    (cb: IOCallback) => {
-      observerCallback = cb;
-      return { observe: mockObserve, unobserve: mockUnobserve, disconnect: mockDisconnect };
-    },
-  );
+  (
+    global as unknown as { IntersectionObserver: unknown }
+  ).IntersectionObserver = jest.fn((cb: IOCallback) => {
+    observerCallback = cb;
+    return {
+      observe: mockObserve,
+      unobserve: mockUnobserve,
+      disconnect: mockDisconnect,
+    };
+  });
 });
 
 /**
@@ -30,9 +37,7 @@ beforeEach(() => {
  */
 class DemoClass extends PureComponent<InjectedViewportProps<HTMLDivElement>> {
   render() {
-    const {
-      inViewport, enterCount, leaveCount, forwardedRef,
-    } = this.props;
+    const { inViewport, enterCount, leaveCount, forwardedRef } = this.props;
     return (
       <div ref={forwardedRef} style={{ width: '400px', height: '300px' }}>
         <span data-testid="state">
@@ -49,7 +54,12 @@ class DemoClass extends PureComponent<InjectedViewportProps<HTMLDivElement>> {
 const triggerIntersection = (isIntersecting: boolean) => {
   act(() => {
     observerCallback?.(
-      [{ isIntersecting, intersectionRatio: isIntersecting ? 1 : 0 } as IntersectionObserverEntry],
+      [
+        {
+          isIntersecting,
+          intersectionRatio: isIntersecting ? 1 : 0,
+        } as IntersectionObserverEntry,
+      ],
       {} as IntersectionObserver,
     );
   });
@@ -85,7 +95,12 @@ describe('In Viewport', () => {
     const onEnterViewport = jest.fn();
     const onLeaveViewport = jest.fn();
     const TestNode = handleViewport(DemoClass);
-    render(<TestNode onEnterViewport={onEnterViewport} onLeaveViewport={onLeaveViewport} />);
+    render(
+      <TestNode
+        onEnterViewport={onEnterViewport}
+        onLeaveViewport={onLeaveViewport}
+      />,
+    );
 
     triggerIntersection(true);
     expect(onEnterViewport).toHaveBeenCalledTimes(1);
@@ -105,7 +120,11 @@ describe('In Viewport', () => {
   });
 
   it('keeps observing after leave when disconnectOnLeave is false', () => {
-    const TestNode = handleViewport(DemoClass, {}, { disconnectOnLeave: false });
+    const TestNode = handleViewport(
+      DemoClass,
+      {},
+      { disconnectOnLeave: false },
+    );
     const { getByTestId } = render(<TestNode />);
     triggerIntersection(true);
     triggerIntersection(false);

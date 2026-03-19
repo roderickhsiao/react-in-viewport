@@ -6,7 +6,11 @@ import { omit } from '../../lib/utils';
 import { Block, PageTitle, Spacer } from '../common/themeComponent';
 
 const ViewportBlock = handleViewport(Block, {}, { disconnectOnLeave: false });
-const CustomAnchor = ({ forwardedRef, inViewport, ...restProps }: InjectedViewportProps<HTMLAnchorElement>) => {
+const CustomAnchor = ({
+  forwardedRef,
+  inViewport,
+  ...restProps
+}: InjectedViewportProps<HTMLAnchorElement>) => {
   const text = inViewport ? 'Link (in viewport)' : 'Link (not in viewport)';
   return (
     <a
@@ -42,19 +46,9 @@ export default {
 };
 
 export const ClassBaseComponent = () => {
-  return (
-    <ViewportBlock
-      onEnterViewport={fn()}
-      onLeaveViewport={fn()}
-    />
-  );
+  return <ViewportBlock onEnterViewport={fn()} onLeaveViewport={fn()} />;
 };
 
 export const FunctionalComponent = () => {
-  return (
-    <ViewportAnchor
-      onEnterViewport={fn()}
-      onLeaveViewport={fn()}
-    />
-  );
+  return <ViewportAnchor onEnterViewport={fn()} onLeaveViewport={fn()} />;
 };

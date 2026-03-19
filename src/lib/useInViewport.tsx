@@ -28,7 +28,11 @@ const useInViewport = (
   // State to track when target is available
   const [isTargetReady, setIsTargetReady] = useState(Boolean(target.current));
 
-  function startObserver({ observerRef }: { observerRef: IntersectionObserver | undefined }) {
+  function startObserver({
+    observerRef,
+  }: {
+    observerRef: IntersectionObserver | undefined;
+  }) {
     const targetRef = target.current;
     if (targetRef) {
       const node = targetRef;
@@ -38,7 +42,11 @@ const useInViewport = (
     }
   }
 
-  function stopObserver({ observerRef }: { observerRef: IntersectionObserver | undefined }) {
+  function stopObserver({
+    observerRef,
+  }: {
+    observerRef: IntersectionObserver | undefined;
+  }) {
     const targetRef = target.current;
     if (targetRef) {
       const node = targetRef;
@@ -83,7 +91,11 @@ const useInViewport = (
     }
   };
 
-  function initIntersectionObserver({ observerRef }: { observerRef: IntersectionObserver | undefined }) {
+  function initIntersectionObserver({
+    observerRef,
+  }: {
+    observerRef: IntersectionObserver | undefined;
+  }) {
     if (!observerRef) {
       observer.current = new IntersectionObserver(handleIntersection, options);
       return observer.current;
