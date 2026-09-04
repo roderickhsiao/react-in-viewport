@@ -61,6 +61,12 @@ When wrapping your component with `handleViewport` HOC, you will receive `inView
 | Params            | Type    | Default                                                                                                                            | Description                                  |
 |-------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | disconnectOnLeave | boolean | false                                                                                                                              | Disconnect intersection observer after leave |
+| enabled           | boolean | true                                                                                                                               | Whether the element is observed at all. **Hook only** — see [Pausing observation](#pausing-observation) |
+
+> `enabled` has no effect on the HOC. `handleViewport(Component, options, config)`
+> takes its config as a wrap-time argument, so the value is captured once when
+> the component is created and cannot be changed afterwards. Pausing is a
+> runtime decision, so it is only available through the `useInViewport` hook.
 
 ### HOC Component Props
 
@@ -184,6 +190,49 @@ const MySectionBlock = () => {
   );
 };
 ```
+
+#### Pausing observation
+
+Set `config.enabled` to `false` to stop observing, and back to `true` to resume.
+
+The case this exists for: a tab bar that both highlights the section you have
+scrolled to *and* scrolls to a section when clicked. Without a pause, clicking a
+tab reports every section the smooth scroll flies past, and the highlight
+flickers on the way down.
+
+```js
+import { useRef, useState } from 'react';
+import { useInViewport } from 'react-in-viewport';
+
+const Section = ({ id, onEnter }) => {
+  const ref = useRef(null);
+  const [scrolling, setScrolling] = useState(false);
+
+  useInViewport(
+    ref,
+    {},
+    { enabled: !scrolling },
+    { onEnterViewport: () => onEnter(id) }
+  );
+
+  const scrollToMe = () => {
+    setScrolling(true);
+    ref.current.scrollIntoView({ behavior: 'smooth' });
+    // `scrollend` fires once the smooth scroll has actually settled.
+    addEventListener('scrollend', () => setScrolling(false), { once: true });
+  };
+
+  return <section ref={ref} />;
+};
+```
+
+Resuming **reconciles rather than replays**. Re-observing delivers the element's
+current state, so a transition that happened while paused is reported once, on
+resume — and the intermediate ones are never reported at all. An element that
+did not move across the pause reports nothing.
+
+`enabled` is the outer switch: if `disconnectOnLeave` has already fired, setting
+`enabled` back to `true` starts a fresh observation.
 
 ## Who is using this component
 

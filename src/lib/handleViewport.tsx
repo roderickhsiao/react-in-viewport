@@ -12,6 +12,11 @@ import useInViewport from './useInViewport';
 
 import { noop, defaultOptions, defaultConfig } from './constants';
 
+/**
+ * Note: `config.enabled` is not supported here. `config` is captured when the
+ * component is wrapped, so the value can never change afterwards, and pausing
+ * is a runtime decision. Use the `useInViewport` hook directly for that.
+ */
 function handleViewport<
   TElement extends HTMLElement,
   TProps extends InjectedViewportProps<TElement>,
