@@ -21,8 +21,8 @@
     "bundlesize": "bundlesize",
     "lint": "eslint src",
     "lintfix": "eslint src --fix",
-    "postpublish": "npm run publish-storybook",
-    "prepublish": ". ./.scripts/prepublish.sh",
+    "build": ". ./.scripts/prepublish.sh",
+    "prepublishOnly": "npm run build",
     "publish-storybook": "bash .scripts/publish_storybook.sh",
     "storybook": "storybook dev -p 9010",
     "build-storybook": "storybook build",
@@ -97,6 +97,9 @@
   "dependencies": {
     "hoist-non-react-statics": "^3.0.0"
   },
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "module": "dist/es/index.js",
   "types": "dist/types/index.d.ts",

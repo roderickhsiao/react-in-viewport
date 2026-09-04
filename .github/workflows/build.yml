@@ -36,9 +36,9 @@ jobs:
       - name: Type Check
         run: pnpm exec tsc --noEmit
       # Explicit: yarn used to build dist/ as a side effect of `install` firing
-      # the deprecated `prepublish` hook. pnpm does not run that hook, and npm
-      # stopped running it on publish in v7 — so the build is a real step now.
+      # the deprecated `prepublish` hook. pnpm does not run that hook — so the
+      # build is a real step, and `prepublishOnly` reuses it at publish time.
       - name: Build
-        run: pnpm run prepublish
+        run: pnpm build
       - name: Bundle size
         run: pnpm bundlesize
