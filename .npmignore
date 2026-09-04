@@ -10,8 +10,7 @@ jest-config.js
 src
 theme.css
 theme.js
-yarn-error.log
-yarn.lock
+pnpm-lock.yaml
 setupTests.js
 junit.xml
 dist/*/__tests__

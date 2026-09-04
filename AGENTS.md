@@ -234,7 +234,7 @@ is available immediately after `render()` returns.
 
 ## Storybook
 
-Storybook 10.3.1 — runs with `yarn storybook` (port 9010).
+Storybook 10.3.1 — runs with `pnpm storybook` (port 9010).
 
 | Story | Demonstrates |
 |---|---|

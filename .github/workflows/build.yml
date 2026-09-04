@@ -22,16 +22,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+      # Reads the version from package.json's `packageManager` field.
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
       - name: Install
-        run: |
-          yarn install 
+        run: pnpm install --frozen-lockfile
       - name: unit test
-        run: yarn test
+        run: pnpm test
       - name: Type Check
-        run: yarn tsc --noEmit
+        run: pnpm exec tsc --noEmit
       - name: Bundle size
-        run: yarn bundlesize
+        run: pnpm bundlesize

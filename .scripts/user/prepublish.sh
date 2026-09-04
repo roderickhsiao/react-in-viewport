@@ -3,6 +3,6 @@
 echo ""
 echo "=> Creating type definitions into dist/types ..."
 
-yarn tsc --build tsconfig.publish.json
+pnpm exec tsc --build tsconfig.publish.json
 
 echo "=> Type definitions created."
