@@ -15,6 +15,8 @@ This library also uses [MutationObserver](https://developer.mozilla.org/en-US/do
 
 ```yarn add react-in-viewport```
 
+Upgrading? See [MIGRATION.md](MIGRATION.md).
+
 ## Examples
 
 [Demo](https://roderickhsiao.github.io/react-in-viewport/)
@@ -61,6 +63,14 @@ When wrapping your component with `handleViewport` HOC, you will receive `inView
 | Params            | Type    | Default                                                                                                                            | Description                                  |
 |-------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | disconnectOnLeave | boolean | false                                                                                                                              | Disconnect intersection observer after leave |
+| enabled           | boolean | true                                                                                                                               | Whether the element is observed at all. Toggling it at runtime needs the hook — see [Pausing observation](#pausing-observation) |
+
+> The HOC reads `enabled` too, but cannot toggle it.
+> `handleViewport(Component, options, config)` takes its config as a wrap-time
+> argument, so the value is captured once when the component is created and
+> cannot be changed afterwards: `{ enabled: false }` passed to the HOC turns
+> observation off for the life of the component, and nothing can turn it back
+> on. Pausing is a runtime decision, so use the `useInViewport` hook for that.
 
 ### HOC Component Props
 
@@ -184,6 +194,49 @@ const MySectionBlock = () => {
   );
 };
 ```
+
+#### Pausing observation
+
+Set `config.enabled` to `false` to stop observing, and back to `true` to resume.
+
+The case this exists for: a tab bar that both highlights the section you have
+scrolled to *and* scrolls to a section when clicked. Without a pause, clicking a
+tab reports every section the smooth scroll flies past, and the highlight
+flickers on the way down.
+
+```js
+import { useRef, useState } from 'react';
+import { useInViewport } from 'react-in-viewport';
+
+const Section = ({ id, onEnter }) => {
+  const ref = useRef(null);
+  const [scrolling, setScrolling] = useState(false);
+
+  useInViewport(
+    ref,
+    {},
+    { enabled: !scrolling },
+    { onEnterViewport: () => onEnter(id) }
+  );
+
+  const scrollToMe = () => {
+    setScrolling(true);
+    ref.current.scrollIntoView({ behavior: 'smooth' });
+    // `scrollend` fires once the smooth scroll has actually settled.
+    addEventListener('scrollend', () => setScrolling(false), { once: true });
+  };
+
+  return <section ref={ref} />;
+};
+```
+
+Resuming **reconciles rather than replays**. Re-observing delivers the element's
+current state, so a transition that happened while paused is reported once, on
+resume — and the intermediate ones are never reported at all. An element that
+did not move across the pause reports nothing.
+
+`enabled` is the outer switch: if `disconnectOnLeave` has already fired, setting
+`enabled` back to `true` starts a fresh observation.
 
 ## Who is using this component
 

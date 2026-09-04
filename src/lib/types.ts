@@ -2,6 +2,27 @@ import type { RefObject } from 'react';
 
 export type Config = {
   disconnectOnLeave?: boolean;
+  /**
+   * Whether the element is observed at all. Defaults to `true`.
+   *
+   * Setting it to `false` unobserves the element; setting it back to `true`
+   * observes it again. It exists for the case where the consumer is the one
+   * driving the scroll — a tab click that smooth-scrolls to a section — and
+   * does not want the sections crossed on the way there reported as visits.
+   *
+   * Resuming reconciles rather than replays: re-observing delivers the
+   * element's *current* state, so a transition that happened while paused is
+   * reported once, on resume, and the intermediate ones never at all.
+   *
+   * The HOC reads this too, but cannot toggle it: `handleViewport` captures its
+   * config at wrap time, so `{ enabled: false }` passed there turns observation
+   * off for the life of the component. Pausing at runtime needs the hook.
+   *
+   * Interaction with `disconnectOnLeave`: `enabled` is the outer switch. Once
+   * `disconnectOnLeave` has fired, flipping `enabled` back on starts a fresh
+   * observation — an explicit request to be enabled is taken at face value.
+   */
+  enabled?: boolean;
 };
 
 export type InjectedViewportProps<TElement extends HTMLElement = HTMLElement> =

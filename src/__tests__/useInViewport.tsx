@@ -14,20 +14,37 @@ type IOCallback = (
 let observerCallback: IOCallback | undefined;
 let constructions = 0;
 const mockDisconnect = jest.fn();
+const mockObserve = jest.fn();
+const mockUnobserve = jest.fn();
 
 beforeEach(() => {
   observerCallback = undefined;
   constructions = 0;
   mockDisconnect.mockClear();
+  mockObserve.mockClear();
+  mockUnobserve.mockClear();
   (
     global as unknown as { IntersectionObserver: unknown }
   ).IntersectionObserver = jest.fn((cb: IOCallback) => {
     observerCallback = cb;
     constructions += 1;
+    // A torn-down observer delivers nothing. Without this the mock keeps the
+    // callback reachable and `deliver` can reach an observer the hook dropped.
+    const stop = () => {
+      if (observerCallback === cb) {
+        observerCallback = undefined;
+      }
+    };
     return {
-      observe: jest.fn(),
-      unobserve: jest.fn(),
-      disconnect: mockDisconnect,
+      observe: mockObserve,
+      unobserve: (...args: unknown[]) => {
+        mockUnobserve(...args);
+        stop();
+      },
+      disconnect: (...args: unknown[]) => {
+        mockDisconnect(...args);
+        stop();
+      },
     };
   });
 });
@@ -267,5 +284,117 @@ describe('useInViewport — hasReported', () => {
 
     expect(afterFirstReport - before).toBe(1);
     expect(renderCount).toBe(afterFirstReport);
+  });
+});
+
+describe('useInViewport — config.enabled pauses observation', () => {
+  /** Renders a consumer whose `enabled` can be toggled from the test. */
+  function renderTogglable(initial = true) {
+    let setEnabled: (on: boolean) => void = () => {};
+    const onEnterViewport = jest.fn();
+    const onLeaveViewport = jest.fn();
+
+    const Probe = () => {
+      const ref = useRef<HTMLDivElement>(null);
+      const [enabled, setter] = useState(initial);
+      setEnabled = setter;
+
+      useInViewport(ref, {}, { enabled }, { onEnterViewport, onLeaveViewport });
+
+      return <div ref={ref} />;
+    };
+
+    render(<Probe />);
+    return {
+      onEnterViewport,
+      onLeaveViewport,
+      setEnabled: (on: boolean) => act(() => setEnabled(on)),
+    };
+  }
+
+  it('observes by default when config omits enabled', () => {
+    const onEnterViewport = jest.fn();
+    renderProbe({
+      config: { disconnectOnLeave: true },
+      callbacks: { onEnterViewport },
+    });
+
+    // `enabled` is absent here, not false — the element must still be observed.
+    deliver(entry(true));
+
+    expect(onEnterViewport).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not observe when mounted with enabled false', () => {
+    renderTogglable(false);
+
+    expect(constructions).toBe(0);
+    expect(mockObserve).not.toHaveBeenCalled();
+  });
+
+  it('unobserves when enabled flips to false', () => {
+    const { setEnabled } = renderTogglable();
+    const observedAtMount = mockObserve.mock.calls.length;
+    const unobservedAtMount = mockUnobserve.mock.calls.length;
+
+    setEnabled(false);
+
+    expect(mockUnobserve.mock.calls.length).toBe(unobservedAtMount + 1);
+    expect(mockObserve.mock.calls.length).toBe(observedAtMount);
+  });
+
+  it('reports nothing while paused', () => {
+    const { onEnterViewport, setEnabled } = renderTogglable();
+    setEnabled(false);
+
+    // Nothing is observed, so the browser has nothing to deliver — this is the
+    // tab-click case: sections crossed mid-scroll are never reported.
+    deliver(entry(true));
+
+    expect(onEnterViewport).not.toHaveBeenCalled();
+  });
+
+  it('observes again when enabled flips back to true', () => {
+    const { setEnabled } = renderTogglable();
+    const afterMount = constructions;
+    const observedAtMount = mockObserve.mock.calls.length;
+
+    setEnabled(false);
+    setEnabled(true);
+
+    expect(constructions).toBe(afterMount + 1);
+    expect(mockObserve.mock.calls.length).toBe(observedAtMount + 1);
+  });
+
+  it('reconciles to the current state on resume rather than replaying', () => {
+    const { onEnterViewport, onLeaveViewport, setEnabled } = renderTogglable();
+
+    deliver(entry(true));
+    expect(onEnterViewport).toHaveBeenCalledTimes(1);
+
+    setEnabled(false);
+    setEnabled(true);
+
+    // Re-observing delivers the element's current state. It left while paused,
+    // so the net change is reported once, now — not once per section crossed.
+    deliver(entry(false));
+
+    expect(onLeaveViewport).toHaveBeenCalledTimes(1);
+    expect(onEnterViewport).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not re-fire enter on resume when the element never moved', () => {
+    const { onEnterViewport, onLeaveViewport, setEnabled } = renderTogglable();
+
+    deliver(entry(true));
+    setEnabled(false);
+    setEnabled(true);
+
+    // Still in view: the resume delivery matches the state the hook already
+    // holds, so it is not a transition and nothing fires.
+    deliver(entry(true));
+
+    expect(onEnterViewport).toHaveBeenCalledTimes(1);
+    expect(onLeaveViewport).not.toHaveBeenCalled();
   });
 });

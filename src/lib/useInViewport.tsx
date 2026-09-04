@@ -50,7 +50,10 @@ const useInViewport = (
   // Value identities for the observer inputs. `root` is an element and stays a
   // dependency of its own; `rootMargin` and `threshold` are serialisable.
   const optionsKey = `${options.rootMargin ?? ''}|${JSON.stringify(options.threshold ?? null)}`;
-  const configKey = String(config.disconnectOnLeave);
+  // Absent `enabled` means enabled: a consumer passing `{ disconnectOnLeave: true }`
+  // must not be silently switched off.
+  const isEnabled = config.enabled ?? true;
+  const configKey = `${config.disconnectOnLeave}|${isEnabled}`;
 
   function startObserver({
     observerRef,
@@ -159,6 +162,14 @@ const useInViewport = (
   }
 
   useEffect(() => {
+    // Paused: leave the element unobserved. The previous run's cleanup has
+    // already torn the observer down, and `intersected` and the counters are
+    // left untouched — so the delivery that follows a resume is measured
+    // against the state from before the pause and reports the net change once.
+    if (!isEnabled) {
+      return undefined;
+    }
+
     let observerRef = observer.current;
     // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
     observerRef = initIntersectionObserver({ observerRef });

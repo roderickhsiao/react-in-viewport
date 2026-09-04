@@ -12,6 +12,12 @@ import useInViewport from './useInViewport';
 
 import { noop, defaultOptions, defaultConfig } from './constants';
 
+/**
+ * Note: `config` is captured when the component is wrapped, so `config.enabled`
+ * is fixed for the life of the component. It is still read — `{ enabled: false }`
+ * here turns observation off permanently — but it cannot be toggled, and pausing
+ * is a runtime decision. Use the `useInViewport` hook directly for that.
+ */
 function handleViewport<
   TElement extends HTMLElement,
   TProps extends InjectedViewportProps<TElement>,
