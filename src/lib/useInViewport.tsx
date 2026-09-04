@@ -84,7 +84,13 @@ const useInViewport = (
     // observer coalesces changes that happened between two deliveries. The last
     // one is the current state; acting on `entries[0]` fires the callback for a
     // state the element has already left, and never applies the real one.
-    const entry = entries.at(-1);
+    //
+    // Index access rather than `entries.at(-1)`: `Array.prototype.at` is ES2022
+    // and `@babel/preset-env` here is configured without `corejs`/`useBuiltIns`,
+    // so it transpiles syntax but adds no polyfill. `.at` would ship literally
+    // and throw in consumers on Safari/iOS < 15.4 or Node < 16.6, which the
+    // React 16.8 peer range still admits.
+    const entry = entries[entries.length - 1];
     if (!entry) {
       return;
     }

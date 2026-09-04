@@ -40,7 +40,8 @@ const entry = (isIntersecting: boolean) => ({
 /** Fire one delivery carrying the given entries, in order. */
 const deliver = (...entries: IntersectionObserverEntry[]) => {
   act(() => {
-    observerCallback?.(entries, {} as IntersectionObserverEntry as unknown as IntersectionObserver);
+    // The observer argument is unused by the hook.
+    observerCallback?.(entries, {} as IntersectionObserver);
   });
 };
 
@@ -144,21 +145,19 @@ describe('useInViewport — observer is not rebuilt per render', () => {
     const first = jest.fn();
     const second = jest.fn();
     let current = first;
+    let bump: (n: number) => void = () => {};
 
     const Probe = () => {
       const ref = useRef<HTMLDivElement>(null);
       const [, setN] = useState(0);
-      // Expose the setter through a module-scoped binding on first render.
-      (globalThis as unknown as { __bump?: (n: number) => void }).__bump = setN;
+      bump = setN;
       useInViewport(ref, {}, {}, { onEnterViewport: () => current() });
       return <div ref={ref} />;
     };
     render(<Probe />);
 
     current = second;
-    act(() => {
-      (globalThis as unknown as { __bump: (n: number) => void }).__bump(1);
-    });
+    act(() => bump(1));
 
     deliver(entry(true));
 
