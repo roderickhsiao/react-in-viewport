@@ -1,0 +1,40 @@
+name: Release
+
+# Publishing to npm stays manual (it needs the maintainer's 2FA). This only
+# writes the GitHub release for a tag that has been pushed, so the notes cannot
+# be forgotten the way betas 4 through 9 were.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history and tags: the notes are built from the commit range
+          # since the previous tag, which a shallow clone cannot resolve.
+          fetch-depth: 0
+
+      - name: Build release notes
+        run: .scripts/release-notes.sh "$GITHUB_REF_NAME" > "$RUNNER_TEMP/notes.md"
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Idempotent: re-running the workflow for a tag updates the notes
+          # rather than failing on an existing release.
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+              --notes-file "$RUNNER_TEMP/notes.md"
+          else
+            gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+              --title "$GITHUB_REF_NAME" --verify-tag \
+              --notes-file "$RUNNER_TEMP/notes.md"
+          fi
