@@ -250,6 +250,20 @@ as actions in the Actions panel).
 
 ## Build & Tooling
 
+## Releasing
+
+1. `npm version <patch|minor|prerelease --preid=beta>` — commits and tags.
+2. `npm publish` — `prepublishOnly` builds `dist/` first; npm 2FA prompts here.
+3. `git push origin main --follow-tags`.
+
+Pushing the tag triggers `.github/workflows/release.yml`, which writes the
+GitHub release from the commit subjects since the previous tag
+(`.scripts/release-notes.sh`). Sections come from the conventional-commit
+prefix, so a well-written commit subject is what ends up in the notes — anything
+without a recognised prefix still appears, under "Other".
+
+npm publishing is deliberately not automated: it needs the maintainer's 2FA.
+
 | Tool | Version | Purpose |
 |---|---|---|
 | TypeScript | ^5 | `moduleResolution: bundler` (required for subpath exports like `storybook/test`) |
