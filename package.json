@@ -78,10 +78,12 @@
     "webpack": "^5.75.0"
   },
   "pnpm": {
+    "overrides": {
+      "brotli-size": "^4.0.0"
+    },
     "onlyBuiltDependencies": [
       "core-js",
       "esbuild",
-      "iltorb",
       "unrs-resolver"
     ]
   },
