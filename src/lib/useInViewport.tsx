@@ -17,10 +17,23 @@ const useInViewport = (
   config: Config = defaultConfig,
   props: CallbackProps = defaultProps,
 ) => {
-  const { onEnterViewport, onLeaveViewport } = props;
   const [, forceUpdate] = useState<boolean>();
 
   const observer = useRef<IntersectionObserver>(undefined);
+
+  // Keep the newest callbacks, options and config in refs so the observer
+  // effect can depend on their *values* rather than their identities. Without
+  // this, a consumer passing inline literals — `options={{ rootMargin: '0px' }}`
+  // or `onEnterViewport={() => …}`, both of which the README examples use —
+  // tears down and rebuilds the IntersectionObserver on every single render.
+  const callbacksRef = useRef(props);
+  callbacksRef.current = props;
+
+  const optionsRef = useRef(options);
+  optionsRef.current = options;
+
+  const configRef = useRef(config);
+  configRef.current = config;
 
   const inViewportRef = useRef<boolean>(false);
   const intersected = useRef<boolean>(false);
@@ -29,6 +42,11 @@ const useInViewport = (
   const leaveCountRef = useRef<number>(0);
   // State to track when target is available
   const [isTargetReady, setIsTargetReady] = useState(Boolean(target.current));
+
+  // Value identities for the observer inputs. `root` is an element and stays a
+  // dependency of its own; `rootMargin` and `threshold` are serialisable.
+  const optionsKey = `${options.rootMargin ?? ''}|${JSON.stringify(options.threshold ?? null)}`;
+  const configKey = String(config.disconnectOnLeave);
 
   function startObserver({
     observerRef,
@@ -62,7 +80,15 @@ const useInViewport = (
   }
 
   const handleIntersection: IntersectionObserverCallback = (entries) => {
-    const entry = entries[0] || ({} as IntersectionObserverEntry);
+    // A single delivery can carry several entries for the same target when the
+    // observer coalesces changes that happened between two deliveries. The last
+    // one is the current state; acting on `entries[0]` fires the callback for a
+    // state the element has already left, and never applies the real one.
+    const entry = entries.at(-1);
+    if (!entry) {
+      return;
+    }
+
     const { isIntersecting, intersectionRatio } = entry;
     const isInViewport = typeof isIntersecting !== 'undefined'
       ? isIntersecting
@@ -71,7 +97,7 @@ const useInViewport = (
     // enter
     if (!intersected.current && isInViewport) {
       intersected.current = true;
-      onEnterViewport?.();
+      callbacksRef.current.onEnterViewport?.();
       enterCountRef.current += 1;
       inViewportRef.current = isInViewport;
       forceUpdate(isInViewport);
@@ -81,8 +107,8 @@ const useInViewport = (
     // leave
     if (intersected.current && !isInViewport) {
       intersected.current = false;
-      onLeaveViewport?.();
-      if (config.disconnectOnLeave && observer.current) {
+      callbacksRef.current.onLeaveViewport?.();
+      if (configRef.current.disconnectOnLeave && observer.current) {
         // disconnect observer on leave
         observer.current.disconnect();
       }
@@ -98,7 +124,10 @@ const useInViewport = (
     observerRef: IntersectionObserver | undefined;
   }) {
     if (!observerRef) {
-      observer.current = new IntersectionObserver(handleIntersection, options);
+      observer.current = new IntersectionObserver(
+        handleIntersection,
+        optionsRef.current,
+      );
       return observer.current;
     }
     return observerRef;
@@ -118,7 +147,12 @@ const useInViewport = (
         observerRef,
       });
     };
-  }, [isTargetReady, options, config, onEnterViewport, onLeaveViewport]);
+    // `options.root` is an element, so it is compared by identity; the rest of
+    // the observer inputs are compared by value via `optionsKey`/`configKey`.
+    // The callbacks are deliberately absent — `handleIntersection` reads them
+    // from `callbacksRef`, so a new inline function does not rebuild the
+    // observer.
+  }, [isTargetReady, options.root, optionsKey, configKey]);
 
   // Use MutationObserver to detect when `target.current` becomes non-null
   // only at start up
