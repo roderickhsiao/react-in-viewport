@@ -15,6 +15,8 @@ This library also uses [MutationObserver](https://developer.mozilla.org/en-US/do
 
 ```yarn add react-in-viewport```
 
+Upgrading? See [MIGRATION.md](MIGRATION.md).
+
 ## Examples
 
 [Demo](https://roderickhsiao.github.io/react-in-viewport/)
