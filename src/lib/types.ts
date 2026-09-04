@@ -14,8 +14,9 @@ export type Config = {
    * element's *current* state, so a transition that happened while paused is
    * reported once, on resume, and the intermediate ones never at all.
    *
-   * Only honoured by the `useInViewport` hook: `handleViewport` captures its
-   * config at wrap time, so a value passed there can never change.
+   * The HOC reads this too, but cannot toggle it: `handleViewport` captures its
+   * config at wrap time, so `{ enabled: false }` passed there turns observation
+   * off for the life of the component. Pausing at runtime needs the hook.
    *
    * Interaction with `disconnectOnLeave`: `enabled` is the outer switch. Once
    * `disconnectOnLeave` has fired, flipping `enabled` back on starts a fresh

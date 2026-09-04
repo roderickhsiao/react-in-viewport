@@ -133,4 +133,18 @@ describe('In Viewport', () => {
     triggerIntersection(true); // second entry — only possible if observer was not disconnected
     expect(getByTestId('enterCount').textContent).toBe('2');
   });
+
+  // The HOC reads `config.enabled` like any other config value; what it cannot
+  // do is change it, since config is captured when the component is wrapped.
+  it('observes by default, with enabled omitted from config', () => {
+    const TestNode = handleViewport(DemoClass, {}, { disconnectOnLeave: false });
+    render(<TestNode />);
+    expect(mockObserve).toHaveBeenCalled();
+  });
+
+  it('does not observe when wrapped with enabled false', () => {
+    const TestNode = handleViewport(DemoClass, {}, { enabled: false });
+    render(<TestNode />);
+    expect(mockObserve).not.toHaveBeenCalled();
+  });
 });

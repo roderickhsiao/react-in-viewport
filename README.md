@@ -61,12 +61,14 @@ When wrapping your component with `handleViewport` HOC, you will receive `inView
 | Params            | Type    | Default                                                                                                                            | Description                                  |
 |-------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | disconnectOnLeave | boolean | false                                                                                                                              | Disconnect intersection observer after leave |
-| enabled           | boolean | true                                                                                                                               | Whether the element is observed at all. **Hook only** — see [Pausing observation](#pausing-observation) |
+| enabled           | boolean | true                                                                                                                               | Whether the element is observed at all. Toggling it at runtime needs the hook — see [Pausing observation](#pausing-observation) |
 
-> `enabled` has no effect on the HOC. `handleViewport(Component, options, config)`
-> takes its config as a wrap-time argument, so the value is captured once when
-> the component is created and cannot be changed afterwards. Pausing is a
-> runtime decision, so it is only available through the `useInViewport` hook.
+> The HOC reads `enabled` too, but cannot toggle it.
+> `handleViewport(Component, options, config)` takes its config as a wrap-time
+> argument, so the value is captured once when the component is created and
+> cannot be changed afterwards: `{ enabled: false }` passed to the HOC turns
+> observation off for the life of the component, and nothing can turn it back
+> on. Pausing is a runtime decision, so use the `useInViewport` hook for that.
 
 ### HOC Component Props
 
