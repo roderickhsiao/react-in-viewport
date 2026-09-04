@@ -54,15 +54,20 @@ type ProbeProps = {
 };
 
 /** Renders a hook consumer and exposes a re-render trigger. */
+let latest: ReturnType<typeof useInViewport> | undefined;
+let renderCount = 0;
+
 function renderProbe(props: ProbeProps = {}) {
   let rerender: (n: number) => void = () => {};
+  latest = undefined;
+  renderCount = 0;
 
   const Probe = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [, setN] = useState(0);
     rerender = setN;
 
-    useInViewport(
+    latest = useInViewport(
       ref,
       props.inline ? { rootMargin: '0px' } : props.options,
       props.inline ? { disconnectOnLeave: false } : props.config,
@@ -70,6 +75,7 @@ function renderProbe(props: ProbeProps = {}) {
         ? { onEnterViewport: () => {}, onLeaveViewport: () => {} }
         : props.callbacks,
     );
+    renderCount += 1;
 
     return <div ref={ref} />;
   };
@@ -181,5 +187,85 @@ describe('useInViewport — observer is not rebuilt per render', () => {
     act(() => setMargin('100px'));
 
     expect(constructions).toBeGreaterThan(afterMount);
+  });
+});
+
+describe('useInViewport — hasReported', () => {
+  it('is false before the observer has delivered anything', () => {
+    renderProbe();
+
+    expect(latest?.hasReported).toBe(false);
+    expect(latest?.inViewport).toBe(false);
+  });
+
+  it('becomes true when the first report is out of view', () => {
+    renderProbe();
+
+    // The case a reload at a restored mid-page scroll produces. Previously
+    // indistinguishable from the not-yet-reported state: `inViewport` is
+    // `false` either way.
+    deliver(entry(false));
+
+    expect(latest?.hasReported).toBe(true);
+    expect(latest?.inViewport).toBe(false);
+  });
+
+  it('becomes true when the first report is in view', () => {
+    renderProbe();
+
+    deliver(entry(true));
+
+    expect(latest?.hasReported).toBe(true);
+    expect(latest?.inViewport).toBe(true);
+  });
+
+  it('does not count the first out-of-view report as a leave', () => {
+    const onLeaveViewport = jest.fn();
+    renderProbe({ callbacks: { onLeaveViewport } });
+
+    deliver(entry(false));
+
+    // Not a transition — the element never entered. The callbacks stay
+    // edge-triggered, so lazy-load consumers see no change in behaviour.
+    expect(onLeaveViewport).not.toHaveBeenCalled();
+    expect(latest?.leaveCount).toBe(0);
+  });
+
+  it('does not disconnect on the first out-of-view report with disconnectOnLeave', () => {
+    renderProbe({ config: { disconnectOnLeave: true } });
+    // The effect cleanup disconnects on the isTargetReady false→true
+    // transition; clear that so this asserts only on intersection handling.
+    mockDisconnect.mockClear();
+
+    deliver(entry(false));
+
+    // A below-the-fold element must not disconnect before it has ever been seen.
+    expect(mockDisconnect).not.toHaveBeenCalled();
+  });
+
+  it('still fires enter normally after an initial out-of-view report', () => {
+    const onEnterViewport = jest.fn();
+    renderProbe({ callbacks: { onEnterViewport } });
+
+    deliver(entry(false));
+    deliver(entry(true));
+
+    expect(onEnterViewport).toHaveBeenCalledTimes(1);
+    expect(latest?.inViewport).toBe(true);
+    expect(latest?.enterCount).toBe(1);
+  });
+
+  it('costs exactly one render to publish the initial out-of-view state', () => {
+    renderProbe();
+
+    const before = renderCount;
+    deliver(entry(false));
+    const afterFirstReport = renderCount;
+
+    // A second identical report is not a change and must not re-render.
+    deliver(entry(false));
+
+    expect(afterFirstReport - before).toBe(1);
+    expect(renderCount).toBe(afterFirstReport);
   });
 });

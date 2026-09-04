@@ -34,7 +34,9 @@ function handleViewport<
     ...restProps
   }: Omit<TProps, keyof InjectedViewportProps<TElement>> & CallbackProps) => {
     const node = useRef<TElement>(null);
-    const { inViewport, enterCount, leaveCount } = useInViewport(
+    const {
+      inViewport, enterCount, leaveCount, hasReported,
+    } = useInViewport(
       node,
       options,
       config,
@@ -49,6 +51,7 @@ function handleViewport<
       inViewport,
       enterCount,
       leaveCount,
+      hasReported,
     } as React.PropsWithoutRef<TProps>;
 
     return <ForwardedRefComponent {...props} ref={node} />;
