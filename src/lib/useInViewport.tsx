@@ -37,6 +37,10 @@ const useInViewport = (
 
   const inViewportRef = useRef<boolean>(false);
   const intersected = useRef<boolean>(false);
+  // Whether the observer has delivered anything. `inViewportRef` starts
+  // `false`, which a consumer cannot tell apart from an observed "out of
+  // view"; this is the only thing that distinguishes the two.
+  const hasReported = useRef<boolean>(false);
 
   const enterCountRef = useRef<number>(0);
   const leaveCountRef = useRef<number>(0);
@@ -106,6 +110,7 @@ const useInViewport = (
       callbacksRef.current.onEnterViewport?.();
       enterCountRef.current += 1;
       inViewportRef.current = isInViewport;
+      hasReported.current = true;
       forceUpdate(isInViewport);
       return;
     }
@@ -119,6 +124,20 @@ const useInViewport = (
         observer.current.disconnect();
       }
       leaveCountRef.current += 1;
+      inViewportRef.current = isInViewport;
+      hasReported.current = true;
+      forceUpdate(isInViewport);
+      return;
+    }
+
+    // Neither edge matched. If nothing has been reported yet, the element was
+    // already out of view when observation began: not a transition — no
+    // callback fires, the counters stay a count of transitions, and
+    // `disconnectOnLeave` is untouched, so a below-the-fold element does not
+    // disconnect before it has ever been seen — but it *is* the moment the
+    // position stops being unknown, so publish that.
+    if (!hasReported.current) {
+      hasReported.current = true;
       inViewportRef.current = isInViewport;
       forceUpdate(isInViewport);
     }
@@ -196,6 +215,7 @@ const useInViewport = (
     inViewport: inViewportRef.current,
     enterCount: enterCountRef.current,
     leaveCount: leaveCountRef.current,
+    hasReported: hasReported.current,
   };
 };
 

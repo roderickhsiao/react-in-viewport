@@ -1,6 +1,11 @@
 import handleViewport from './lib/handleViewport';
 
-export const customProps = ['inViewport', 'enterCount', 'leaveCount'];
+export const customProps = [
+  'inViewport',
+  'enterCount',
+  'leaveCount',
+  'hasReported',
+];
 
 export default handleViewport;
 export { default as handleViewport } from './lib/handleViewport';
