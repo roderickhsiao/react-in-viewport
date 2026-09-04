@@ -4,6 +4,5 @@ node_modules
 dist
 .out
 junit.xml
-.yarn
 .storybook
 storybook-static

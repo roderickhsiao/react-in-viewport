@@ -20,7 +20,7 @@ rm -rf .out || exit 0;
 mkdir .out;
 
 # run our compile script, discussed above
-yarn build-storybook -o .out
+pnpm run build-storybook -o .out
 
 # go to the out directory and create a *new* Git repo
 cd .out
